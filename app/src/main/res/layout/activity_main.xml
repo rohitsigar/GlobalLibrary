@@ -23,6 +23,7 @@
                android:id="@+id/TxtDashboard"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
+               android:fontFamily="@font/fjalla_one"
                android:text="My Dashboard"
                android:textColor="#0D101E"
                android:textSize="22sp">
