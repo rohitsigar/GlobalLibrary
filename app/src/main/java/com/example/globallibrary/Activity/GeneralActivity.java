@@ -20,16 +20,19 @@ import com.example.globallibrary.R;
 import com.google.android.material.navigation.NavigationView;
 
 public class GeneralActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
   DrawerLayout drawerLayout;
    NavigationView navigationView;
    androidx.appcompat.widget.Toolbar toolbar;
    Menu menu;
+
     TextView textView;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_general);
+
       drawerLayout = findViewById(R.id.drawer_layout);
      navigationView = findViewById(R.id.slider);
       navigationView.bringToFront();
@@ -39,6 +42,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
    drawerLayout.addDrawerListener(toggle);
    toggle.syncState();
        navigationView.setNavigationItemSelectedListener(this);
+
     }
 
    @Override
@@ -55,10 +59,14 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
 
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         return true;
+
     }
 }
