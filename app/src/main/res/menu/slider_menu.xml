@@ -19,24 +19,21 @@
          android:title="Logout"
          android:icon="@drawable/logo_logout"/>
  </group>
-    <group android:checkableBehavior="single">
-        <item
-            android:title="Communicate">
+    <item  android:title="Communicate">>
             <menu>
-                <item
-                    android:id="@+id/slider_share"
-                    android:title="Share"
-                    android:icon="@drawable/logo_share"/>
-                <item
-                    android:id="@+id/slider_rate_us"
-                    android:title="Rate Us"
-                    android:icon="@drawable/logo_rateus"/>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/slider_share"
+                        android:title="Share"
+                        android:icon="@drawable/logo_share"/>
+                    <item
+                        android:id="@+id/slider_rate_us"
+                        android:title="Rate Us"
+                        android:icon="@drawable/logo_rateus"/>
+                </group>
+
             </menu>
-
-
-
-        </item>
-    </group>
+    </item>
 
 
 
