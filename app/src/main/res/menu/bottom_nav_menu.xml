@@ -5,20 +5,24 @@
         android:id="@+id/bottom_nav_home"
         android:title="Home"
         android:icon="@drawable/home"
-        app:cnb_backgroundColor  = "@color/skyBlue"/>
+        app:cnb_iconColor="@color/black"
+        app:cnb_backgroundColor  = "#fcccd7"/>
     <item
         android:id="@+id/bottom_nav_home_notice"
         android:title="Notice"
+        app:cnb_iconColor="@color/black"
         android:icon="@drawable/notice"
-        app:cnb_backgroundColor  = "@color/skyBlue"/>
+        app:cnb_backgroundColor  = "#fcccd7"/>
     <item
         android:id="@+id/bottom_nav_quiz"
         android:title="Quiz"
         android:icon="@drawable/quiz"
-        app:cnb_backgroundColor  = "@color/skyBlue"/>
+        app:cnb_iconColor="@color/black"
+        app:cnb_backgroundColor  = "#fcccd7"/>
     <item
         android:id="@+id/bottom_nav_Profile"
         android:title="Profile"
         android:icon="@drawable/profile"
-        app:cnb_backgroundColor  = "@color/skyBlue"/>
+        app:cnb_iconColor="@color/black"
+        app:cnb_backgroundColor  = "#fcccd7"/>
 </menu>

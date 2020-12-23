@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.globallibrary">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature android:name="android.hardware.type.watch" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -11,6 +15,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GlobalLibrary">
+
+
+
+
+        <activity
+            android:name=".Activity.Settings"
+            android:label="@string/title_activity_settings">
+        </activity>
+        <!--
+               Set to true if your app is Standalone, that is, it does not require the handheld
+               app to run.
+        -->
         <activity android:name=".Activity.GeneralActivity">
 
         </activity>
@@ -21,10 +37,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginBranchOwner" />
-        <activity android:name=".Mainpage" />
-
-
 
         <meta-data
             android:name="preloaded_fonts"
