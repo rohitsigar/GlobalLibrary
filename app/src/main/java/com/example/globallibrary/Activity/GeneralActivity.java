@@ -105,7 +105,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
         });
     }
 
-    @Override
+   @Override
    public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START))
        {
