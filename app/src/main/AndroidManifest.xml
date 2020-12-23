@@ -16,19 +16,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GlobalLibrary">
 
+
+
+
+        <activity
+            android:name=".Activity.Settings"
+            android:label="@string/title_activity_settings">
+        </activity>
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
-
         <activity android:name=".Activity.GeneralActivity">
+
+        </activity>
+        <activity android:name=".Activity.AuthenticationActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.AuthenticationActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

@@ -53,31 +53,34 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
    toggle.syncState();
        navigationView.setNavigationItemSelectedListener(this);
        bottonMenu();
+       slidermenu();
     }
 
-//    private void slidermenu() {
-//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                Fragment fragment = null;
-//                switch (item.getItemId())
-//                {
-//                    case R.id.slider_fees:
-//                        fragment = new FeeStudentFragment();
-//                        break;
-//                    case R.id.slider_fine:
-//                        fragment = new FineStudentFragment();
-//                        break;
-////                    case R.id.slider_setting:
-////                      //  Intent intent = new Intent(GeneralActivity.this ,Settings.class);
-////                        startActivity(intent);
-////                        break;
-//                }
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
-//                return true;
-//            }
-//        });
-//    }
+    private void slidermenu() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+                switch (item.getItemId())
+                {
+                    case R.id.slider_fees:
+                        fragment = new FeeStudentFragment();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case R.id.slider_fine:
+                        fragment = new FineStudentFragment();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case R.id.slider_setting:
+                        Intent intent = new Intent(GeneralActivity.this ,Settings.class);
+                        startActivity(intent);
+                        break;
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+                return true;
+            }
+        });
+    }
 
     private void bottonMenu() {
         bottomNavBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
@@ -105,7 +108,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
         });
     }
 
-   @Override
+    @Override
    public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START))
        {
