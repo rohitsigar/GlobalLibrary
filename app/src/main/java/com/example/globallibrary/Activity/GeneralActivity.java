@@ -40,7 +40,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_general);
-      drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
      navigationView = findViewById(R.id.slider);
       navigationView.bringToFront();
       toolbar=findViewById(R.id.toolbar);
@@ -48,8 +48,8 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
       bottomNavBar = findViewById(R.id.bottom_navbar);
      ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open , R.string.close);
    drawerLayout.addDrawerListener(toggle);
-   bottomNavBar.setItemSelected(R.id.bottom_nav_home,true);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeStudentFragment()).commit();
+  bottomNavBar.setItemSelected(R.id.bottom_nav_home,true);
+      getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeStudentFragment()).commit();
    toggle.syncState();
        navigationView.setNavigationItemSelectedListener(this);
        bottonMenu();
