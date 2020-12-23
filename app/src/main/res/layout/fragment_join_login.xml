@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#E6E6E6"
+    android:background="@drawable/shape_of_bottom_nav_bar"
     tools:context=".Fragment.JoinLoginFragment">
     <ScrollView
         android:layout_width="match_parent"
@@ -36,6 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp">
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/owner_access"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="20dp"
@@ -53,7 +54,7 @@
                             android:textSize="35sp"
                             android:textColor="#fff"
                             android:textStyle="bold"
-                            android:text="Join Now In Our Community"/>
+                            android:text="JOIN AS A BRANCH OWNER"/>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -62,6 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp">
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/student_access"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
@@ -80,7 +82,7 @@
                             android:textColor="#fff"
                             android:textStyle="bold"
                             android:gravity="center_vertical"
-                            android:text="Signin in the Community"/>
+                            android:text="JOIN AS A STUDENT"/>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
