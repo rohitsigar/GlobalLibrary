@@ -7,19 +7,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".Activity.GeneralActivity"
-    android:weightSum="100">
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    tools:context=".Activity.GeneralActivity">
+
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="0dp">
-    </FrameLayout>
+        tools:context=".Activity.GeneralActivity">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffb3c3"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme" />
+
+
+
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+
+
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/bottom_navbar"
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:background="@drawable/shape_of_bottom_nav_bar"
         app:cnb_menuResource="@menu/bottom_nav_menu"
         app:cnb_unselectedColor="@color/black"
@@ -27,33 +51,14 @@
         app:cnb_orientationMode="horizontal"
         android:layout_marginBottom="5dp"
         android:elevation="8dp" />
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Activity.GeneralActivity">
-        android:fitsSystemWindows="true"
-        tools:openDrawer="start">
+        </LinearLayout>
+
         <com.google.android.material.navigation.NavigationView
-            android:id="@+id/slider"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:headerLayout="@layout/header_slider"
-            app:menu="@menu/slider_menu" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:background="#ffb3c3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme" />
-        </ScrollView>
+        android:id="@+id/slider"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/header_slider"
+        app:menu="@menu/slider_menu" />
     </androidx.drawerlayout.widget.DrawerLayout>
-
 </FrameLayout>
