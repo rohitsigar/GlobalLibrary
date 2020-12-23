@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <uses-feature android:name="android.hardware.type.watch" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -35,11 +34,15 @@
 <!--            </intent-filter>-->
         </activity>
         <activity android:name=".Activity.AuthenticationActivity" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Activity.AuthenticationActivity" >
+
         </activity>
 
         <meta-data
