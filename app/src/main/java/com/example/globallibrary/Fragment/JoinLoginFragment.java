@@ -1,4 +1,4 @@
-package com.example.globallibrary.fragments;
+package com.example.globallibrary.Fragment;
 
 import android.os.Bundle;
 
@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import com.example.globallibrary.Adpaters.JoinLoginAdapter;
 import com.example.globallibrary.R;
 
-public class JoinLogin extends Fragment {
+public class JoinLoginFragment extends Fragment {
 
     RecyclerView recyclerView;
 
