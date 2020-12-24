@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.LoginStudentFragment"
+    tools:context=".Fragment.BranchOwnerRegistrationFragment"
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="20dp">
@@ -17,7 +17,7 @@
             android:layout_gravity="center"
             android:background="@color/white"
 
-            android:src="@drawable/student_registration_logo"/>
+            android:src="@drawable/branch_owner"/>
         <TextView
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/student_fullname"
+                android:id="@+id/branch_owner_fullname"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="Full name">
                 <com.google.android.material.textfield.TextInputEditText
@@ -59,7 +59,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/student_contact_number"
+                android:id="@+id/branch_owner_contact_number"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="Contact number">
                 <com.google.android.material.textfield.TextInputEditText
@@ -69,7 +69,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/student_email"
+                    android:id="@+id/branch_owner_email"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:hint="Email Address">
                     <com.google.android.material.textfield.TextInputEditText
@@ -81,8 +81,8 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/student_address"
-                  app:boxStrokeColor="@color/black"
+                    android:id="@+id/branch_owner_address"
+                    app:boxStrokeColor="@color/black"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:hint="Residential Address">
                     <com.google.android.material.textfield.TextInputEditText
@@ -92,7 +92,18 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/student_dob"
+                    android:id="@+id/branch_owner_library_address"
+                    app:boxStrokeColor="@color/black"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="Library Address">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/branch_owner_dob"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:hint="DOB(yyyy/mm/dd)">
                     <com.google.android.material.textfield.TextInputEditText
@@ -106,23 +117,11 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/student_username"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:hint="Choose a Username">
+                    android:hint="Enter a Branch Name">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/student_branch"
-                    app:endIconMode="dropdown_menu"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:hint="Select Branch">
-                    <AutoCompleteTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/drop_down_bar_of_branch_name"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout

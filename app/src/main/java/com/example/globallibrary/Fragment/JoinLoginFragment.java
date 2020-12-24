@@ -57,7 +57,7 @@ public class JoinLoginFragment extends Fragment {
         branchOwnerAccess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new LoginStudentFragment();
+                Fragment fragment = new BranchOwnerLoginFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.authFrame, fragment);

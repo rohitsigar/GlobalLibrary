@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.LoginStudentFragment"
+    tools:context=".Fragment.BranchOwnerLoginFragment"
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="20dp">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -17,7 +18,7 @@
             android:layout_gravity="center"
             android:background="@color/white"
 
-            android:src="@drawable/student_logo"/>
+            android:src="@drawable/branch_owner"/>
         <TextView
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
@@ -57,7 +58,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/student_password"
+            android:id="@+id/branch_owner_password"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="Password"
             app:passwordToggleEnabled="true">
@@ -69,7 +70,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
         <Button
-            android:id="@+id/forget_password_student"
+            android:id="@+id/forget_password_branch_owner"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:background="#00000000"
@@ -80,7 +81,7 @@
             android:elevation="0dp"
             android:layout_marginTop="5dp"/>
         <Button
-            android:id="@+id/go_button_student"
+            android:id="@+id/go_button_branch_owner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/black"
@@ -90,7 +91,7 @@
             android:text="Go"
             android:layout_marginBottom="5dp"/>
         <Button
-            android:id="@+id/sign_up_student"
+            android:id="@+id/sign_up_branch_owner"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:background="#00000000"
