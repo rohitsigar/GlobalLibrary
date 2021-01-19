@@ -7,11 +7,12 @@
     tools:context=".Fragment.BranchOwnerLoginFragment"
     android:background="@color/white"
     android:orientation="vertical"
-    android:padding="20dp">
-
+    android:padding="20dp"
+    android:weightSum="100">
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="10">
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -30,14 +31,16 @@
     </LinearLayout>
 
     <TextView
+        android:layout_weight="2"
         android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign In to continue"
+        android:text="Phone number Verification"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:fontFamily="@font/fjalla_one"/>
     <LinearLayout
+        android:layout_weight="3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -46,65 +49,53 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/branch_username"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Username">
+            android:hint="ENTER OTP">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/branch_owner_password"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Password"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
+                android:id="@+id/otp123"
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
         <Button
-            android:id="@+id/forget_password_branch_owner"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:text="Forget Password?"
-            android:textColor="@color/black"
-            android:layout_gravity="right"
-            android:fontFamily="@font/fjalla_one"
-            android:elevation="0dp"
-            android:layout_marginTop="5dp"/>
-        <Button
-            android:id="@+id/go_button_branch_owner"
+            android:id="@+id/Sign_up"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/black"
             android:textColor="@color/white"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/fjalla_one"
-            android:text="Go"
+            android:text="Sign Up"
             android:layout_marginBottom="5dp"/>
         <Button
-            android:id="@+id/sign_up_branch_owner"
+            android:id="@+id/resend_otp_branch"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:background="#00000000"
             android:textColor="@color/black"
-            android:text="New User? SIGN UP"
+            android:text="Resned Otp"
             android:fontFamily="@font/fjalla_one"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="right"
             android:elevation="0dp"
             android:layout_marginTop="5dp"/>
 
 
+
+
+
     </LinearLayout>
 
-
+    <ProgressBar
+        android:layout_weight="80"
+        android:id="@+id/progressbar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_below="@+id/editTextCode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-214dp"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

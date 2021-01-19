@@ -48,10 +48,10 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/branch_owner_fullname"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="Full name">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/branch_owner_fullname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -59,20 +59,20 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/branch_owner_contact_number"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="Contact number">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/branch_owner_contact_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/branch_owner_email"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:hint="Email Address">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/branch_owner_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"/>
@@ -81,32 +81,32 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/branch_owner_address"
                     app:boxStrokeColor="@color/black"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:hint="Residential Address">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/branch_owner_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/branch_owner_library_address"
                     app:boxStrokeColor="@color/black"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:hint="Library Address">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/branch_owner_library_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/branch_owner_dob"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:hint="DOB(yyyy/mm/dd)">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/branch_owner_dob"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="date"/>
@@ -115,10 +115,10 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/student_username"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:hint="Enter a Branch Name">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/branch_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
@@ -127,10 +127,10 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/student_passward"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="Passward">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/branch_passward"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -138,12 +138,12 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/student_re_enter_passward"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="Re-Enter Passward"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/branch_re_enter_passward"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"/>
@@ -151,7 +151,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/go_button_student"
+                android:id="@+id/branch_registration_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/black"
