@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.ProfileBranchDetailsFragment"
+    android:weightSum="100"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:text="Owner Name"
+            android:textColor="@color/color_secondary_text"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:text="Owner Name"
+            android:id="@+id/owner_name"
+            android:textColor="@color/color_primary_text"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:text="Library Address"
+            android:textColor="@color/color_secondary_text"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:text="Library Address"
+            android:id="@+id/library_address"
+            android:textColor="@color/color_primary_text"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:text="Email Address"
+            android:textColor="@color/color_secondary_text"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:text="Email Address"
+            android:id="@+id/email_address"
+            android:textColor="@color/color_primary_text"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:text="Contact Number"
+            android:textColor="@color/color_secondary_text"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:text="Contact Number"
+            android:id="@+id/contact_number"
+            android:textColor="@color/color_primary_text"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

@@ -1,5 +1,17 @@
 package com.example.globallibrary.Activity;
 
+import android.app.FragmentManager;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -8,52 +20,144 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.WindowManager;
-import android.widget.TextView;
-import android.widget.Toolbar;
-
+import com.example.globallibrary.Fragment.BranchProfileFragment;
 import com.example.globallibrary.Fragment.FeeStudentFragment;
 import com.example.globallibrary.Fragment.FineStudentFragment;
+import com.example.globallibrary.Fragment.HomeBranchFragment;
 import com.example.globallibrary.Fragment.HomeStudentFragment;
+import com.example.globallibrary.Fragment.NoticeBranchFragment;
 import com.example.globallibrary.Fragment.NoticeStudentFragment;
 import com.example.globallibrary.Fragment.ProfileStudentFragment;
+import com.example.globallibrary.Fragment.QuizBranchFragment;
 import com.example.globallibrary.Fragment.QuizStudentFragment;
 import com.example.globallibrary.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 public class GeneralActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-  DrawerLayout drawerLayout;
-   NavigationView navigationView;
-   androidx.appcompat.widget.Toolbar toolbar;
-   ChipNavigationBar bottomNavBar;
-   Menu menu;
-    TextView textView;
+
+    DrawerLayout drawerLayout;
+    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    FirebaseStorage storage;
+    StorageReference storageReference;
+    ImageView branchImage;
+    TextView BranchNameAtNarBar;
+    TextView AddressAtNavBar;
+    ImageButton Slider;
+    TextView ToolbarText;
+CircularImageView BranchImage;
+    NavigationView navigationView;
+    androidx.appcompat.widget.Toolbar toolbar;
+    ChipNavigationBar bottomNavBar;
+    String access;
+    String branchName;
+    String phoneNo;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+// /       getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        getSupportActionBar().setCustomView(R.layout.main_page_toolbar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_general);
         drawerLayout = findViewById(R.id.drawer_layout);
-     navigationView = findViewById(R.id.slider);
-      navigationView.bringToFront();
-      toolbar=findViewById(R.id.toolbar);
-      setSupportActionBar(toolbar);
-      bottomNavBar = findViewById(R.id.bottom_navbar);
-     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open , R.string.close);
-   drawerLayout.addDrawerListener(toggle);
-  bottomNavBar.setItemSelected(R.id.bottom_nav_home,true);
-      getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeStudentFragment()).commit();
-   toggle.syncState();
-       navigationView.setNavigationItemSelectedListener(this);
-       bottonMenu();
-       slidermenu();
+        navigationView = findViewById(R.id.slider);
+        BranchImage = findViewById(R.id.toolbar_branch_Image);
+        navigationView.bringToFront();
+        Slider = findViewById(R.id.Slider_menu);
+        ToolbarText = findViewById(R.id.main_text_branch);
+        View NavView = navigationView.getHeaderView(0);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        bottomNavBar = findViewById(R.id.bottom_navbar);
+        BranchNameAtNarBar = NavView.findViewById(R.id.studnet_branch_name);
+        AddressAtNavBar = NavView.findViewById(R.id.student_branch_address);
+        branchImage = NavView.findViewById(R.id.BranchImage_in_Branch);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        toggle.setDrawerIndicatorEnabled(false);
+
+        drawerLayout.addDrawerListener(toggle);
+
+        Slider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.open();
+            }
+        });
+
+        bottomNavBar.setItemSelected(R.id.bottom_nav_home, true);
+        access = getIntent().getStringExtra("user");
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+        if (access.equals("StudentAccess")) {
+            phoneNo = getIntent().getStringExtra("contactNumber");
+            Bundle bundle = new Bundle();
+            bundle.putString("phoneNo", phoneNo);
+            HomeStudentFragment homeStudentFragment = new HomeStudentFragment();
+            homeStudentFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeStudentFragment).addToBackStack(null).commit();
+        } else {
+            branchName = getIntent().getStringExtra("branchName");
+            Log.d("TAG", "onCreate: branchName" + branchName);
+            firebaseFirestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                private static final String TAG = "Rohit";
+
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                            if (document.getString("BranchName").equals(branchName)) {
+                                BranchNameAtNarBar.setText(branchName);
+                                AddressAtNavBar.setText(document.getString("LibraryAddress"));
+                            }
+
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+
+            String URL = "Branches/" + branchName;
+            storageReference.child(URL).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Got the download URL for 'users/me/profile.png'
+//                Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
+                    /// The string(file link) that you need
+                    String s = uri.toString();
+                    Picasso.get().load(s).into(branchImage);
+                    Picasso.get().load(s).into(BranchImage);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+
+                    // Handle any errors
+                }
+            });
+            ToolbarText.setText("Home");
+            Bundle bundle = new Bundle();
+            bundle.putString("branchName", branchName);
+            HomeBranchFragment homeBranchFragment = new HomeBranchFragment();
+            homeBranchFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeBranchFragment).addToBackStack(null).commit();
+        }
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        bottonMenu();
+        slidermenu();
     }
 
     private void slidermenu() {
@@ -61,22 +165,36 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
-                switch (item.getItemId())
-                {
+                switch (item.getItemId()) {
                     case R.id.slider_fees:
                         fragment = new FeeStudentFragment();
+
                         drawerLayout.closeDrawer(GravityCompat.START);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
                         break;
                     case R.id.slider_fine:
                         fragment = new FineStudentFragment();
                         drawerLayout.closeDrawer(GravityCompat.START);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
                         break;
                     case R.id.slider_setting:
-                        Intent intent = new Intent(GeneralActivity.this ,Settings.class);
+                        if (access == "StudentAccess") {
+                            Intent intent = new Intent(GeneralActivity.this, Settings.class);
+                            intent.putExtra("phoneNo", phoneNo);
+                            startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(GeneralActivity.this, Settings.class);
+                            intent.putExtra("branchName", branchName);
+                            startActivity(intent);
+                        }
+
+                        break;
+                    case R.id.slider_logout:
+                        Intent intent = new Intent(GeneralActivity.this, AuthenticationActivity.class);
                         startActivity(intent);
                         break;
+
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
                 return true;
             }
         });
@@ -87,40 +205,82 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
             @Override
             public void onItemSelected(int i) {
                 Fragment fragment = null;
-                switch (i)
-                {
+                switch (i) {
                     case R.id.bottom_nav_home:
-                        fragment = new HomeStudentFragment();
+                        if (access.equals("StudentAccess")) {
+                            fragment = new HomeStudentFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("PhoneNo", phoneNo);
+                            fragment.setArguments(bundle);
+                        } else {
+                            fragment = new HomeBranchFragment();
+                            Bundle bundle = new Bundle();
+                            ToolbarText.setText("Home");
+                            bundle.putString("branchName", branchName);
+                            fragment.setArguments(bundle);
+                        }
                         break;
                     case R.id.bottom_nav_Profile:
-                        fragment = new ProfileStudentFragment();
+                        if (access.equals("StudentAccess")) {
+                            fragment = new ProfileStudentFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("PhoneNo", phoneNo);
+                            fragment.setArguments(bundle);
+                        } else {
+                            fragment = new BranchProfileFragment();
+                            Bundle bundle = new Bundle();
+                            ToolbarText.setText("Profile");
+                            bundle.putString("branchName", branchName);
+                            fragment.setArguments(bundle);
+                        }
                         break;
-                    case  R.id.bottom_nav_home_notice:
-                        fragment = new NoticeStudentFragment();
+                    case R.id.bottom_nav_home_notice:
+                        if (access.equals("studentAccess")) {
+                            fragment = new NoticeStudentFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("PhoneNo", phoneNo);
+                            fragment.setArguments(bundle);
+                        } else {
+                            fragment = new NoticeBranchFragment();
+                            Bundle bundle = new Bundle();
+                            ToolbarText.setText("Notice");
+                            bundle.putString("branchName", branchName);
+                            fragment.setArguments(bundle);
+                        }
                         break;
-                    case  R.id.bottom_nav_quiz:
-                        fragment = new QuizStudentFragment();
+                    case R.id.bottom_nav_quiz:
+                        if (access.equals("studentAccess")) {
+                            fragment = new QuizStudentFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("PhoneNo", phoneNo);
+                            fragment.setArguments(bundle);
+                        } else {
+                            fragment = new QuizBranchFragment();
+                            Bundle bundle = new Bundle();
+                            ToolbarText.setText("Quiz");
+                            bundle.putString("branchName", branchName);
+                            fragment.setArguments(bundle);
+                        }
+
                         break;
 
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
             }
         });
     }
 
     @Override
-   public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START))
-       {
-          drawerLayout.closeDrawer(GravityCompat.START);
-      }
-       else
-       {
-          super.onBackPressed();
-       }
-   }
-
-
+    public void onBackPressed() {
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
+    }
 
 
     @Override

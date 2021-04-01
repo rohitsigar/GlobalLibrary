@@ -10,26 +10,31 @@
     tools:context=".Activity.GeneralActivity">
 
 
-    <androidx.drawerlayout.widget.DrawerLayout
+   <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Activity.GeneralActivity">
         <LinearLayout
+            android:layout_marginLeft="0dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
 
-            <androidx.appcompat.widget.Toolbar
+            <!--            <androidx.appcompat.widget.Toolbar-->
+<!--                android:id="@+id/toolbar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="#8278cf"-->
+<!--                android:minHeight="?attr/actionBarSize"-->
+<!--                android:theme="?attr/actionBarTheme" />-->
+
+
+            <include
                 android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ffb3c3"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme" />
-
-
+                layout="@layout/main_page_toolbar"
+                app:layout_collapseMode="pin" />
 
             <FrameLayout
                 android:id="@+id/fragment_container"
@@ -43,13 +48,14 @@
                 android:id="@+id/bottom_navbar"
                 android:layout_width="match_parent"
                 android:layout_gravity="bottom"
-                android:layout_height="80dp"
+                android:layout_height="50dp"
+
                 android:background="@drawable/shape_of_bottom_nav_bar"
                 app:cnb_menuResource="@menu/bottom_nav_menu"
                 app:cnb_unselectedColor="@color/black"
                 app:cnb_radius="8dp"
                 app:cnb_orientationMode="horizontal"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="10dp"
                 android:elevation="8dp" />
         </LinearLayout>
 

@@ -1,31 +1,20 @@
 package com.example.globallibrary.Fragment;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.example.globallibrary.Activity.AuthenticationActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.globallibrary.Activity.GeneralActivity;
 import com.example.globallibrary.Activity.OtpVerify;
 import com.example.globallibrary.R;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-
 public class BranchOwnerRegistrationFragment extends Fragment {
     TextInputEditText ownerName;
     TextInputEditText ownerContactNumber;
@@ -38,7 +27,6 @@ public class BranchOwnerRegistrationFragment extends Fragment {
     TextInputEditText rePassword;
     Button nextButton;
     public static String phoneNumber = "";
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

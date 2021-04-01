@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:background="#00000000"
             android:textColor="@color/black"
-            android:text="Resned Otp"
+            android:text="Resend Otp"
             android:fontFamily="@font/fjalla_one"
             android:layout_gravity="right"
             android:elevation="0dp"
