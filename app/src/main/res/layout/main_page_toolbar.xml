@@ -60,19 +60,26 @@
 
                 <!--  Profile Image -->
 
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/toolbar_branch_Image"
-                    android:layout_width="wrap_content"
+<!--                <com.mikhaellopez.circularimageview.CircularImageView-->
+<!--                    android:id="@+id/toolbar_branch_Image"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_centerInParent="true"-->
+<!--                    android:src="@drawable/image"-->
+<!--                    app:civ_border_color="#EEEEEE"-->
+<!--                    app:civ_shadow="true"-->
+<!--                    app:civ_shadow_color="#f4f5f9"-->
+<!--                    app:civ_shadow_radius="10" />-->
+                <ImageButton
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/image"
-                    app:civ_border_color="#EEEEEE"
-                    app:civ_shadow="true"
-                    app:civ_shadow_color="#f4f5f9"
-                    app:civ_shadow_radius="10" />
-
+                    android:src="@drawable/ic_baseline_add_24"
+                    android:background="@drawable/bg_recat2"
+                    android:id="@+id/add_new_notification"
+                    android:visibility="gone"/>
         </RelativeLayout>
 
         </LinearLayout>

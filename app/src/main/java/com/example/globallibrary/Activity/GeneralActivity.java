@@ -2,7 +2,6 @@ package com.example.globallibrary.Activity;
 
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,8 +31,6 @@ import com.example.globallibrary.Fragment.QuizBranchFragment;
 import com.example.globallibrary.Fragment.QuizStudentFragment;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,8 +39,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
-import com.mikhaellopez.circularimageview.CircularImageView;
-import com.squareup.picasso.Picasso;
 
 public class GeneralActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -56,14 +51,14 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
     TextView AddressAtNavBar;
     ImageButton Slider;
     TextView ToolbarText;
-CircularImageView BranchImage;
+//CircularImageView BranchImage;
     NavigationView navigationView;
     androidx.appcompat.widget.Toolbar toolbar;
     ChipNavigationBar bottomNavBar;
     String access;
     String branchName;
     String phoneNo;
-
+    ImageButton NewNotification123;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +68,8 @@ CircularImageView BranchImage;
         setContentView(R.layout.activity_general);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.slider);
-        BranchImage = findViewById(R.id.toolbar_branch_Image);
+//        BranchImage = findViewById(R.id.toolbar_branch_Image);
+        NewNotification123 = findViewById(R.id.add_new_notification);
         navigationView.bringToFront();
         Slider = findViewById(R.id.Slider_menu);
         ToolbarText = findViewById(R.id.main_text_branch);
@@ -86,6 +82,16 @@ CircularImageView BranchImage;
         branchImage = NavView.findViewById(R.id.BranchImage_in_Branch);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         toggle.setDrawerIndicatorEnabled(false);
+        NewNotification123.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TAG", "onClick: " + "possible");
+                Intent intent = new Intent(GeneralActivity.this, NewNotification.class);
+                intent.putExtra("branchName", branchName);
+                startActivity(intent);
+
+            }
+        });
 
         drawerLayout.addDrawerListener(toggle);
 
@@ -129,24 +135,24 @@ CircularImageView BranchImage;
             });
 
             String URL = "Branches/" + branchName;
-            storageReference.child(URL).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    // Got the download URL for 'users/me/profile.png'
-//                Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
-                    /// The string(file link) that you need
-                    String s = uri.toString();
-                    Picasso.get().load(s).into(branchImage);
-                    Picasso.get().load(s).into(BranchImage);
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-
-                    // Handle any errors
-                }
-            });
+//            storageReference.child(URL).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                @Override
+//                public void onSuccess(Uri uri) {
+//                    // Got the download URL for 'users/me/profile.png'
+////                Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
+//                    /// The string(file link) that you need
+//                    String s = uri.toString();
+//                    Picasso.get().load(s).into(branchImage);
+//                    Picasso.get().load(s).into(BranchImage);
+//
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception exception) {
+//
+//                    // Handle any errors
+//                }
+//            });
             ToolbarText.setText("Home");
             Bundle bundle = new Bundle();
             bundle.putString("branchName", branchName);
@@ -216,6 +222,7 @@ CircularImageView BranchImage;
                             fragment = new HomeBranchFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Home");
+                            findViewById(R.id.add_new_notification).setVisibility(View.GONE);
                             bundle.putString("branchName", branchName);
                             fragment.setArguments(bundle);
                         }
@@ -230,6 +237,7 @@ CircularImageView BranchImage;
                             fragment = new BranchProfileFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Profile");
+                            findViewById(R.id.add_new_notification).setVisibility(View.GONE);
                             bundle.putString("branchName", branchName);
                             fragment.setArguments(bundle);
                         }
@@ -244,6 +252,7 @@ CircularImageView BranchImage;
                             fragment = new NoticeBranchFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Notice");
+                            findViewById(R.id.add_new_notification).setVisibility(View.VISIBLE);
                             bundle.putString("branchName", branchName);
                             fragment.setArguments(bundle);
                         }
@@ -258,6 +267,7 @@ CircularImageView BranchImage;
                             fragment = new QuizBranchFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Quiz");
+                            findViewById(R.id.add_new_notification).setVisibility(View.GONE);
                             bundle.putString("branchName", branchName);
                             fragment.setArguments(bundle);
                         }
