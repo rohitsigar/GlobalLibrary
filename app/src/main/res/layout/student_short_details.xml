@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:background="@drawable/bg_recat"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100">
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Student Name"
+
+                android:layout_gravity="center"
+                android:fontFamily="@font/fjalla_one"
+                android:textSize="10dp"
+                android:layout_marginLeft="10dp"
+
+                android:id="@+id/StudentName_short_details"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Discreption"
+                android:layout_gravity="center"
+                android:fontFamily="@font/fjalla_one"
+                android:textSize="5dp"
+                android:layout_marginLeft="5dp"
+
+                android:id="@+id/branch_discreption_short_details"/>
+
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/student_image_short_details"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="50"
+            android:src="@drawable/image" />
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

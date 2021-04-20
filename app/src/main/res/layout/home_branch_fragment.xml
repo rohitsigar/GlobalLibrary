@@ -65,6 +65,7 @@
                     android:layout_weight="1"
                     android:layout_margin="5dp"
                     app:cardCornerRadius="20dp"
+                    android:id="@+id/student_pallet"
                     app:cardBackgroundColor="#af7dff"
                     android:layout_height="match_parent">
                     <androidx.appcompat.widget.AppCompatImageView

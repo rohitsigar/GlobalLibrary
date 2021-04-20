@@ -124,7 +124,6 @@ public class OtpVerify extends AppCompatActivity {
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 

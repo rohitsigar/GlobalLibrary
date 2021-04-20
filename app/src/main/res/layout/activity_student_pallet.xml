@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="@dimen/box_inset_layout_padding"
+    tools:context=".Activity.StudentPallet"
+    android:weightSum="100"
+    android:orientation="vertical"
+    tools:deviceIds="wear">
+    <include
+        android:id="@+id/id_toolbar_profile"
+        layout="@layout/toolbar_student_pallet"
+        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+        app:layout_collapseMode="pin" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:id="@+id/Short_recyclerView"
+        android:layout_height="match_parent"/>
+
+
+
+
+</LinearLayout>

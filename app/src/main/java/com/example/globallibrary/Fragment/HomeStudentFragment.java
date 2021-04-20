@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.globallibrary.Adpaters.JoinLoginAdapter;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,6 +29,7 @@ public class HomeStudentFragment extends Fragment {
     String branchName;
     TextView setQuote;
     String quoteUpdate  = "Hello";
+
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,9 +43,7 @@ public class HomeStudentFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = view.findViewById(R.id.branchSlider1);
-        JoinLoginAdapter joinLoginAdapter = new JoinLoginAdapter(getContext());
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(joinLoginAdapter);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
         phoneNo = getArguments().getString("phoneNo");
         Log.d("phone", "onViewCreated: " + phoneNo); //getting unique phone number from sigh in page.

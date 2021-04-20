@@ -19,6 +19,10 @@
             android:name=".Activity.NewNotification"
             android:label="@string/title_activity_new_notification"
             android:theme="@style/Theme.GlobalLibrary.NoActionBar"></activity>
+        <activity
+            android:name=".Activity.StudentPallet"
+            android:label="@string/title_activity_student_pallet">
+        </activity>
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.

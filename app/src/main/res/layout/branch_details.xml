@@ -43,7 +43,7 @@
         </LinearLayout>
 
 
-        <ImageView
+        <com.mikhaellopez.circularimageview.CircularImageView
             android:layout_weight="50"
             android:layout_width="180dp"
             android:layout_height="100dp"

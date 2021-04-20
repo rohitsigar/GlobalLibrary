@@ -61,6 +61,7 @@ public class NoticeBranchFragment extends Fragment {
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
+
                                         for (QueryDocumentSnapshot document : task.getResult()) {
 
                                             list.add(new NotificationDetails(document.getString("Title") , document.getString("Discreption")

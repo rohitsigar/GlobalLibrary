@@ -23,4 +23,5 @@
     <string name="till_us_a_bit_about_yourself">Till us a bit about yourself</string>
     <string name="edit_description">Edit Description</string>
     <string name="title_activity_new_notification">NewNotification</string>
+    <string name="title_activity_student_pallet">StudentPallet</string>
 </resources>

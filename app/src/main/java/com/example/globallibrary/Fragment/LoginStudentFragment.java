@@ -1,12 +1,15 @@
 package com.example.globallibrary.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,8 +31,14 @@ public class LoginStudentFragment extends Fragment {
     Button signUpButton;
     TextInputEditText contactNumber;
     TextInputEditText passward;
+    SharedPreferences sharedPreferences;
     Button loginButton;
     boolean test = false;
+
+
+    private static final String KEY_ACCESS = "access";
+    private static final String SHARED_PREF = "PREF";
+    private static final String KEY_PHONE_NO  = "PhoneNo";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,6 +54,14 @@ public class LoginStudentFragment extends Fragment {
         contactNumber = view.findViewById(R.id.student_phoneNo);
         passward = view.findViewById(R.id.student_password);
         loginButton = view.findViewById(R.id.go_button_student);
+        sharedPreferences  = getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
+        String loged  = sharedPreferences.getString(KEY_ACCESS , null);
+        if(loged!=null)
+        {
+            Intent intent = new Intent(getActivity(), GeneralActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,11 +78,15 @@ public class LoginStudentFragment extends Fragment {
                                     String p  = document.getString("Passward");
                                     if(p.equals(passward.getText().toString()))
                                     {
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString(KEY_ACCESS , "StudentAccess");
+                                        editor.putString(KEY_PHONE_NO , contactNumber.getText().toString());
+                                        editor.apply();
+
                                         Intent intent = new Intent(getActivity(), GeneralActivity.class);
-                                        intent.putExtra("user","StudentAccess");
-                                        intent.putExtra("contactNumber" , contactNumber.getText().toString());
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
+                                        Toast.makeText(getActivity(), "Login Sucessfully" , Toast.LENGTH_SHORT).show();
                                     }
                                     else
                                     {

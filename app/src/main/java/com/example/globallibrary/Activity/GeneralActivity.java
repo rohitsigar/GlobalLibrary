@@ -1,7 +1,9 @@
 package com.example.globallibrary.Activity;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -59,13 +62,23 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
     String branchName;
     String phoneNo;
     ImageButton NewNotification123;
+
+    private static final String KEY_ACCESS = "access";
+    private static final String SHARED_PREF = "PREF";
+    private static final String KEY_BRANCH_NAME = "name";
+    private static final String KEY_PHONE_NO = "phoneNo";
+    SharedPreferences sharedPreferences;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 // /       getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 //        getSupportActionBar().setCustomView(R.layout.main_page_toolbar);
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_general);
+
+        sharedPreferences  = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.slider);
 //        BranchImage = findViewById(R.id.toolbar_branch_Image);
@@ -103,18 +116,21 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
         });
 
         bottomNavBar.setItemSelected(R.id.bottom_nav_home, true);
-        access = getIntent().getStringExtra("user");
+//        access = getIntent().getStringExtra("user");
+        access = sharedPreferences.getString(KEY_ACCESS , null);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         if (access.equals("StudentAccess")) {
-            phoneNo = getIntent().getStringExtra("contactNumber");
+//            phoneNo = getIntent().getStringExtra("contactNumber");
+            phoneNo = sharedPreferences.getString(KEY_PHONE_NO , null);
             Bundle bundle = new Bundle();
             bundle.putString("phoneNo", phoneNo);
             HomeStudentFragment homeStudentFragment = new HomeStudentFragment();
             homeStudentFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeStudentFragment).addToBackStack(null).commit();
         } else {
-            branchName = getIntent().getStringExtra("branchName");
+//            branchName = getIntent().getStringExtra("branchName");
+            branchName = sharedPreferences.getString(KEY_BRANCH_NAME , null);
             Log.d("TAG", "onCreate: branchName" + branchName);
             firebaseFirestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 private static final String TAG = "Rohit";
@@ -196,8 +212,13 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
 
                         break;
                     case R.id.slider_logout:
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.commit();
+                        finish();
                         Intent intent = new Intent(GeneralActivity.this, AuthenticationActivity.class);
                         startActivity(intent);
+                        Toast.makeText(GeneralActivity.this, "Log out Sucessfully", Toast.LENGTH_SHORT).show();
                         break;
 
                 }
