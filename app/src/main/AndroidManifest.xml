@@ -15,21 +15,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GlobalLibrary">
+        <activity android:name=".Activity.StudentOverview"></activity>
         <activity
             android:name=".Activity.NewNotification"
             android:label="@string/title_activity_new_notification"
-            android:theme="@style/Theme.GlobalLibrary.NoActionBar"></activity>
+            android:theme="@style/Theme.GlobalLibrary.NoActionBar" />
         <activity
             android:name=".Activity.StudentPallet"
-            android:label="@string/title_activity_student_pallet">
-        </activity>
+            android:label="@string/title_activity_student_pallet"></activity>
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
         <activity
             android:name=".Activity.OtpVerify"
-            android:label="@string/title_activity_otp_verify"></activity>
+            android:label="@string/title_activity_otp_verify" />
         <activity
             android:name=".Activity.Settings"
             android:label="@string/title_activity_settings" />

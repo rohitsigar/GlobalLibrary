@@ -97,7 +97,7 @@ public class BranchProfileFragment extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        if(document.getString("BranchName").equals(BranchName))
+                        if(document.getString("BranchName").equals(BranchName1))
                         {
                             Discreption.setText(document.getString("Discreption"));
                         }

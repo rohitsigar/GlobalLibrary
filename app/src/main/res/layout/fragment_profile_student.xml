@@ -1,16 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.ProfileStudentFragment">
+    android:background="@color/white"
+    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+    android:orientation="vertical"
+    tools:context=".Fragment.ProfileStudentFragment"
+    tools:ignore="HardcodedText">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Student Profile"
-        android:gravity="center"
-        android:background="#ffb3c3"/>
+        android:weightSum="100"
+        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+        android:orientation="vertical">
 
+
+
+        <LinearLayout
+            android:layout_weight="25"
+            android:id="@+id/id_Profile_RelativeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+
+            <RelativeLayout
+                android:id="@+id/id_ProfileImage_RelativeLayout"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true">
+
+                <!--  Profile Image -->
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/id_Profile_Image_student"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/image"
+                    app:civ_border_color="#EEEEEE"
+                    app:civ_border_width="4dp"
+                    app:civ_shadow="true"
+                    app:civ_shadow_color="#f4f5f9"
+                    app:civ_shadow_radius="10" />
+
+                <!--  Change Image -->
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/change_image_button_student"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_add" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/change_upload_student"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone"
+                    android:background="@drawable/ic_check_done" />
+
+            </RelativeLayout>
+
+            <!-- User Name  -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:weightSum="100"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/id_fullName_TextView_student"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="30"
+                    android:layout_below="@+id/id_ProfileImage_RelativeLayout"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="5dp"
+                    android:text="Student Name"
+                    android:textColor="@color/color_primary_text"
+                    android:textSize="20sp" />
+
+                <!--   tittle   -->
+                <TextView
+                    android:id="@+id/student_discreption"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="70"
+                    android:layout_below="@+id/id_fullName_TextView"
+
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="16dp"
+                    android:text="Discreption"
+                    android:textColor="@color/color_third_text"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:layout_weight="5"
+            android:id="@+id/sliding_tabs_student_profile"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="0dp"
+            app:tabBackground="@android:color/transparent"
+            app:tabIndicatorColor="#ff9e7f"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/color_primary_text"
+            app:tabTextAppearance="@style/MyCustomTextAppearance"
+            app:tabTextColor="@color/color_secondary_text" />
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPagerstudentProfile"
+            android:layout_width="match_parent"
+            android:layout_weight="70"
+            android:layout_height="0dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+
+        </androidx.viewpager.widget.ViewPager>
+
+    </LinearLayout>
 </FrameLayout>
+
+

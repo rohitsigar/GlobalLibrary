@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="100"
+    tools:context=".Activity.StudentOverview">
+    <include
+        android:id="@+id/id_toolbar_profile"
+        layout="@layout/toolbar_student_overview"
+        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+        app:layout_collapseMode="pin" />
+
+    <LinearLayout
+        android:layout_weight="25"
+        android:id="@+id/id_Profile_RelativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+
+        <RelativeLayout
+            android:id="@+id/id_ProfileImage_RelativeLayout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+
+            <!--  Profile Image -->
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/id_Profile_Image_student"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/image"
+                app:civ_border_color="#EEEEEE"
+                app:civ_border_width="4dp"
+                app:civ_shadow="true"
+                app:civ_shadow_color="#f4f5f9"
+                app:civ_shadow_radius="10" />
+
+            <!--  Change Image -->
+
+
+
+        </RelativeLayout>
+
+        <!-- User Name  -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:weightSum="100"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/id_fullName_TextView_student_overview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="30"
+                android:layout_below="@+id/id_ProfileImage_RelativeLayout"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="5dp"
+                android:text="Student Name"
+                android:textColor="@color/color_primary_text"
+                android:textSize="20sp" />
+
+            <!--   tittle   -->
+            <TextView
+                android:id="@+id/student_discreption_oveview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="70"
+                android:layout_below="@+id/id_fullName_TextView"
+
+                android:layout_centerInParent="true"
+                android:layout_marginTop="16dp"
+                android:text="Discreption"
+                android:textColor="@color/color_third_text"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="70"
+        android:layout_margin="5dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".Fragment.ProfileStudentDetailsFragment"
+        android:weightSum="6"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="30"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:text="Branch Name"
+                android:textColor="@color/color_secondary_text"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="70"
+                android:layout_marginTop="14dp"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:text="BranchName"
+                android:id="@+id/branch_name_student_overview"
+                android:textColor="@color/color_primary_text"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="30"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:text="Email Address"
+                android:textColor="@color/color_secondary_text"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="70"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:text="Email Address"
+                android:id="@+id/email_address_student_overview"
+                android:textColor="@color/color_primary_text"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="30"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:text="Contact Number"
+                android:textColor="@color/color_secondary_text"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="70"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:text="Contact Number"
+                android:id="@+id/contact_number_student_profile_overview"
+                android:textColor="@color/color_primary_text"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="30"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:text="Residential Address"
+                android:textColor="@color/color_secondary_text"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="70"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:text="Residential Address"
+                android:id="@+id/residential_address_student_profile_overview"
+                android:textColor="@color/color_primary_text"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="30"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:text="D O B"
+                android:textColor="@color/color_secondary_text"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="70"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:text="DOB"
+                android:id="@+id/dob_student_overview"
+                android:textColor="@color/color_primary_text"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -45,7 +45,7 @@ public class HomeStudentFragment extends Fragment {
         recyclerView = view.findViewById(R.id.branchSlider1);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
-        phoneNo = getArguments().getString("phoneNo");
+        phoneNo = getArguments().getString("PhoneNo");
         Log.d("phone", "onViewCreated: " + phoneNo); //getting unique phone number from sigh in page.
         setQuote = view.findViewById(R.id.studentQuote);
         firestore.collection("/Students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

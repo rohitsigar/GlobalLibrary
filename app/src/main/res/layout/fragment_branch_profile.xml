@@ -16,6 +16,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:weightSum="100"
                 android:contentDescription="For more ui/ux visit www.materialuiux.com"
                 android:orientation="vertical">
 
@@ -23,16 +24,19 @@
 
                 <LinearLayout
                     android:id="@+id/id_Profile_RelativeLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="25"
                     android:layout_gravity="center"
+                    android:weightSum="2"
                     android:layout_marginTop="20dp">
 
 
                     <RelativeLayout
                         android:id="@+id/id_ProfileImage_RelativeLayout"
-                        android:layout_width="190dp"
-                        android:layout_height="160dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true">
@@ -81,13 +85,16 @@
 
                     <!-- User Name  -->
                     <LinearLayout
-                        android:layout_width="190dp"
-                        android:layout_height="160dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:weightSum="100"
                         android:orientation="vertical">
                         <TextView
                             android:id="@+id/id_fullName_TextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="30"
                             android:layout_below="@+id/id_ProfileImage_RelativeLayout"
                             android:layout_centerInParent="true"
                             android:layout_marginTop="5dp"
@@ -98,8 +105,9 @@
                         <!--   tittle   -->
                         <TextView
                             android:id="@+id/branch_discreption"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="70"
                             android:layout_below="@+id/id_fullName_TextView"
 
                             android:layout_centerInParent="true"
@@ -115,7 +123,8 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/sliding_tabs_branch_profile"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="5"
                     android:layout_marginTop="0dp"
                     app:tabBackground="@android:color/transparent"
                     app:tabIndicatorColor="#ff9e7f"
@@ -128,7 +137,8 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewPagerBranchProfile"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="70"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:scrollbarAlwaysDrawVerticalTrack="true"

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,14 +30,15 @@ public class LoginStudentFragment extends Fragment {
     Button signUpButton;
     TextInputEditText contactNumber;
     TextInputEditText passward;
-    SharedPreferences sharedPreferences;
+
     Button loginButton;
     boolean test = false;
 
 
     private static final String KEY_ACCESS = "access";
     private static final String SHARED_PREF = "PREF";
-    private static final String KEY_PHONE_NO  = "PhoneNo";
+    private static final String KEY_PHONE_NO  = "number";
+    SharedPreferences sharedPreferences;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,13 +80,14 @@ public class LoginStudentFragment extends Fragment {
                                     {
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.putString(KEY_ACCESS , "StudentAccess");
-                                        editor.putString(KEY_PHONE_NO , contactNumber.getText().toString());
+                                        Log.d(TAG, "onComplete: checking" + contactNumber.getText().toString());
+                                        String s1  = contactNumber.getText().toString();
+                                        editor.putString(KEY_PHONE_NO ,s1);
                                         editor.apply();
-
                                         Intent intent = new Intent(getActivity(), GeneralActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
-                                        Toast.makeText(getActivity(), "Login Sucessfully" , Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(getActivity(), "Login Sucessfully" , Toast.LENGTH_SHORT).show();
                                     }
                                     else
                                     {

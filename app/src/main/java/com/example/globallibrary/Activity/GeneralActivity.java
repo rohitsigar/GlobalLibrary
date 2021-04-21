@@ -66,7 +66,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
     private static final String KEY_ACCESS = "access";
     private static final String SHARED_PREF = "PREF";
     private static final String KEY_BRANCH_NAME = "name";
-    private static final String KEY_PHONE_NO = "phoneNo";
+    private static final String KEY_PHONE_NO = "number";
     SharedPreferences sharedPreferences;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -79,6 +79,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_general);
 
         sharedPreferences  = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
+        Log.d("TAG", "onCreate: cheking1" + sharedPreferences.getString(KEY_PHONE_NO , null));
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.slider);
 //        BranchImage = findViewById(R.id.toolbar_branch_Image);
@@ -118,13 +119,17 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
         bottomNavBar.setItemSelected(R.id.bottom_nav_home, true);
 //        access = getIntent().getStringExtra("user");
         access = sharedPreferences.getString(KEY_ACCESS , null);
+        Log.d("TAG", "onCreate: accessVal" + access);
         storage = FirebaseStorage.getInstance();
+        phoneNo = sharedPreferences.getString(KEY_PHONE_NO , null);
+        branchName = sharedPreferences.getString(KEY_BRANCH_NAME , null);
         storageReference = storage.getReference();
         if (access.equals("StudentAccess")) {
 //            phoneNo = getIntent().getStringExtra("contactNumber");
             phoneNo = sharedPreferences.getString(KEY_PHONE_NO , null);
             Bundle bundle = new Bundle();
-            bundle.putString("phoneNo", phoneNo);
+            Log.d("TAG", "onCreate: checking" + sharedPreferences.getString(KEY_PHONE_NO , null));
+            bundle.putString("PhoneNo", phoneNo);
             HomeStudentFragment homeStudentFragment = new HomeStudentFragment();
             homeStudentFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeStudentFragment).addToBackStack(null).commit();
@@ -150,25 +155,8 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                 }
             });
 
-            String URL = "Branches/" + branchName;
-//            storageReference.child(URL).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                @Override
-//                public void onSuccess(Uri uri) {
-//                    // Got the download URL for 'users/me/profile.png'
-////                Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
-//                    /// The string(file link) that you need
-//                    String s = uri.toString();
-//                    Picasso.get().load(s).into(branchImage);
-//                    Picasso.get().load(s).into(BranchImage);
-//
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception exception) {
-//
-//                    // Handle any errors
-//                }
-//            });
+
+
             ToolbarText.setText("Home");
             Bundle bundle = new Bundle();
             bundle.putString("branchName", branchName);
@@ -237,7 +225,9 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         if (access.equals("StudentAccess")) {
                             fragment = new HomeStudentFragment();
                             Bundle bundle = new Bundle();
-                            bundle.putString("PhoneNo", phoneNo);
+                            ToolbarText.setText("Home");
+                            findViewById(R.id.add_new_notification).setVisibility(View.GONE);
+                            bundle.putString("PhoneNo" , phoneNo);
                             fragment.setArguments(bundle);
                         } else {
                             fragment = new HomeBranchFragment();
@@ -264,8 +254,10 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         }
                         break;
                     case R.id.bottom_nav_home_notice:
-                        if (access.equals("studentAccess")) {
+                        if (access.equals("StudentAccess")) {
                             fragment = new NoticeStudentFragment();
+                            ToolbarText.setText("Notice");
+                            findViewById(R.id.add_new_notification).setVisibility(View.GONE);
                             Bundle bundle = new Bundle();
                             bundle.putString("PhoneNo", phoneNo);
                             fragment.setArguments(bundle);
@@ -279,7 +271,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         }
                         break;
                     case R.id.bottom_nav_quiz:
-                        if (access.equals("studentAccess")) {
+                        if (access.equals("StudentAccess")) {
                             fragment = new QuizStudentFragment();
                             Bundle bundle = new Bundle();
                             bundle.putString("PhoneNo", phoneNo);

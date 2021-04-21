@@ -15,7 +15,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="34dp"
-            android:id="@+id/return_to_home12"
+            android:id="@+id/return_to_studentPallet"
             android:background="@android:color/transparent"
             app:srcCompat="@drawable/ic_left_arrow" />
 
@@ -25,33 +25,11 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:id="@+id/mainname"
-            android:text="Student Pallet"
+            android:text="Student Details"
             android:textColor="@color/color_third_text"
             android:textSize="18dp" />
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:visibility="gone"
-            android:id="@+id/DatePallet"
-            android:layout_centerVertical="true"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:id="@+id/showDateHere"
-                android:text="Pick A Date"/>
-            <ImageButton
-                android:layout_width="match_parent"
-                android:src="@drawable/ic_baseline_date_range_24"
-                android:id="@+id/changeDateUsingCalender"
-                android:layout_height="match_parent"/>
 
-        </LinearLayout>
-
-<!--         Check Done   -->
+        <!--         Check Done   -->
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +38,7 @@
             android:layout_marginRight="34dp"
             android:id="@+id/attandance_student_pallet"
             android:background="@android:color/transparent"
-            app:srcCompat="@drawable/attandance_student_pallet" />
+            app:srcCompat="@drawable/profile" />
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

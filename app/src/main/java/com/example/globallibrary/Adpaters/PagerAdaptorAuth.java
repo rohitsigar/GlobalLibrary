@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.globallibrary.Fragment.AllBranchesFragment;
+import com.example.globallibrary.Fragment.FragmentAllBranches;
 import com.example.globallibrary.Fragment.BranchOwnerLoginFragment;
 import com.example.globallibrary.Fragment.LoginStudentFragment;
 
@@ -24,7 +24,7 @@ public class PagerAdaptorAuth extends FragmentPagerAdapter {
             case 1:
                 return new BranchOwnerLoginFragment();
             case 2:
-                return  new AllBranchesFragment();
+                return  new FragmentAllBranches();
             default:
                 return null;
         }

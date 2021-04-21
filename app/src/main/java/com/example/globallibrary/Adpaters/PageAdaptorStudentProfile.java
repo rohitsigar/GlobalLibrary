@@ -5,15 +5,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.globallibrary.Fragment.BranchProfileFragment;
-import com.example.globallibrary.Fragment.FragmentEditBranchProfile;
-import com.example.globallibrary.Fragment.ProfileBranchDetailsFragment;
+import com.example.globallibrary.Fragment.FragmentEditStudentProfile;
+import com.example.globallibrary.Fragment.ProfileStudentDetailsFragment;
+import com.example.globallibrary.Fragment.ProfileStudentFragment;
 
-public class PagerAdaptorBranchProfile extends FragmentPagerAdapter {
+public class PageAdaptorStudentProfile extends FragmentPagerAdapter {
     String BranchName;
 
 
-    public PagerAdaptorBranchProfile(@NonNull FragmentManager fm) {
+    public PageAdaptorStudentProfile(@NonNull FragmentManager fm) {
         super(fm);
     }
 
@@ -23,9 +23,9 @@ public class PagerAdaptorBranchProfile extends FragmentPagerAdapter {
         switch (position) {
             case 0:
 
-                return ProfileBranchDetailsFragment.newInstance(BranchProfileFragment.kuhaName());
+                return ProfileStudentDetailsFragment.newInstance(ProfileStudentFragment.kuhaName());
             case 1:
-                return new FragmentEditBranchProfile().newInstance(BranchProfileFragment.kuhaName());
+                return new FragmentEditStudentProfile().newInstance(ProfileStudentFragment.kuhaName());
             default:
                 return null;
         }
@@ -39,7 +39,7 @@ public class PagerAdaptorBranchProfile extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Branch Details";
+                return "Student Details";
             case 1:
                 return "Edit Profile";
             default:

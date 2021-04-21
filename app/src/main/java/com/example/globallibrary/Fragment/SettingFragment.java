@@ -92,7 +92,7 @@ public class SettingFragment extends Fragment {
         EditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new EditBranchProfile();
+                Fragment fragment = new FragmentEditBranchProfile();
                 Bundle bundle = new Bundle();
                 bundle.putString("branchName", BranchName);
                 fragment.setArguments(bundle);

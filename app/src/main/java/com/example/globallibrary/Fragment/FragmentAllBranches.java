@@ -29,7 +29,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-public class AllBranchesFragment extends Fragment {
+public class FragmentAllBranches extends Fragment {
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -40,7 +40,7 @@ public class AllBranchesFragment extends Fragment {
     public RecyclerView.Adapter _mAdapter;
     public RecyclerView.LayoutManager _layoutManager;
 
-    public AllBranchesFragment() {
+    public FragmentAllBranches() {
         // Required empty public constructor
     }
     @Override
