@@ -1,5 +1,6 @@
 package com.example.globallibrary.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,26 +10,28 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.globallibrary.Activity.StudentAttandance;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 // pending
 //1. store phone number locally in phone and keep student user loged in for now user have to log in every time
 
 public class HomeStudentFragment extends Fragment {
 
     RecyclerView recyclerView;
-    String phoneNo;
-    String branchName;
+    String StudentId;
+    String branchId;
     TextView setQuote;
     String quoteUpdate  = "Hello";
+    CardView showAttandance;
 
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     @Override
@@ -42,47 +45,40 @@ public class HomeStudentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = view.findViewById(R.id.branchSlider1);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
-        phoneNo = getArguments().getString("PhoneNo");
-        Log.d("phone", "onViewCreated: " + phoneNo); //getting unique phone number from sigh in page.
+        StudentId = getArguments().getString("StudentId");
+        branchId = getArguments().getString("BranchId");
+
+        Log.d("phone", "onViewCreated: " + StudentId); //getting unique phone number from sigh in page.
         setQuote = view.findViewById(R.id.studentQuote);
-        firestore.collection("/Students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            private static final String TAG = "Rohit";
-
+        showAttandance = view.findViewById(R.id.show_student_attandance);
+        showAttandance.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity() , StudentAttandance.class);
+                intent.putExtra("StudentId" , StudentId);
+                intent.putExtra("BranchId" , branchId);
+                startActivity(intent);
+            }
+        });
+        DocumentReference docIdRef = firestore.collection("/Branches/" ).document(branchId.trim());
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) { //by triversing student collection i am getting branch name using phone number
-                        if(document.getString("ContactNumber").equals(phoneNo)) // of student
-                        {
-                            branchName = document.getString("BranchName");
-                            firestore.collection("Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                private static final String TAG = "Rohit"; // here as a a get branch name above we will use thi  brsnch name of get quote form branch collection
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
 
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            if (document.getString("BranchName").equals(branchName)) {
-                                                quoteUpdate = document.getString("Quote");
-                                                Log.d("Quote", "onComplete: " + quoteUpdate);
-                                                setQuote.setText(quoteUpdate);
-                                            }
-                                        }
 
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-                                }
-                            });
-                            Log.d(TAG, "onComplete123: "+ branchName);
-                        }
+                        setQuote.setText(document.getString("Quote"));
+
+                    } else {
+
+                        Log.d("TAG", "onComplete: not possible" );
 
                     }
                 } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
+
                 }
             }
         });

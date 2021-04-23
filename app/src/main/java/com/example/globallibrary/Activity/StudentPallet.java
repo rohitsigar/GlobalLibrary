@@ -1,15 +1,19 @@
 package com.example.globallibrary.Activity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,16 +41,20 @@ import java.util.Locale;
 
 public class StudentPallet extends AppCompatActivity {
 
+
+    DatePickerDialog.OnDateSetListener setListener;
+
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     FirebaseStorage storage;
     StorageReference storageReference;
-    String BranchName;
+    String BranchId;
     ImageButton Back;
     ImageButton Attandance;
-    ImageButton StudentPallet;
+    ImageButton StudentPallet1;
     TextView HeadLine;
     LinearLayout DatePallet;
     TextView DateShow;
+    ImageButton CanlenderDilog;
 
     private Uri filePath;
     String URL  = "";
@@ -69,13 +77,93 @@ public class StudentPallet extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         Intent intent = getIntent();
-        BranchName = intent.getStringExtra("branchName");
+        BranchId = intent.getStringExtra("branchId");
         Back = findViewById(R.id.return_to_home12);
         Attandance = findViewById(R.id.attandance_student_pallet);
-        StudentPallet = findViewById(R.id.home_student_pallet);
+        StudentPallet1 = findViewById(R.id.home_student_pallet);
         HeadLine  = findViewById(R.id.mainname);
         DatePallet = findViewById(R.id.DatePallet);
         DateShow = findViewById(R.id.showDateHere);
+        CanlenderDilog = findViewById(R.id.changeDateUsingCalender);
+        Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        CanlenderDilog.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog  = new DatePickerDialog(
+                        StudentPallet.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        month = month + 1;
+                        String date = "";
+                        if(day<10)
+                        {
+                            date = date + "0" + day;
+                        }
+                        else
+                        {
+                            date = date + day;
+                        }
+                        if(month<10)
+                        {
+                            date = date + "-0" + month;
+                        }
+                        else
+                        {
+                            date = date + "-" + month;
+                        }
+                        date = date + "-" + year;
+                        DateShow.setText(date);
+                        String finalDate = date;
+                                        DocumentReference docIdRef = firestore.collection("Branches/" + BranchId + "/Attandance/").document(finalDate);
+                                        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    DocumentSnapshot document = task.getResult();
+                                                    if (document.exists()) {
+
+
+                                                        for(ShortStudentDetails e : list)
+                                                        {
+                                                            Log.d("TAG", "onComplete:checking "   + e.getStudentId()  + document.getBoolean(e.StudentId.toString()));
+                                                            if(document.getBoolean(e.StudentId.toString())!=null)
+                                                            {
+                                                                e.Color = "Green";
+                                                                adapter.notifyDataSetChanged();
+                                                            }
+                                                            else
+                                                            {
+                                                                e.Color = "Red";
+                                                                adapter.notifyDataSetChanged();
+                                                            }
+                                                        }
+
+                                                        //existes
+
+                                                    } else {
+                                                        //not existss
+                                                        for(ShortStudentDetails e : list)
+                                                        {
+                                                            e.Color = "Red";
+                                                            adapter.notifyDataSetChanged();
+
+                                                        }
+                                                    }
+                                                } else {
+
+                                                }
+                                            }
+                                        });
+                    }
+                },year , month,day);
+                datePickerDialog.show();
+            }
+        });
+
 
 
 
@@ -83,41 +171,48 @@ public class StudentPallet extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Attandance.setVisibility(View.GONE);
-                StudentPallet.setVisibility(View.VISIBLE);
+                StudentPallet1.setVisibility(View.VISIBLE);
                 HeadLine.setVisibility(View.GONE);
                 DatePallet.setVisibility(View.VISIBLE);
-//                java.util.Date currentTime = Calendar.getInstance().getTime();
-//                String time  = currentTime.toString().trim();
-//                String date =  time.substring(8,10) +" "+ time.substring(4,7) +" " + time.substring(30,34) ;
-//                HashMap<String, Integer> map1 = null;
+
                 Date c = Calendar.getInstance().getTime();
                 System.out.println("Current time => " + c);
 
                 SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                 String formattedDate = df.format(c);
 
-                firestore.collection("Branches/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful())
-                        {
-                            for(QueryDocumentSnapshot document : task.getResult())
-                            {
-                                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-                                DocumentReference docIdRef = rootRef.collection("Branches/" + document.getId() + "/Attandance/").document(formattedDate);
+
+                                DocumentReference docIdRef = firestore.collection("Branches/" + BranchId + "/Attandance/").document(formattedDate);
                                 docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         if (task.isSuccessful()) {
                                             DocumentSnapshot document = task.getResult();
                                             if (document.exists()) {
-                                                  //existes
 
-                                            } else {
-                                               //not existss
+
                                                 for(ShortStudentDetails e : list)
                                                 {
-                                                   e.Color = "Red";
+                                                    Log.d("TAG", "onComplete:checking "   + e.getStudentId()  + document.getBoolean(e.StudentId.toString()));
+                                                    if(document.getBoolean(e.StudentId.toString())!=null)
+                                                    {
+                                                        e.Color = "Green";
+                                                        adapter.notifyDataSetChanged();
+                                                    }
+                                                    else
+                                                    {
+                                                        e.Color = "Red";
+                                                        adapter.notifyDataSetChanged();
+                                                    }
+                                                }
+
+                                                //existes
+
+                                            } else {
+                                                //not existss
+                                                for(ShortStudentDetails e : list)
+                                                {
+                                                    e.Color = "Red";
                                                     adapter.notifyDataSetChanged();
 
                                                 }
@@ -127,14 +222,6 @@ public class StudentPallet extends AppCompatActivity {
                                         }
                                     }
                                 });
-                            }
-                        }
-
-                    }
-                });
-
-
-
                 DateShow.setText(formattedDate);
 
 
@@ -147,21 +234,10 @@ public class StudentPallet extends AppCompatActivity {
 
             }
         });
-        Log.d("TAG", "onCreate: checking 1 2 3 " + BranchName);
+        Log.d("TAG", "onCreate: checking 1 2 3 " + BranchId);
 
        list = new ArrayList();
-        firestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            private static final String TAG = "Rohit";
-
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if(document.getString("BranchName").equals(BranchName))
-                        {
-                            String id1 = document.getId();
-                            Log.d(TAG, "onComplete: checking" + id1);
-                            firestore.collection("/Branches/" + document.getId().toString() + "/StudentDetails").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            firestore.collection("/Branches/" + BranchId + "/StudentDetails").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 private static final String TAG = "Rohit";
 
                                 @Override
@@ -176,14 +252,11 @@ public class StudentPallet extends AppCompatActivity {
                                             storageReference.child(URL).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                 @Override
                                                 public void onSuccess(Uri uri) {
-                                                    // Got the download URL for 'users/me/profile.png'
-//                Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
-                                                    /// The string(file link) that you need
-//
+
                                                     Uri downloadUrl = uri;
                                                     String s = downloadUrl.toString();
                                                     Log.d(TAG, "onSuccess: hello");
-                                                    list.add(new ShortStudentDetails(document1.getString("FullName") , document1.getString("Discreption") , s , document1.getString("ContactNumber") , "NoColor"));
+                                                    list.add(new ShortStudentDetails(document1.getString("FullName") , document1.getString("Discreption") , s , document1.getId() , "NoColor"));
                                                     Log.d(TAG, "onSuccess: checkinghello" + list.size());
 
                                                     adapter.notifyDataSetChanged();
@@ -193,13 +266,11 @@ public class StudentPallet extends AppCompatActivity {
                                             }).addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception exception) {
-                                                    list.add(new ShortStudentDetails(document1.getString("FullName") , document1.getString("Discreption") , "NoImage" , document1.getString("ContactNumber") , "NoColor"));
+                                                    list.add(new ShortStudentDetails(document1.getString("FullName") , document1.getString("Discreption") , "NoImage" , document1.getId() , "NoColor"));
                                                     Log.d(TAG, "onSuccess: checking" + list.size());
 
 
                                                     adapter.notifyDataSetChanged();
-
-                                                    // Handle any errors
                                                 }
                                             });
                                         }
@@ -210,25 +281,11 @@ public class StudentPallet extends AppCompatActivity {
                                 }
                             });
 
-                        }
-                    }
-
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(_layoutManager);
-//        ///  add items to the adapter
-//        adapter = new ShortStudentsDetailsAdaptor(list);
-//        ///  set Adapter to RecyclerView
-//        recyclerView.setAdapter(adapter);
         Log.d("TAG", "onCreate: hello guys");
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(_layoutManager);
         setOnClickListner();
-        ///  add items to the adapter
+
         adapter = new ShortStudentsDetailsAdaptor(list , listner);
         ///  set Adapter to RecyclerView
         recyclerView.setAdapter(adapter);
@@ -243,7 +300,8 @@ public class StudentPallet extends AppCompatActivity {
             @Override
             public void onClick(View v, int position) {
                 Intent intent = new Intent(StudentPallet.this , StudentOverview.class);
-                intent.putExtra("PhoneNo" ,list.get(position).getPhoneNo() );
+                intent.putExtra("StudentId" ,list.get(position).getStudentId() );
+                intent.putExtra("BranchId" , BranchId);
                 startActivity(intent);
             }
         };

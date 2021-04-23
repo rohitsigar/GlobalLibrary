@@ -37,7 +37,10 @@ public class LoginStudentFragment extends Fragment {
 
     private static final String KEY_ACCESS = "access";
     private static final String SHARED_PREF = "PREF";
-    private static final String KEY_PHONE_NO  = "number";
+    private static final String KEY_STUDENT_ID  = "id_student";
+    private static final  String KEY_STUDENT_B_ID  = "id_branch";
+
+
     SharedPreferences sharedPreferences;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,7 +85,10 @@ public class LoginStudentFragment extends Fragment {
                                         editor.putString(KEY_ACCESS , "StudentAccess");
                                         Log.d(TAG, "onComplete: checking" + contactNumber.getText().toString());
                                         String s1  = contactNumber.getText().toString();
-                                        editor.putString(KEY_PHONE_NO ,s1);
+                                        editor.putString(KEY_STUDENT_B_ID ,document.getString("BranchId").trim());
+                                        editor.putString(KEY_STUDENT_ID ,document.getId().trim());
+
+
                                         editor.apply();
                                         Intent intent = new Intent(getActivity(), GeneralActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

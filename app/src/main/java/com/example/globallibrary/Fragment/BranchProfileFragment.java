@@ -28,9 +28,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -42,7 +42,7 @@ import java.io.IOException;
 
 
 public class BranchProfileFragment extends Fragment {
-    private static String BranchName1 = "";
+    private static String BranchId= "";
     TabLayout tabLayout;
     ViewPager viewPager;
     PagerAdaptorBranchProfile viewPagerAdapter;
@@ -84,52 +84,55 @@ public class BranchProfileFragment extends Fragment {
         ChangeImage = view.findViewById(R.id.change_image_button);
         BranchName  = view.findViewById(R.id.id_fullName_TextView);
         Discreption  = view.findViewById(R.id.branch_discreption);
-        BranchName1 = getArguments().getString("branchName");
+        BranchId = getArguments().getString("branchId");
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        URL = "Branches/" + BranchName1;
-        BranchName.setText(BranchName1);
 
-        firebaseFirestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            private static final String TAG = "Rohit";
-
+        DocumentReference docIdRef = firebaseFirestore.collection("Branches/" ).document(BranchId);
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if(document.getString("BranchName").equals(BranchName1))
-                        {
-                            Discreption.setText(document.getString("Discreption"));
-                        }
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
 
 
+                      Discreption.setText(document.getString("Discreption"));
+                      URL = "Branches/"  + document.getString("BranchName");
+                      BranchName.setText(document.getString("BranchName"));
+                        storageReference.child(URL).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                // Got the download URL for 'users/me/profile.png'
+//                Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
+                                /// The string(file link) that you need
+//
+                                Uri downloadUrl = uri;
+                                String s = downloadUrl.toString();
+                                Log.d("hello guys", "onSuccess: " + s);
+                                Picasso.get().load(s).into(BranchImage);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
+                                BranchImage.setImageResource(R.drawable.branch_owner);
+
+                            }
+                        });
+
+
+                    } else {
 
                     }
-
                 } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
+
                 }
             }
         });
-        storageReference.child(URL).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                // Got the download URL for 'users/me/profile.png'
-//                Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
-                /// The string(file link) that you need
-//
-                Uri downloadUrl = uri;
-                String s = downloadUrl.toString();
-                Log.d("hello guys", "onSuccess: " + s);
-                Picasso.get().load(s).into(BranchImage);
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
+
         ChangeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +156,7 @@ public class BranchProfileFragment extends Fragment {
     }
     public static String kuhaName()
     {
-        return BranchName1;
+        return BranchId;
     }
     private void SelectImage()
     {

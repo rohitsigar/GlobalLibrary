@@ -2,7 +2,6 @@ package com.example.globallibrary.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,9 @@ import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class HomeBranchFragment extends Fragment {
@@ -31,7 +27,7 @@ public class HomeBranchFragment extends Fragment {
 TextInputEditText Quote;
 TextView setQuote;
     CardView StudentPallet1;
-String branchName;
+String branchId;
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     @Override
@@ -47,37 +43,37 @@ String branchName;
         super.onViewCreated(view, savedInstanceState);
         setQuote = view.findViewById(R.id.branchSetQuote);
         Quote = view.findViewById(R.id.branchQuote);
-        branchName = getArguments().getString("branchName");
+        branchId = getArguments().getString("branchId");
         StudentPallet1 = view.findViewById(R.id.student_pallet);
         StudentPallet1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(getActivity(), StudentPallet.class);
-                intent.putExtra("branchName", branchName);
+                intent.putExtra("branchId", branchId);
                 startActivity(intent);
             }
         });
         setQuote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseFirestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    private static final String TAG = "Rohit";
 
+                DocumentReference docIdRef = firebaseFirestore.collection("Branches/" ).document(branchId);
+                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                if(document.getString("BranchName").equals(branchName))
-                                {
-                                    Map<String,Object> Quote1 = new HashMap<>();
-                                    Quote1.put("Quote" , Quote.getText().toString());
-                                    firebaseFirestore.collection("Branches").document(document.getId()).update(Quote1);
-                                }
-                            }
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
 
+
+                                firebaseFirestore.collection("Branches").document(document.getId()).update("Quote" ,Quote.getText().toString() );
+
+                            } else {
+
+                            }
                         } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+
                         }
                     }
                 });

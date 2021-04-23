@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="100"
+    android:orientation="vertical"
+    tools:context=".Activity.StudentAttandance">
+    <include
+        android:id="@+id/id_toolbar_profile"
+        layout="@layout/toolbar_student_attandance"
+        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+        app:layout_collapseMode="pin" />
+    <org.naishadhparmar.zcustomcalendar.CustomCalendar
+        android:paddingTop="20dp"
+        android:id="@+id/custom_calendar"
+    android:layout_width="match_parent"
+        android:layout_weight="100"
+    android:layout_height="0dp"/>
+
+</LinearLayout>

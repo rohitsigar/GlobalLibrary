@@ -17,20 +17,20 @@ import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class FragmentEditBranchProfile extends Fragment {
-    public static FragmentEditBranchProfile newInstance(String BranchName) {
+    public static FragmentEditBranchProfile newInstance(String BranchId) {
         FragmentEditBranchProfile fragmentEditBranchProfile = new FragmentEditBranchProfile();
         Bundle args = new Bundle();
-        args.putString("branchName", BranchName);
+        args.putString("branchId", BranchId);
         fragmentEditBranchProfile.setArguments(args);
         return fragmentEditBranchProfile;
     }
     ImageButton TickButton;
-    String BranchName;
+    String BranchId;
     TextInputEditText OwnerName;
     TextInputEditText LibraryAddress;
     TextInputEditText ResidentialAddress;
@@ -57,76 +57,59 @@ public class FragmentEditBranchProfile extends Fragment {
         OwnerName = view.findViewById(R.id.change_owner_name);
         Dob = view.findViewById(R.id.change_owner_dob);
         Disreption = view.findViewById(R.id.change_discreption);
-        BranchName = getArguments().getString("branchName");
-        Log.d("TAG", "onViewCreated: checking" + BranchName);
-//        firebaseFirestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            private static final String TAG = "Rohit";
-//
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                        if(document.getString("BranchName").equals(BranchName))
-//                        {
-//                            Log.d(TAG, "onComplete: present" + BranchName);
-//                            LibraryAddress.setText(document.getString("LibraryAddress"));
-//                            ResidentialAddress.setText(document.getString("ResidentialAddress"));
-//                            OwnerName.setText(document.getString("OwnerName"));
-//                            Dob.setText(document.getString("DOB"));
-//                        }
-//                    }
-//
-//                } else {
-//                    Log.d(TAG, "Error getting documents: ", task.getException());
-//                }
-//            }
-//        });
+        BranchId = getArguments().getString("branchId");
+        Log.d("TAG", "onViewCreated: checking" + BranchId);
+
         TickButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseFirestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    private static final String TAG = "Rohit";
-
+                DocumentReference docIdRef = firebaseFirestore.collection("Branches/" ).document(BranchId);
+                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                if(document.getString("BranchName").equals(BranchName))
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                if(!Dob.getText().toString().isEmpty())
                                 {
-                                    if(!Dob.getText().toString().isEmpty())
-                                    {
-                                        firebaseFirestore.collection("/Branches").document(document.getId()).update("DOB" , Dob.getText().toString());
-                                    }
-                                    if(!ResidentialAddress.getText().toString().isEmpty())
-                                    {
-                                        firebaseFirestore.collection("/Branches").document(document.getId()).update("ResidentialAddress" , ResidentialAddress.getText().toString());
-                                    }
-                                    if(!LibraryAddress.getText().toString().isEmpty())
-                                    {
-                                        firebaseFirestore.collection("/Branches").document(document.getId()).update("LibraryAddress" , LibraryAddress.getText().toString());
-                                    }
-                                    if(!OwnerName.getText().toString().isEmpty())
-                                    {
-                                        firebaseFirestore.collection("/Branches").document(document.getId()).update("OwnerName" , OwnerName.getText().toString());
-                                    }
-                                    if(!Disreption.getText().toString().isEmpty())
-                                    {
-                                        firebaseFirestore.collection("/Branches").document(document.getId()).update("Discreption" , Disreption.getText().toString());
-                                    }
-
-
-
-                                    Toast.makeText(getActivity() , "Profile Updated" , Toast.LENGTH_SHORT).show();
-                                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                                    fm.popBackStack();
+                                    firebaseFirestore.collection("/Branches").document(document.getId()).update("DOB" , Dob.getText().toString());
                                 }
-                            }
+                                if(!ResidentialAddress.getText().toString().isEmpty())
+                                {
+                                    firebaseFirestore.collection("/Branches").document(document.getId()).update("ResidentialAddress" , ResidentialAddress.getText().toString());
+                                }
+                                if(!LibraryAddress.getText().toString().isEmpty())
+                                {
+                                    firebaseFirestore.collection("/Branches").document(document.getId()).update("LibraryAddress" , LibraryAddress.getText().toString());
+                                }
+                                if(!OwnerName.getText().toString().isEmpty())
+                                {
+                                    firebaseFirestore.collection("/Branches").document(document.getId()).update("OwnerName" , OwnerName.getText().toString());
+                                }
+                                if(!Disreption.getText().toString().isEmpty())
+                                {
+                                    firebaseFirestore.collection("/Branches").document(document.getId()).update("Discreption" , Disreption.getText().toString());
+                                }
 
+
+
+                                Toast.makeText(getActivity() , "Profile Updated" , Toast.LENGTH_SHORT).show();
+                                FragmentManager fm = getActivity().getSupportFragmentManager();
+                                fm.popBackStack();
+
+
+
+
+                            } else {
+
+                            }
                         } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+
                         }
                     }
                 });
+
+
 
 
             }

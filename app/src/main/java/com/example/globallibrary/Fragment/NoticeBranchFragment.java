@@ -17,6 +17,7 @@ import com.example.globallibrary.Models.NotificationDetails;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -31,7 +32,7 @@ public class NoticeBranchFragment extends Fragment {
     public RecyclerView.LayoutManager _layoutManager;
 
 
-    String branchName;
+    String branchId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,21 +41,13 @@ public class NoticeBranchFragment extends Fragment {
         View v =  inflater.inflate(R.layout.fragment_notice_branch, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_notification);
         RecyclerView.LayoutManager _layoutManager = new LinearLayoutManager(getContext());
-        branchName = getArguments().getString("branchName");
-        String s = "/Branches/" + branchName + "/Notifications/";
+        branchId = getArguments().getString("branchId");
+        String s = "/Branches/" + branchId + "/Notifications/";
         recyclerView.setFocusable(false);
         ArrayList<NotificationDetails> list = new ArrayList();
-        firestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            private static final String TAG = "Rohit";
+        DocumentReference docIdRef = firestore.collection(s ).document(branchId);
 
-
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document1 : task.getResult()) {
-                        if(document1.getString("BranchName").equals(branchName))
-                        {
-                            firestore.collection("/Branches/" + document1.getId() + "/Notifications/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+     firestore.collection("/Branches/" + branchId + "/Notifications/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 private static final String TAG = "Rohit";
 
 
@@ -85,24 +78,7 @@ public class NoticeBranchFragment extends Fragment {
                                     }
                                 }
                             });
-                        }
 
-
-
-
-
-
-
-
-                        ///  add items to the adapter
-                    }
-
-
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(_layoutManager);
         ///  add items to the adapter
@@ -115,7 +91,7 @@ public class NoticeBranchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        branchName = getArguments().getString("branchName");
+        branchId = getArguments().getString("branchId");
 
     }
 }

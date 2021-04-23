@@ -23,9 +23,9 @@ import com.google.firebase.auth.FirebaseAuthSettings;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.concurrent.TimeUnit;
 
@@ -35,7 +35,7 @@ public class SettingFragment extends Fragment {
      Button ChangePassward;
      Button EditProfile;
      Button SubmitButtonChangePassward;
-     String BranchName;
+     String BranchId;
      Button ChangeMethodToPasswardChangePhoneNo;
      Button ChangeMethodToPhoneNoChangePhoneNo;
      Button ChangeMethodToPhoneNoChangePassward;
@@ -71,7 +71,8 @@ public class SettingFragment extends Fragment {
         ChangePassward =view.findViewById(R.id.change_passward_setting);
         ChangePhoneNumber = view.findViewById(R.id.change_phone_number_setting);
         EditProfile = view.findViewById(R.id.edit_profile_setting);
-       BranchName = getArguments().getString("branchName");
+       BranchId = getArguments().getString("branchId");
+        Log.d("TAG", "onViewCreated: Setting 1 2 1" + BranchId);
        SubmitButtonChangePassward = view.findViewById(R.id.submit_change_passward12345);
        ChangeMethodToPasswardChangePhoneNo = view.findViewById(R.id.change_method_to_passward_change_phone_number);
        ChangeMethodToPhoneNoChangePhoneNo = view.findViewById(R.id.change_method_to_phone_number_change_phone_number);
@@ -94,7 +95,7 @@ public class SettingFragment extends Fragment {
             public void onClick(View v) {
                 Fragment fragment = new FragmentEditBranchProfile();
                 Bundle bundle = new Bundle();
-                bundle.putString("branchName", BranchName);
+                bundle.putString("branchId", BranchId);
                 fragment.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_setting,fragment).addToBackStack(null).commit();
 
@@ -113,12 +114,7 @@ public class SettingFragment extends Fragment {
                 }
             }
         });
-//        SubmitButtonChangePassward.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("TAG", "onClick: Finally");
-//            }
-//        });
+
         ChangePassward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,36 +214,43 @@ public class SettingFragment extends Fragment {
                 Log.d("TAG", "onClick: chalo yeh to chal rha hai");
                 if(ChangeMethodToPasswardChangePassward.getVisibility()==View.GONE)
                 {
-                    firebaseFirestore.collection("/BranchAuth").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        private static final String TAG = "Rohit";
+                    Log.d("TAG", "onViewCreated: Setting /BranchAuth/" + BranchId.trim());
 
+                    DocumentReference docIdRef = firebaseFirestore.collection("/BranchAuth/").document(BranchId.trim());
+                    docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult())
-                                    if (document.getString("BranchName").equals(BranchName)) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
 
-                                        if(GetCurrentPasswardChangePassward.getText().toString().equals(document.getString("Passward")))
-                                        {
 
-                                            firebaseFirestore.collection("BranchAuth").document(document.getId()).update("Passward" , GetNewPassward.getText().toString());
-                                            view.findViewById(R.id.change_passward_method).setVisibility(View.GONE);
-                                        }
-                                        else
-                                        {
-                                            GetCurrentPasswardChangePassward.setError("Wrong Passward");
-                                        }
+                                    if(GetCurrentPasswardChangePassward.getText().toString().equals(document.getString("Passward")))
+                                    {
 
+                                        firebaseFirestore.collection("BranchAuth").document(BranchId.trim()).update("Passward" , GetNewPassward.getText().toString());
+                                        view.findViewById(R.id.change_passward_method).setVisibility(View.GONE);
+                                    }
+                                    else
+                                    {
+                                        GetCurrentPasswardChangePassward.setError("Wrong Passward");
                                     }
 
+                                } else {
+
+                                    Log.d("TAG", "onComplete: does not exist");
+
+                                }
                             } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
+
                             }
                         }
                     });
                 }
                 else
                 {
+
+                    Log.d("TAG", "onViewCreated: Setting " + BranchId);
 
                     if (OtpChangePassward.getText().toString().isEmpty()) {
                         Toast.makeText(getActivity(), "otp is not written", Toast.LENGTH_LONG).show();
@@ -267,46 +270,50 @@ public class SettingFragment extends Fragment {
                 if(ChangeMethodToPasswardChangePhoneNo.getVisibility()==View.GONE)
                 {
 
-
-                    firebaseFirestore.collection("/BranchAuth").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        private static final String TAG = "Rohit";
-
+                    DocumentReference docIdRef = firebaseFirestore.collection("BranchAuth/" ).document(BranchId);
+                    docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult())
-                                    if (document.getString("BranchName").equals(BranchName)) {
-                                        if(document.getString("Passward").equals(GetCurrentPasswardChangePhoneNo.getText().toString()))
-                                        {
-                                            firebaseFirestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                private static final String TAG = "Rohit";
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
 
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        for (QueryDocumentSnapshot document : task.getResult())
-                                                            if (document.getString("BranchName").equals(BranchName)) {
-                                                               firebaseFirestore.collection("Branches").document(document.getId()).update("ContactNumber" , GetNewNumber.getText().toString());
-                                                               view.findViewById(R.id.change_phone_number_method).setVisibility(View.GONE);
 
-                                                            }
+                                    if(GetCurrentPasswardChangePassward.getText().toString().equals(document.getString("Passward")))
+                                    {
+
+                                        DocumentReference docIdRef = firebaseFirestore.collection("Branches/" ).document(BranchId);
+                                        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    DocumentSnapshot document = task.getResult();
+                                                    if (document.exists()) {
+                                                        firebaseFirestore.collection("Branches").document(BranchId).update("ContactNumber" , GetNewNumber.getText().toString());
+                                                        view.findViewById(R.id.change_phone_number_method).setVisibility(View.GONE);
+
+
+
 
                                                     } else {
-                                                        Log.d(TAG, "Error getting documents: ", task.getException());
+
                                                     }
+                                                } else {
+
                                                 }
-                                            });
-                                        }
-                                        else
-                                        {
-                                            GetCurrentPasswardChangePhoneNo.setError("Wrong Passward");
-                                        }
-
-
+                                            }
+                                        });
+                                    }
+                                    else
+                                    {
+                                        GetCurrentPasswardChangePassward.setError("Wrong Passward");
                                     }
 
+                                } else {
+
+                                }
                             } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
+
                             }
                         }
                     });
@@ -372,52 +379,54 @@ public class SettingFragment extends Fragment {
                         if (task.isSuccessful()) {
                             if(GetNewNumber.getText().toString()!=null) {
 
-
-                                firebaseFirestore.collection("Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    private static final String TAG = "Rohit";
-
+                                DocumentReference docIdRef = firebaseFirestore.collection("Branches/" ).document(BranchId);
+                                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         if (task.isSuccessful()) {
-                                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                                if (BranchName.equals(document.getString("BranchName"))) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                firebaseFirestore.collection("Branches").document(BranchId).update("ContactNumber", GetNewNumber.getText().toString());
+                                                getView().findViewById(R.id.change_phone_number_method).setVisibility(View.GONE);
 
 
-                                                    firebaseFirestore.collection("Branches").document(document.getId()).update("ContactNumber", GetNewNumber.getText().toString());
-                                                    getView().findViewById(R.id.change_phone_number_method).setVisibility(View.GONE);
 
 
-                                                }
+                                            } else {
+
                                             }
-
                                         } else {
-                                            Log.d(TAG, "Error getting documents: ", task.getException());
+
                                         }
                                     }
                                 });
+
                             }
                             else {
-                                firebaseFirestore.collection("BranchAuth").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    private static final String TAG = "Rohit";
 
+
+                                DocumentReference docIdRef = firebaseFirestore.collection("BranchAuth/" ).document(BranchId);
+                                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         if (task.isSuccessful()) {
-                                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                                if (BranchName.equals(document.getString("BranchName"))) {
-
-                                                    firebaseFirestore.collection("BranchAuth").document(document.getId()).update("Passward", GetNewPassward.getText().toString());
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                firebaseFirestore.collection("BranchAuth").document(BranchId).update("Passward", GetNewPassward.getText().toString());
                                                     getView().findViewById(R.id.change_passward_method).setVisibility(View.GONE);
 
 
-                                                }
-                                            }
 
+
+                                            } else {
+
+                                            }
                                         } else {
-                                            Log.d(TAG, "Error getting documents: ", task.getException());
+
                                         }
                                     }
                                 });
+
                             }
 
                         } else {

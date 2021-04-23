@@ -1,6 +1,7 @@
 package com.example.globallibrary.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +14,16 @@ import androidx.fragment.app.Fragment;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class ProfileStudentDetailsFragment extends Fragment {
-    public static ProfileStudentDetailsFragment newInstance(String PhoneNo) {
+    public static ProfileStudentDetailsFragment newInstance(String[] s1) {
         ProfileStudentDetailsFragment profileStudentDetailsFragment = new ProfileStudentDetailsFragment();
         Bundle args = new Bundle();
-        args.putString("PhoneNo", PhoneNo);
+        args.putString("StudentId", s1[0]);
+        args.putString("BranchId" , s1[1]);
         profileStudentDetailsFragment.setArguments(args);
         return profileStudentDetailsFragment;
     }
@@ -31,7 +33,8 @@ public class ProfileStudentDetailsFragment extends Fragment {
     TextView ResidentialAddress;
     TextView ContactNumber;
     TextView EmailAddress;
-    String PhoneNo = "";
+    String StudentId = "";
+    String BranchId;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
 
@@ -50,53 +53,33 @@ public class ProfileStudentDetailsFragment extends Fragment {
         ResidentialAddress = view.findViewById(R.id.residential_address_student_profile);
         ContactNumber = view.findViewById(R.id.contact_number_student_profile);
         EmailAddress = view.findViewById(R.id.email_address_student_profile);
-        PhoneNo  = getArguments().getString("PhoneNo");
-        firebaseFirestore.collection("Students/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        StudentId  = getArguments().getString("StudentId");
+        BranchId = getArguments().getString("BranchId");
+        DocumentReference docIdRef = firebaseFirestore.collection("/Branches/" + BranchId.trim() + "/StudentDetails/" ).document(StudentId.trim());
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful())
-                {
-                    for(QueryDocumentSnapshot doucment1 : task.getResult())
-                    {
-                        if(doucment1.getString("ContactNumber").equals(PhoneNo))
-                        {
-                            firebaseFirestore.collection("Branches/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if(task.isSuccessful())
-                                    {
-                                        for(QueryDocumentSnapshot document2 : task.getResult())
-                                        {
-                                            if(document2.getString("BranchName").equals(doucment1.getString("BranchName")))
-                                            {
-                                                firebaseFirestore.collection("Branches/" + document2.getId() + "/StudentDetails/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                        if(task.isSuccessful())
-                                                        {
-                                                            for(QueryDocumentSnapshot document3 : task.getResult())
-                                                            {
-                                                                if(document3.getString("ContactNumber").equals(PhoneNo))
-                                                                {
-                                                                    ContactNumber.setText(document3.getString("ContactNumber"));
-                                                                    BranchName.setText(document3.getString("BranchName"));
-                                                                    DOB.setText(document3.getString("DateOFBirth"));
-                                                                    ResidentialAddress.setText(document3.getString("ResidentialAddress"));
-                                                                    EmailAddress.setText(document3.getString("EmailAddress"));
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    }
-                                }
-                            });
-                        }
-                    }
-                }
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
 
+
+                        ContactNumber.setText(document.getString("ContactNumber"));
+                        BranchName.setText(document.getString("BranchName"));
+                        DOB.setText(document.getString("DateOFBirth"));
+                        ResidentialAddress.setText(document.getString("ResidentialAddress"));
+                        EmailAddress.setText(document.getString("EmailAddress"));
+
+
+
+                    } else {
+
+                        Log.d("TAG", "onComplete: not possible" );
+
+                    }
+                } else {
+
+                }
             }
         });
 

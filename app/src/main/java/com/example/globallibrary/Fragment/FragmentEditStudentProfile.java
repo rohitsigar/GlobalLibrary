@@ -1,6 +1,7 @@
 package com.example.globallibrary.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +17,20 @@ import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class FragmentEditStudentProfile extends Fragment {
-    public static FragmentEditStudentProfile newInstance(String PhoneNo) {
+    public static FragmentEditStudentProfile newInstance(String[] s1) {
         FragmentEditStudentProfile fragmentEditstudentProfile = new FragmentEditStudentProfile();
         Bundle args = new Bundle();
-        args.putString("PhoneNo", PhoneNo);
+        args.putString("StudentId", s1[0]);
+        args.putString("BranchId", s1[1]);
         fragmentEditstudentProfile.setArguments(args);
         return fragmentEditstudentProfile;
     }
+
     ImageButton TickButton;
     String BranchName;
     TextInputEditText StudentName;
@@ -38,8 +41,8 @@ public class FragmentEditStudentProfile extends Fragment {
     TextInputEditText Discreption;
 
 
-
-    String PhoneNo = "";
+    String StudentId = "";
+    String BranchId;
     FirebaseFirestore firebaseFirestore;
 
 
@@ -54,98 +57,67 @@ public class FragmentEditStudentProfile extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         firebaseFirestore = FirebaseFirestore.getInstance();
-        PhoneNo = getArguments().getString("PhoneNo");
+        StudentId = getArguments().getString("StudentId");
+        BranchId = getArguments().getString("BranchId");
+        Log.d("TAG", "onViewCreated: StudentId " + StudentId + " BranchId "  + BranchId);
         StudentName = view.findViewById(R.id.change_student_name_edit_profile_student);
         ResidentialAddress = view.findViewById(R.id.change_student_residential_address_edit_student_profile);
-        EmailAddress  = view.findViewById(R.id.change_student_email_address_edit_student_profile);
+        EmailAddress = view.findViewById(R.id.change_student_email_address_edit_student_profile);
         Dob = view.findViewById(R.id.change_student_dob_edit_student_profile);
         ContactNumber = view.findViewById(R.id.change_student_number_edit_student_profile);
         Discreption = view.findViewById(R.id.change_discreption_edit_student_profile);
 
         TickButton = view.findViewById(R.id.tick_button_student);
-        PhoneNo  = getArguments().getString("PhoneNo");
         TickButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseFirestore.collection("Students/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+                DocumentReference docIdRef = firebaseFirestore.collection("/Branches/" + BranchId.trim() + "/StudentDetails/").document(StudentId.trim());
+                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful())
-                        {
-                            for(QueryDocumentSnapshot doucment1 : task.getResult())
-                            {
-                                if(doucment1.getString("ContactNumber").equals(PhoneNo))
-                                {
-                                    firebaseFirestore.collection("Branches/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if(task.isSuccessful())
-                                            {
-                                                for(QueryDocumentSnapshot document2 : task.getResult())
-                                                {
-                                                    if(document2.getString("BranchName").equals(doucment1.getString("BranchName")))
-                                                    {
-                                                        firebaseFirestore.collection("Branches/" + document2.getId() + "/StudentDetails/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                if(task.isSuccessful())
-                                                                {
-                                                                    for(QueryDocumentSnapshot document3 : task.getResult())
-                                                                    {
-                                                                        if(document3.getString("ContactNumber").equals(PhoneNo))
-                                                                        {
-                                                                           if(!ContactNumber.getText().toString().isEmpty())
-                                                                           {
-                                                                               firebaseFirestore.collection("Branches/" + document2.getId() + "/StudentDetails/").document(document3.getId()).update("ContactNumber" , ContactNumber.getText().toString() );
-                                                                           }
-                                                                            if(!StudentName.getText().toString().isEmpty())
-                                                                            {
-                                                                                firebaseFirestore.collection("Branches/" + document2.getId() + "/StudentDetails/").document(document3.getId()).update("FullName" , StudentName.getText().toString() );
-                                                                            }
-                                                                            if(!EmailAddress.getText().toString().isEmpty())
-                                                                            {
-                                                                                firebaseFirestore.collection("Branches/" + document2.getId() + "/StudentDetails/").document(document3.getId()).update("EmailAddress" , EmailAddress.getText().toString() );
-                                                                            }
-                                                                            if(!ResidentialAddress.getText().toString().isEmpty())
-                                                                            {
-                                                                                firebaseFirestore.collection("Branches/" + document2.getId() + "/StudentDetails/").document(document3.getId()).update("ResidentialAddress" , ResidentialAddress.getText().toString() );
-                                                                            }
-                                                                            if(!Dob.getText().toString().isEmpty())
-                                                                            {
-                                                                                firebaseFirestore.collection("Branches/" + document2.getId() + "/StudentDetails/").document(document3.getId()).update("DateOfBirth" , Dob.getText().toString() );
-                                                                            }
-                                                                            if(!Discreption.getText().toString().isEmpty())
-                                                                            {
-                                                                                firebaseFirestore.collection("Branches/" + document2.getId() + "/StudentDetails/").document(document3.getId()).update("Discreption" , Discreption.getText().toString() );
-                                                                            }
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
 
-                                                                            Toast.makeText(getActivity() , "Profile Is Updated " , Toast.LENGTH_SHORT).show();
-                                                                            FragmentManager fm = getActivity().getSupportFragmentManager();
-                                                                            fm.popBackStack();
 
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        });
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    });
+                                if (!ContactNumber.getText().toString().isEmpty()) {
+                                    firebaseFirestore.collection("Branches/" + BranchId.trim() + "/StudentDetails/").document(StudentId.trim()).update("ContactNumber", ContactNumber.getText().toString());
                                 }
-                            }
-                        }
+                                if (!StudentName.getText().toString().isEmpty()) {
+                                    firebaseFirestore.collection("Branches/" + BranchId.trim() + "/StudentDetails/").document(StudentId.trim()).update("FullName", StudentName.getText().toString());
+                                }
+                                if (!EmailAddress.getText().toString().isEmpty()) {
+                                    firebaseFirestore.collection("Branches/" + BranchId.trim() + "/StudentDetails/").document(StudentId.trim()).update("EmailAddress", EmailAddress.getText().toString());
+                                }
+                                if (!ResidentialAddress.getText().toString().isEmpty()) {
+                                    firebaseFirestore.collection("Branches/" + BranchId.trim() + "/StudentDetails/").document(StudentId.trim()).update("ResidentialAddress", ResidentialAddress.getText().toString());
+                                }
+                                if (!Dob.getText().toString().isEmpty()) {
+                                    firebaseFirestore.collection("Branches/" + BranchId.trim() + "/StudentDetails/").document(StudentId.trim()).update("DateOfBirth", Dob.getText().toString());
+                                }
+                                if (!Discreption.getText().toString().isEmpty()) {
+                                    firebaseFirestore.collection("Branches/" + BranchId.trim() + "/StudentDetails/").document(StudentId.trim()).update("Discreption", Discreption.getText().toString());
+                                }
 
+                                Toast.makeText(getActivity(), "Profile Is Updated ", Toast.LENGTH_SHORT).show();
+                                FragmentManager fm = getActivity().getSupportFragmentManager();
+                                fm.popBackStack();
+
+
+                            } else {
+
+                                Log.d("TAG", "onComplete: not possible");
+
+                            }
+                        } else {
+
+                        }
                     }
                 });
 
+
             }
         });
-
-
-
-
-
     }
 }

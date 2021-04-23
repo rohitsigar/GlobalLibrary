@@ -4,18 +4,18 @@ public class ShortStudentDetails {
     public String StudentName;
     public String Discreption;
     public String PhootoURL;
-    public String PhoneNo;
+    public String StudentId;
     public String Color;
     public ShortStudentDetails() {
         // Default constructor required
     }
 
 
-    public ShortStudentDetails(String StudentName, String Discreption, String PHotoURL , String PhoneNo , String Color) {
+    public ShortStudentDetails(String StudentName, String Discreption, String PHotoURL , String StudentId , String Color) {
         this.StudentName = StudentName;
         this.Discreption = Discreption;
         this.PhootoURL = PHotoURL;
-        this.PhoneNo = PhoneNo;
+        this.StudentId = StudentId;
         this.Color = Color;
 
     }
@@ -32,8 +32,8 @@ public class ShortStudentDetails {
         return PhootoURL;
     }
 
-    public String getPhoneNo() {
-        return PhoneNo;
+    public String getStudentId() {
+        return StudentId;
     }
 
     public String getColor() {

@@ -14,11 +14,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/branchSlider1"
-                android:layout_width="match_parent"
-                android:layout_marginTop="30dp"
-                android:layout_height="180dp"/>
+
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -69,6 +65,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_margin="5dp"
+                    android:id="@+id/show_student_attandance"
                     app:cardCornerRadius="20dp"
                     app:cardBackgroundColor="#82B7BD"
                     android:layout_height="match_parent">

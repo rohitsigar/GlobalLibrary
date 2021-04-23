@@ -37,7 +37,7 @@ public class BranchOwnerLoginFragment extends Fragment {
 
     private static final String KEY_ACCESS = "access";
     private static final String SHARED_PREF = "PREF";
-    private static final String KEY_BRANCH_NAME = "name";
+    private static final String KEY_BRANCH_ID = "id";
     SharedPreferences sharedPreferences;
 
     @Override
@@ -80,7 +80,8 @@ public class BranchOwnerLoginFragment extends Fragment {
                                     {
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.putString(KEY_ACCESS , "branchAccess");
-                                        editor.putString(KEY_BRANCH_NAME , branchName.getText().toString());
+                                        editor.putString(KEY_BRANCH_ID , document.getId().trim());
+                                        Log.d("TAG", "onComplete: checking " + document.getId());
                                         editor.apply();
                                         Intent intent = new Intent(getActivity(), GeneralActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

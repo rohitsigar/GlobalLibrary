@@ -7,15 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.globallibrary.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -25,7 +20,7 @@ public class NewNotification extends AppCompatActivity {
     EditText Title;
     EditText Discreption;
     ImageButton send;
-    String BranchName;
+    String BranchId;
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     @Override
@@ -36,20 +31,14 @@ public class NewNotification extends AppCompatActivity {
         Title = findViewById(R.id.title_new_notification);
         Discreption = findViewById(R.id.body_new_notification);
         Intent intent = getIntent();
-        BranchName = intent.getStringExtra("branchName");
+        BranchId = intent.getStringExtra("branchId");
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseFirestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    private static final String TAG = "Rohit";
 
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                if(document.getString("BranchName").equals(BranchName))
-                                {
+
+
                                     java.util.Date currentTime = Calendar.getInstance().getTime();
                                     String time  = currentTime.toString().trim();
                                     String day = time.substring(0,3);
@@ -62,27 +51,18 @@ public class NewNotification extends AppCompatActivity {
                                     NewNotification.put("Day", day);
                                     NewNotification.put("Date", date);
                                     NewNotification.put("Time", CurrentT);
-                                    String autoID = firebaseFirestore.collection("/Branches").document(document.getId()).collection("Notifications").document().getId();
+                                    String autoID = firebaseFirestore.collection("/Branches").document(BranchId).collection("Notifications").document().getId();
                                     Log.d("Checking", "onComplete: " + autoID);
-                                    firebaseFirestore.collection("/Branches").document(document.getId()).collection("Notifications").document(autoID).set(NewNotification);
+                                    firebaseFirestore.collection("/Branches").document(BranchId).collection("Notifications").document(autoID).set(NewNotification);
                                     Intent intent = new Intent( NewNotification.this,GeneralActivity.class );
                                     intent.putExtra("user","branchAccess");
-                                    intent.putExtra("branchName" , BranchName);
+                                    intent.putExtra("branchId" , BranchId);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
-
-
-                                }
-                            }
-
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
             }
         });
+
+
 
 
     }
@@ -90,7 +70,7 @@ public class NewNotification extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(this ,GeneralActivity.class );
         intent.putExtra("user","branchAccess");
-        intent.putExtra("branchName" , BranchName);
+        intent.putExtra("branchId" , BranchId);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         super.onBackPressed();

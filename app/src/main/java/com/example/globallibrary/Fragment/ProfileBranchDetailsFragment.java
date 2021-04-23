@@ -1,7 +1,6 @@
 package com.example.globallibrary.Fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +13,17 @@ import androidx.fragment.app.Fragment;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class ProfileBranchDetailsFragment extends Fragment {
-    public static ProfileBranchDetailsFragment newInstance(String BranchName) {
+    public static ProfileBranchDetailsFragment newInstance(String BranchId) {
         ProfileBranchDetailsFragment profileBranchDetailsFragment = new ProfileBranchDetailsFragment();
         Bundle args = new Bundle();
-        args.putString("branchName", BranchName);
+        args.putString("branchId", BranchId);
         profileBranchDetailsFragment.setArguments(args);
         return profileBranchDetailsFragment;
     }
@@ -33,8 +32,8 @@ public class ProfileBranchDetailsFragment extends Fragment {
     TextView EmailAddress;
     TextView ContactNumber;
     TextView OwnerName;
-    String BranchName;
-    String URL  = "";
+    String BranchId;
+
 
 
     // request code
@@ -56,40 +55,36 @@ public class ProfileBranchDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        BranchName = getArguments().getString("branchName");
+        BranchId = getArguments().getString("branchId");
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        URL = "Branches/" + BranchName;
         OwnerName = view.findViewById(R.id.owner_name);
         ContactNumber = view.findViewById(R.id.contact_number);
         Address = view.findViewById(R.id.library_address);
         EmailAddress = view.findViewById(R.id.email_address);
-        firebaseFirestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            private static final String TAG = "Rohit";
-
+        DocumentReference docIdRef = firebaseFirestore.collection("Branches/" ).document(BranchId);
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if(document.getString("BranchName").equals(BranchName))
-                        {
-                            Log.d(TAG, "onComplete: hua ?");
-                            OwnerName.setText(document.getString("OwnerName"));
-                            ContactNumber.setText(document.getString("ContactNumber"));
-                            EmailAddress.setText(document.getString("EmailAddress"));
-                            Address.setText(document.getString("LibraryAddress"));
-
-                        }
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
 
 
+                        OwnerName.setText(document.getString("OwnerName"));
+                        ContactNumber.setText(document.getString("ContactNumber"));
+                        EmailAddress.setText(document.getString("EmailAddress"));
+                        Address.setText(document.getString("LibraryAddress"));
+
+                    } else {
 
                     }
-
                 } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
+
                 }
             }
         });
+
 
 
 

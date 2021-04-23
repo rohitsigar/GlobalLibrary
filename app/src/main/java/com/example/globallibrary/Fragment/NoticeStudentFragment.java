@@ -26,7 +26,8 @@ import java.util.ArrayList;
 
 public class NoticeStudentFragment extends Fragment {
 
-    String phoneNo;
+    String StudentId;
+    String BranchId;
     String branchName;
     public RecyclerView recyclerView;
     public RecyclerView.Adapter _mAdapter;
@@ -38,38 +39,17 @@ public class NoticeStudentFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_notice_student, container, false);
-        phoneNo = getArguments().getString("PhoneNo");
-        Log.d("TAG", "onCreateView: phoneNo" + phoneNo);
+        StudentId = getArguments().getString("StudentId");
+        BranchId = getArguments().getString("BranchId");
+        Log.d("TAG", "onCreateView: phoneNo" + StudentId);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_notification2);
      _layoutManager = new LinearLayoutManager(getContext());
         branchName = getArguments().getString("branchName");
         recyclerView.setFocusable(false);
         ArrayList<NotificationDetails> list = new ArrayList();
 
-        firestore.collection("/Students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            private static final String TAG = "Rohit";
-
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) { //by triversing student collection i am getting branch name using phone number
-                        if(document.getString("ContactNumber").equals(phoneNo)) // of student
-                        {
-                            branchName = document.getString("BranchName");
-                            firestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                private static final String TAG = "Rohit";
-
-
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document1 : task.getResult()) {
-                                            if(document1.getString("BranchName").equals(branchName))
-                                            {
-                                                firestore.collection("/Branches/" + document1.getId() + "/Notifications/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                firestore.collection("/Branches/" + BranchId.trim()+ "/Notifications/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                     private static final String TAG = "Rohit";
-
-
                                                     @Override
                                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                         if (task.isSuccessful()) {
@@ -79,11 +59,7 @@ public class NoticeStudentFragment extends Fragment {
                                                                 list.add(new NotificationDetails(document2.getString("Title") , document2.getString("Discreption")
                                                                         , document2.getString("Time") ,document2.getString("Date"),document2.getString("Day")));
                                                                 Log.d(TAG, "onSuccess: checking" + list.size());
-
                                                                 _mAdapter.notifyDataSetChanged();
-
-
-                                                                ///  add items to the adapter
                                                             }
 
 
@@ -92,34 +68,6 @@ public class NoticeStudentFragment extends Fragment {
                                                         }
                                                     }
                                                 });
-                                            }
-
-
-
-
-
-
-
-
-                                            ///  add items to the adapter
-                                        }
-
-
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-                                }
-                            });
-
-
-                        }
-
-                    }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(_layoutManager);
         ///  add items to the adapter

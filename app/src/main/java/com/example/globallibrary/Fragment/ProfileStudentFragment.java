@@ -28,9 +28,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -45,7 +45,8 @@ public class ProfileStudentFragment extends Fragment {
 
     private static String StudentName1 = "";
     private static String BranchName1 = "";
-    private static String PhoneNo = "";
+    private static String StudentId = "";
+    private static String BranchId;
     TabLayout tabLayout;
     ViewPager viewPager;
     PageAdaptorStudentProfile viewPagerAdapter;
@@ -88,47 +89,26 @@ public class ProfileStudentFragment extends Fragment {
         ChangeImage = view.findViewById(R.id.change_image_button_student);
         StudentName  = view.findViewById(R.id.id_fullName_TextView_student);
         Discreption  = view.findViewById(R.id.student_discreption);
-                PhoneNo = getArguments().getString("PhoneNo");
+                StudentId = getArguments().getString("StudentId");
+                BranchId = getArguments().getString("BranchId");
+        Log.d("TAG", "onViewCreated: StudentId " + StudentId + " BranchId "  + BranchId);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        firebaseFirestore.collection("Students/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful())
-                {
-                    for(QueryDocumentSnapshot document1: task.getResult())
-                    {
-                        if(document1.getString("ContactNumber").equals(PhoneNo))
-                        {
 
-                           firebaseFirestore.collection("Branches/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                               @Override
-                               public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                   if(task.isSuccessful())
-                                   {
-                                       for(QueryDocumentSnapshot document2 : task.getResult())
-                                       {
-                                           if(document2.getString("BranchName").equals(document1.getString("BranchName")))
-                                           {
-                                               firebaseFirestore.collection("Branches/" + document2.getId() + "/StudentDetails/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                   @Override
-                                                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                       if(task.isSuccessful())
-                                                       {
-                                                           for(QueryDocumentSnapshot document3 : task.getResult())
-                                                           {
-                                                               if(document3.getString("ContactNumber").equals(PhoneNo))
-                                                               {
-                                                                   StudentName.setText(document3.getString("FullName"));
-                                                                   Discreption.setText(document3.getString("Discreption"));
-                                                                    URL = "Student/" + document3.getId();
+        DocumentReference docIdRef = firebaseFirestore.collection("/Branches/" + BranchId.trim() + "/StudentDetails" ).document(StudentId.trim());
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        StudentName.setText(document.getString("FullName"));
+                                                                   Discreption.setText(document.getString("Discreption"));
+                                                                    URL = "Student/" + StudentId;
                                                                    storageReference.child(URL).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                                        @Override
                                                                        public void onSuccess(Uri uri) {
-                                                                           // Got the download URL for 'users/me/profile.png'
-//                Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
-                                                                           /// The string(file link) that you need
-//
                                                                            Uri downloadUrl = uri;
                                                                            String s = downloadUrl.toString();
                                                                            Log.d("hello guys", "onSuccess: " + s);
@@ -143,21 +123,17 @@ public class ProfileStudentFragment extends Fragment {
                                                                        }
                                                                    });
 
-                                                               }
-                                                           }
-                                                       }
-                                                   }
-                                               });
-                                           }
-                                       }
-                                   }
 
-                               }
-                           });
-                        }
+
+
+                    } else {
+
+                        Log.d("TAG", "onComplete: not possible" );
+
                     }
-                }
+                } else {
 
+                }
             }
         });
         ChangeImage.setOnClickListener(new View.OnClickListener() {
@@ -181,9 +157,12 @@ public class ProfileStudentFragment extends Fragment {
 
 
     }
-    public static String kuhaName()
+    public static String[] kuhaName()
     {
-        return PhoneNo;
+        String[] s1  = new String[2];
+        s1[0] = StudentId;
+        s1[1] = BranchId;
+        return s1;
     }
     private void SelectImage()
     {

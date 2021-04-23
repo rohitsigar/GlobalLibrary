@@ -36,9 +36,9 @@ import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -59,27 +59,26 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
     androidx.appcompat.widget.Toolbar toolbar;
     ChipNavigationBar bottomNavBar;
     String access;
-    String branchName;
-    String phoneNo;
+    String branchId;
+    String studentId;
     ImageButton NewNotification123;
 
     private static final String KEY_ACCESS = "access";
     private static final String SHARED_PREF = "PREF";
-    private static final String KEY_BRANCH_NAME = "name";
-    private static final String KEY_PHONE_NO = "number";
+    private static final String KEY_BRANCH_ID = "id";
+    private static final String KEY_STUDENT_ID = "id_student";
+    private static final String KEY_STUDENT_B_ID = "id_branch";
     SharedPreferences sharedPreferences;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-// /       getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        getSupportActionBar().setCustomView(R.layout.main_page_toolbar);
         super.onCreate(savedInstanceState);
 
 
         setContentView(R.layout.activity_general);
 
         sharedPreferences  = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
-        Log.d("TAG", "onCreate: cheking1" + sharedPreferences.getString(KEY_PHONE_NO , null));
+        Log.d("TAG", "onCreate: cheking1" + sharedPreferences.getString(KEY_STUDENT_ID , null));
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.slider);
 //        BranchImage = findViewById(R.id.toolbar_branch_Image);
@@ -101,7 +100,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
             public void onClick(View v) {
                 Log.d("TAG", "onClick: " + "possible");
                 Intent intent = new Intent(GeneralActivity.this, NewNotification.class);
-                intent.putExtra("branchName", branchName);
+                intent.putExtra("branchId", branchId);
                 startActivity(intent);
 
             }
@@ -121,36 +120,68 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
         access = sharedPreferences.getString(KEY_ACCESS , null);
         Log.d("TAG", "onCreate: accessVal" + access);
         storage = FirebaseStorage.getInstance();
-        phoneNo = sharedPreferences.getString(KEY_PHONE_NO , null);
-        branchName = sharedPreferences.getString(KEY_BRANCH_NAME , null);
+        studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
+        branchId = sharedPreferences.getString(KEY_BRANCH_ID , null);
+        Log.d("TAG", "onCreate: checking 1 2" + branchId);
         storageReference = storage.getReference();
         if (access.equals("StudentAccess")) {
 //            phoneNo = getIntent().getStringExtra("contactNumber");
-            phoneNo = sharedPreferences.getString(KEY_PHONE_NO , null);
+            studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
+            branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
+
+                            DocumentReference docIdRef = firebaseFirestore.collection("/Branches/" + branchId.trim() + "/StudentDetails" ).document(studentId.trim());
+                            docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+
+
+                                            BranchNameAtNarBar.setText(document.getString("FullName"));
+                                            AddressAtNavBar.setText(document.getString("Discreption"));
+
+                                        } else {
+
+                                            Log.d("TAG", "onComplete: not possible" );
+
+                                        }
+                                    } else {
+
+                                    }
+                                }
+                            });
+
             Bundle bundle = new Bundle();
-            Log.d("TAG", "onCreate: checking" + sharedPreferences.getString(KEY_PHONE_NO , null));
-            bundle.putString("PhoneNo", phoneNo);
+            Log.d("TAG", "onCreate: checking" + sharedPreferences.getString(KEY_STUDENT_ID , null));
+            bundle.putString("StudentId", studentId);
+            bundle.putString("BranchId" , branchId);
             HomeStudentFragment homeStudentFragment = new HomeStudentFragment();
             homeStudentFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeStudentFragment).addToBackStack(null).commit();
         } else {
 //            branchName = getIntent().getStringExtra("branchName");
-            branchName = sharedPreferences.getString(KEY_BRANCH_NAME , null);
-            Log.d("TAG", "onCreate: branchName" + branchName);
-            firebaseFirestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                private static final String TAG = "Rohit";
-
+            branchId = sharedPreferences.getString(KEY_BRANCH_ID , null);
+            Log.d("TAG", "onCreate: branchName /Branches/" + branchId.trim());
+            DocumentReference docIdRef = firebaseFirestore.collection("/Branches/" ).document(branchId.trim());
+            docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult())
-                            if (document.getString("BranchName").equals(branchName)) {
-                                BranchNameAtNarBar.setText(branchName);
-                                AddressAtNavBar.setText(document.getString("LibraryAddress"));
-                            }
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
 
+
+                            BranchNameAtNarBar.setText(document.getString("BranchName"));
+                            AddressAtNavBar.setText(document.getString("LibraryAddress"));
+
+                        } else {
+
+                            Log.d("TAG", "onComplete: not possible" );
+
+                        }
                     } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
+
                     }
                 }
             });
@@ -159,7 +190,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
 
             ToolbarText.setText("Home");
             Bundle bundle = new Bundle();
-            bundle.putString("branchName", branchName);
+            bundle.putString("branchName", branchId);
             HomeBranchFragment homeBranchFragment = new HomeBranchFragment();
             homeBranchFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeBranchFragment).addToBackStack(null).commit();
@@ -190,11 +221,15 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                     case R.id.slider_setting:
                         if (access == "StudentAccess") {
                             Intent intent = new Intent(GeneralActivity.this, Settings.class);
-                            intent.putExtra("phoneNo", phoneNo);
+                            studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
+                            branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
+                            intent.putExtra("StudentId", studentId);
+                            intent.putExtra("BranchId" , branchId);
                             startActivity(intent);
                         } else {
                             Intent intent = new Intent(GeneralActivity.this, Settings.class);
-                            intent.putExtra("branchName", branchName);
+                            intent.putExtra("branchId", branchId);
+                            Log.d("TAG", "onNavigationItemSelected: setting activity" + branchId);
                             startActivity(intent);
                         }
 
@@ -227,14 +262,17 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Home");
                             findViewById(R.id.add_new_notification).setVisibility(View.GONE);
-                            bundle.putString("PhoneNo" , phoneNo);
+                            studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
+                            branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
+                            bundle.putString("StudentId" , studentId);
+                            bundle.putString("BranchId" , branchId);
                             fragment.setArguments(bundle);
                         } else {
                             fragment = new HomeBranchFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Home");
                             findViewById(R.id.add_new_notification).setVisibility(View.GONE);
-                            bundle.putString("branchName", branchName);
+                            bundle.putString("branchId", branchId);
                             fragment.setArguments(bundle);
                         }
                         break;
@@ -242,14 +280,17 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         if (access.equals("StudentAccess")) {
                             fragment = new ProfileStudentFragment();
                             Bundle bundle = new Bundle();
-                            bundle.putString("PhoneNo", phoneNo);
+                            studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
+                            branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
+                            bundle.putString("StudentId", studentId);
+                            bundle.putString("BranchId" , branchId);
                             fragment.setArguments(bundle);
                         } else {
                             fragment = new BranchProfileFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Profile");
                             findViewById(R.id.add_new_notification).setVisibility(View.GONE);
-                            bundle.putString("branchName", branchName);
+                            bundle.putString("branchId", branchId);
                             fragment.setArguments(bundle);
                         }
                         break;
@@ -258,15 +299,18 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                             fragment = new NoticeStudentFragment();
                             ToolbarText.setText("Notice");
                             findViewById(R.id.add_new_notification).setVisibility(View.GONE);
+                            studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
+                            branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
                             Bundle bundle = new Bundle();
-                            bundle.putString("PhoneNo", phoneNo);
+                            bundle.putString("StudentId", studentId);
+                            bundle.putString("BranchId" , branchId);
                             fragment.setArguments(bundle);
                         } else {
                             fragment = new NoticeBranchFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Notice");
                             findViewById(R.id.add_new_notification).setVisibility(View.VISIBLE);
-                            bundle.putString("branchName", branchName);
+                            bundle.putString("branchId", branchId);
                             fragment.setArguments(bundle);
                         }
                         break;
@@ -274,14 +318,17 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         if (access.equals("StudentAccess")) {
                             fragment = new QuizStudentFragment();
                             Bundle bundle = new Bundle();
-                            bundle.putString("PhoneNo", phoneNo);
+                            studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
+                            branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
+                            bundle.putString("StudentId", studentId);
+                            bundle.putString("BranchId" , branchId);
                             fragment.setArguments(bundle);
                         } else {
                             fragment = new QuizBranchFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Quiz");
                             findViewById(R.id.add_new_notification).setVisibility(View.GONE);
-                            bundle.putString("branchName", branchName);
+                            bundle.putString("branchId", branchId);
                             fragment.setArguments(bundle);
                         }
 
