@@ -95,9 +95,8 @@
         android:layout_height="0dp"
         android:layout_weight="70"
         android:layout_margin="5dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".Fragment.ProfileStudentDetailsFragment"
-        android:weightSum="6"
+        android:weightSum="7"
         android:orientation="vertical">
 
         <LinearLayout
@@ -245,7 +244,24 @@
                 android:textColor="@color/color_primary_text"
                 android:textSize="16sp" />
 
+
         </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/change_student_fee"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:elevation="12dp"
+
+            android:text="Change Fee"
+            android:textColor="@color/black"
+            android:visibility="visible"
+            app:rippleColor="@color/black"
+            app:strokeColor="@color/black" />
     </LinearLayout>
 
 

@@ -29,7 +29,6 @@ import java.util.List;
 public class StudentRegistrationFragment extends Fragment {
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     TextInputEditText fullName;
-    TextInputEditText userName;
     TextInputEditText contactNumber;
     TextInputEditText emailAddress;
     TextInputEditText residentialAddress;

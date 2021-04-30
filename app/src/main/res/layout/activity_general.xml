@@ -45,18 +45,29 @@
 
 
             <com.ismaeldivita.chipnavigation.ChipNavigationBar
-                android:id="@+id/bottom_navbar"
+                android:id="@+id/bottom_navbar_student"
                 android:layout_width="match_parent"
                 android:layout_gravity="bottom"
                 android:layout_height="50dp"
 
-                android:background="@drawable/shape_of_bottom_nav_bar"
-                app:cnb_menuResource="@menu/bottom_nav_menu"
+                android:background="@color/white"
+                app:cnb_menuResource="@menu/bottom_nav_menu_student"
+                app:cnb_unselectedColor="@color/black"
+                android:visibility="gone"
+                app:cnb_radius="8dp"
+                app:cnb_orientationMode="horizontal"
+                android:layout_marginBottom="10dp" />
+            <com.ismaeldivita.chipnavigation.ChipNavigationBar
+                android:id="@+id/bottom_navbar_branch"
+                android:layout_width="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                app:cnb_menuResource="@menu/bottom_nav_menu_branch"
                 app:cnb_unselectedColor="@color/black"
                 app:cnb_radius="8dp"
                 app:cnb_orientationMode="horizontal"
-                android:layout_marginBottom="10dp"
-                android:elevation="8dp" />
+                android:layout_marginBottom="10dp" />
         </LinearLayout>
 
         <com.google.android.material.navigation.NavigationView

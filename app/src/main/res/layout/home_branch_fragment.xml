@@ -1,114 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:weightSum="100"
+    android:orientation="vertical"
     tools:context=".Fragment.HomeStudentFragment">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_weight="10">
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:layout_height="60dp"
+            android:text="Quote"
+            android:id="@+id/Quote"
+            android:elevation="12dp"
+            app:rippleColor="@color/black"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            app:strokeColor="@color/black"
+            app:icon="@drawable/ic_baseline_wb_sunny_24"
+            app:iconGravity="textEnd"
+            app:iconTint="@color/black"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+            android:visibility="visible"/>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_height="60dp"
+            android:text="Students "
+            android:id="@+id/student_pallet"
+            android:elevation="12dp"
+            app:rippleColor="@color/black"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            app:strokeColor="@color/black"
+            app:icon="@drawable/ic_baseline_person_24"
+            app:iconGravity="textEnd"
+            app:iconTint="@color/black"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+            android:visibility="visible"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="90"
+        android:background="@color/white"
+        android:weightSum="100"
+        android:orientation="vertical"
+        android:layout_margin="15dp">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_quiz_report"
+            app:layout_collapseMode="pin" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="0dp"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/branchSlider1"
-                android:layout_width="match_parent"
-                android:layout_marginTop="30dp"
-                android:layout_height="180dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#af7dff"
-                android:elevation="20dp"
-                android:orientation="vertical"
-                android:weightSum="100">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="80"
-                    android:gravity="center"
-                    android:id="@+id/branchQuote"
-                    android:hint="Set Today's Quote"
-                    android:textAlignment="center"
-                    android:textColor="#464646"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/branchSetQuote"
-                    android:layout_width="63dp"
-                    android:layout_height="55dp"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="20"
-                    android:text="Set"
-                    android:textColor="@color/black"
-                    android:textSize="30sp" />
-            </LinearLayout>
+            android:id="@+id/report_quiz_branch"/>
+        <TextView
+            android:id="@+id/text_view_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="No Quiz Given By Any Student"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:gravity="center"></TextView>
+    </LinearLayout>
 
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_margin="20dp"
-                android:orientation="horizontal">
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    app:cardCornerRadius="20dp"
-                    android:id="@+id/student_pallet"
-                    app:cardBackgroundColor="#af7dff"
-                    android:layout_height="match_parent">
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                     android:src="@drawable/student_pallet"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="30dp"
-                        android:gravity="center_vertical"
-                        android:text="Student pallet"
-                        android:textAlignment="textEnd"
-                        android:textColor="#464646"
-                        android:textSize="30sp"
-                        android:textStyle="bold"
-                        tools:ignore="RtlCompat" />
-
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_margin="20dp"
-                app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="#464646">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="About Us"
-                    android:textColor="#fff"
-                    android:textSize="34sp"
-                    android:gravity="center"
-                    android:textStyle="bold" />
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
 
 
-    </ScrollView>
-
-
-
-</FrameLayout>
+</LinearLayout>

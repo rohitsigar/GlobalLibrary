@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="16dp"
+
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/btn_background"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="100"
+        android:padding="14dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/fjalla_one"
+                    android:text="Student Name"
+                    android:id="@+id/student_name_report_branch"
+                    android:textColor="#fdb501"
+                    android:textSize="24dp" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/student_image_report_branch"
+                    android:src="@drawable/student_logo"
+                    android:layout_weight="1"/>
+
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="60"
+            android:weightSum="3"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="30"
+                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                    android:text="Catigory"
+                    android:textColor="@color/color_secondary_text"
+                    android:textSize="12sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="70"
+                    android:layout_marginTop="14dp"
+                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                    android:text="Catigory"
+                    android:id="@+id/Catigory_report_branch"
+                    android:textColor="@color/color_primary_text"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="30"
+                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                    android:text="Difficulty"
+                    android:textColor="@color/color_secondary_text"
+                    android:textSize="12sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="70"
+                    android:layout_marginTop="14dp"
+                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                    android:text="Difficulty"
+                    android:id="@+id/difficuly_report_branch"
+                    android:textColor="@color/color_primary_text"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="30"
+                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                    android:text="Performance"
+                    android:textColor="@color/color_secondary_text"
+                    android:textSize="12sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="70"
+                    android:layout_marginTop="14dp"
+                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                    android:text="Performance"
+                    android:id="@+id/performance_report_branch"
+                    android:textColor="@color/color_primary_text"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+
+
+
+
+
+            </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:layout_marginLeft="6dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="10"
+            android:layout_height="0dp">
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_wb_sunny_24" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Day  "
+                    android:id="@+id/day_report_branch"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/fjalla_one"
+                    android:textColor="#F06A90B5"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_access_time_24" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Time "
+                    android:id="@+id/time_report_branch"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/fjalla_one"
+                    android:textColor="#F06A90B5"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_date_range_24" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Date  "
+                    android:id="@+id/date_report_branch"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/fjalla_one"
+                    android:textColor="#F06A90B5"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>
+
+

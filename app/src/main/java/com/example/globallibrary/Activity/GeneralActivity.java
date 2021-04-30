@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.globallibrary.Fragment.BranchProfileFragment;
+import com.example.globallibrary.Fragment.FeeBranchFragment;
 import com.example.globallibrary.Fragment.FeeStudentFragment;
 import com.example.globallibrary.Fragment.FineStudentFragment;
 import com.example.globallibrary.Fragment.HomeBranchFragment;
@@ -35,6 +37,7 @@ import com.example.globallibrary.Fragment.QuizStudentFragment;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -43,7 +46,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
 public class GeneralActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+
+
 
     DrawerLayout drawerLayout;
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -61,7 +71,11 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
     String access;
     String branchId;
     String studentId;
-    ImageButton NewNotification123;
+    MaterialButton PastQuiz;
+
+    MaterialButton NewNotification123;
+
+
 
     private static final String KEY_ACCESS = "access";
     private static final String SHARED_PREF = "PREF";
@@ -69,27 +83,42 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
     private static final String KEY_STUDENT_ID = "id_student";
     private static final String KEY_STUDENT_B_ID = "id_branch";
     SharedPreferences sharedPreferences;
+
+
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 
         setContentView(R.layout.activity_general);
-
         sharedPreferences  = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         Log.d("TAG", "onCreate: cheking1" + sharedPreferences.getString(KEY_STUDENT_ID , null));
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.slider);
 //        BranchImage = findViewById(R.id.toolbar_branch_Image);
         NewNotification123 = findViewById(R.id.add_new_notification);
+        PastQuiz = findViewById(R.id.past_quizes);
+        PastQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              Intent intent = new Intent(GeneralActivity.this  ,QuizReportStudent.class);
+                studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
+                branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
+                intent.putExtra("StudentId" , studentId);
+                intent.putExtra("BranchId"  , branchId);
+                startActivity(intent);
+
+            }
+        });
         navigationView.bringToFront();
         Slider = findViewById(R.id.Slider_menu);
         ToolbarText = findViewById(R.id.main_text_branch);
         View NavView = navigationView.getHeaderView(0);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        bottomNavBar = findViewById(R.id.bottom_navbar);
         BranchNameAtNarBar = NavView.findViewById(R.id.studnet_branch_name);
         AddressAtNavBar = NavView.findViewById(R.id.student_branch_address);
         branchImage = NavView.findViewById(R.id.BranchImage_in_Branch);
@@ -115,7 +144,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
             }
         });
 
-        bottomNavBar.setItemSelected(R.id.bottom_nav_home, true);
+
 //        access = getIntent().getStringExtra("user");
         access = sharedPreferences.getString(KEY_ACCESS , null);
         Log.d("TAG", "onCreate: accessVal" + access);
@@ -125,9 +154,82 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
         Log.d("TAG", "onCreate: checking 1 2" + branchId);
         storageReference = storage.getReference();
         if (access.equals("StudentAccess")) {
-//            phoneNo = getIntent().getStringExtra("contactNumber");
+            bottomNavBar = findViewById(R.id.bottom_navbar_student);
+            bottomNavBar.setVisibility(View.VISIBLE);
+            bottomNavBar.setItemSelected(R.id.bottom_nav_home, true);
+            ChipNavigationBar chipNavigationBar = findViewById(R.id.bottom_navbar_branch);
+            chipNavigationBar.setVisibility(View.GONE);
+
             studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
             branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
+            Calendar calendar = Calendar.getInstance();
+            int Month = calendar.get(Calendar.MONTH);
+            int Year = calendar.get(Calendar.YEAR);
+
+            DocumentReference docIdRef3= firebaseFirestore.collection("/Branches/" + branchId.trim() + "/StudentDetails" ).document(studentId.trim());
+            docIdRef3.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+
+
+                            String id = studentId + "-" + String.valueOf(Month+1) + "-" + String.valueOf(Year);
+                            DocumentReference docIdRef1 = firebaseFirestore.collection("/Branches/" + branchId.trim() + "/Fee/" ).document(id);
+                            docIdRef1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document1 = task.getResult();
+                                        if (document1.exists()) {
+                                        } else {
+                                            Map<String,Object> Fee = new HashMap<>();
+                                            Fee.put("StudentId" , studentId);
+                                            Fee.put("Date" , document.getDouble("JoinDate"));
+                                            Fee.put("Month" ,Month+1 );
+                                            Fee.put("Year" , Year);
+                                            Fee.put("Status" , false);
+                                            Fee.put("Amount" , document.getDouble("Amount"));
+
+                                            Map<String,Object> Fee1 = new HashMap<>();
+                                            Fee1.put("Date" , document.getDouble("JoinDate"));
+                                            Fee1.put("Month" ,Month+1 );
+                                            Fee1.put("Year" , Year);
+                                            Fee1.put("Status" , false);
+                                            Fee1.put("Amount"  , document.getDouble("Amount"));
+                                            firebaseFirestore.collection("Branches").document(branchId).collection("Fee").document(id).set(Fee);
+                                            firebaseFirestore.collection("Branches").document(branchId).collection("StudentDetails").document(studentId).collection("Fee").document(id).set(Fee1);
+
+                                            Log.d("TAG", "onComplete: not possible" );
+
+                                        }
+                                    } else {
+
+                                    }
+                                }
+                            });
+
+
+                        } else {
+
+                            Log.d("TAG", "onComplete: not possible" );
+
+                        }
+                    } else {
+
+                    }
+                }
+            });
+
+
+
+
+
+
+
+
+
 
                             DocumentReference docIdRef = firebaseFirestore.collection("/Branches/" + branchId.trim() + "/StudentDetails" ).document(studentId.trim());
                             docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -160,6 +262,15 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
             homeStudentFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeStudentFragment).addToBackStack(null).commit();
         } else {
+            bottomNavBar = findViewById(R.id.bottom_navbar_branch);
+            bottomNavBar.setVisibility(View.VISIBLE);
+            bottomNavBar.setItemSelected(R.id.bottom_nav_home, true);
+            ChipNavigationBar chipNavigationBar = findViewById(R.id.bottom_navbar_student);
+            chipNavigationBar.setVisibility(View.GONE);
+
+
+
+
 //            branchName = getIntent().getStringExtra("branchName");
             branchId = sharedPreferences.getString(KEY_BRANCH_ID , null);
             Log.d("TAG", "onCreate: branchName /Branches/" + branchId.trim());
@@ -190,7 +301,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
 
             ToolbarText.setText("Home");
             Bundle bundle = new Bundle();
-            bundle.putString("branchName", branchId);
+            bundle.putString("branchId", branchId);
             HomeBranchFragment homeBranchFragment = new HomeBranchFragment();
             homeBranchFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeBranchFragment).addToBackStack(null).commit();
@@ -208,7 +319,26 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                 Fragment fragment = null;
                 switch (item.getItemId()) {
                     case R.id.slider_fees:
-                        fragment = new FeeStudentFragment();
+                       if(access.equals("StudentAccess"))
+                       {
+                           fragment = new FeeStudentFragment();
+                           studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
+                           branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
+                           Bundle bundle = new Bundle();
+                           bundle.putString("StudentId" , studentId);
+                           bundle.putString("BranchId" , branchId);
+                           fragment.setArguments(bundle);
+                       }
+                       else
+                       {
+                           fragment = new FeeBranchFragment();
+                           branchId  = sharedPreferences.getString(KEY_BRANCH_ID , null);
+                           Bundle bundle = new Bundle();
+                           bundle.putString("BranchId" , branchId);
+                           fragment.setArguments(bundle);
+                       }
+
+
 
                         drawerLayout.closeDrawer(GravityCompat.START);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
@@ -219,7 +349,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
                         break;
                     case R.id.slider_setting:
-                        if (access == "StudentAccess") {
+                        if (access.equals("StudentAccess")) {
                             Intent intent = new Intent(GeneralActivity.this, Settings.class);
                             studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
                             branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
@@ -228,7 +358,8 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                             startActivity(intent);
                         } else {
                             Intent intent = new Intent(GeneralActivity.this, Settings.class);
-                            intent.putExtra("branchId", branchId);
+                            branchId  = sharedPreferences.getString(KEY_BRANCH_ID , null);
+                            intent.putExtra("BranchId", branchId);
                             Log.d("TAG", "onNavigationItemSelected: setting activity" + branchId);
                             startActivity(intent);
                         }
@@ -261,6 +392,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                             fragment = new HomeStudentFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Home");
+                            PastQuiz.setVisibility(View.GONE);
                             findViewById(R.id.add_new_notification).setVisibility(View.GONE);
                             studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
                             branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
@@ -271,6 +403,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                             fragment = new HomeBranchFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Home");
+                            PastQuiz.setVisibility(View.GONE);
                             findViewById(R.id.add_new_notification).setVisibility(View.GONE);
                             bundle.putString("branchId", branchId);
                             fragment.setArguments(bundle);
@@ -280,6 +413,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         if (access.equals("StudentAccess")) {
                             fragment = new ProfileStudentFragment();
                             Bundle bundle = new Bundle();
+                            PastQuiz.setVisibility(View.GONE);
                             studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
                             branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
                             bundle.putString("StudentId", studentId);
@@ -289,6 +423,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                             fragment = new BranchProfileFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Profile");
+                            PastQuiz.setVisibility(View.GONE);
                             findViewById(R.id.add_new_notification).setVisibility(View.GONE);
                             bundle.putString("branchId", branchId);
                             fragment.setArguments(bundle);
@@ -298,6 +433,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         if (access.equals("StudentAccess")) {
                             fragment = new NoticeStudentFragment();
                             ToolbarText.setText("Notice");
+                            PastQuiz.setVisibility(View.GONE);
                             findViewById(R.id.add_new_notification).setVisibility(View.GONE);
                             studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
                             branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
@@ -309,6 +445,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                             fragment = new NoticeBranchFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Notice");
+                            PastQuiz.setVisibility(View.GONE);
                             findViewById(R.id.add_new_notification).setVisibility(View.VISIBLE);
                             bundle.putString("branchId", branchId);
                             fragment.setArguments(bundle);
@@ -318,14 +455,17 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         if (access.equals("StudentAccess")) {
                             fragment = new QuizStudentFragment();
                             Bundle bundle = new Bundle();
+                            PastQuiz.setVisibility(View.VISIBLE);
                             studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
                             branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
                             bundle.putString("StudentId", studentId);
                             bundle.putString("BranchId" , branchId);
                             fragment.setArguments(bundle);
                         } else {
+
                             fragment = new QuizBranchFragment();
                             Bundle bundle = new Bundle();
+                            PastQuiz.setVisibility(View.GONE);
                             ToolbarText.setText("Quiz");
                             findViewById(R.id.add_new_notification).setVisibility(View.GONE);
                             bundle.putString("branchId", branchId);

@@ -17,7 +17,9 @@ import com.example.globallibrary.Models.NotificationDetails;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -47,27 +49,31 @@ public class NoticeStudentFragment extends Fragment {
         branchName = getArguments().getString("branchName");
         recyclerView.setFocusable(false);
         ArrayList<NotificationDetails> list = new ArrayList();
+        CollectionReference docIdRef = firestore.collection("/Branches/" + BranchId.trim()+ "/Notifications/");
+        docIdRef.orderBy("Sortthis" , Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            private static final String TAG = "Rohit";
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
 
-                                                firestore.collection("/Branches/" + BranchId.trim()+ "/Notifications/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                    private static final String TAG = "Rohit";
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                        if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document2 : task.getResult()) {
 
-                                                            for (QueryDocumentSnapshot document2 : task.getResult()) {
-
-                                                                list.add(new NotificationDetails(document2.getString("Title") , document2.getString("Discreption")
-                                                                        , document2.getString("Time") ,document2.getString("Date"),document2.getString("Day")));
-                                                                Log.d(TAG, "onSuccess: checking" + list.size());
-                                                                _mAdapter.notifyDataSetChanged();
-                                                            }
+                        list.add(new NotificationDetails(document2.getString("Title") , document2.getString("Discreption")
+                                , document2.getString("Time") ,document2.getString("Date"),document2.getString("Day"),document2.getDate("SortThis")));
+                        Log.d(TAG, "onSuccess: checking" + list.size());
+                        _mAdapter.notifyDataSetChanged();
+                    }
 
 
-                                                        } else {
-                                                            Log.d(TAG, "Error getting documents: ", task.getException());
-                                                        }
-                                                    }
-                                                });
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+
+
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(_layoutManager);
         ///  add items to the adapter

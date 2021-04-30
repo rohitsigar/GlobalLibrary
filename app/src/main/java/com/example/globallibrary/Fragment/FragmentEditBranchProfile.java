@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -29,7 +29,7 @@ public class FragmentEditBranchProfile extends Fragment {
         fragmentEditBranchProfile.setArguments(args);
         return fragmentEditBranchProfile;
     }
-    ImageButton TickButton;
+    MaterialButton TickButton;
     String BranchId;
     TextInputEditText OwnerName;
     TextInputEditText LibraryAddress;

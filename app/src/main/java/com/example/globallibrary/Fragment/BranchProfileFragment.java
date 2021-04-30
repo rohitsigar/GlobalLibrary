@@ -112,6 +112,7 @@ public class BranchProfileFragment extends Fragment {
                                 Log.d("hello guys", "onSuccess: " + s);
                                 Picasso.get().load(s).into(BranchImage);
 
+
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

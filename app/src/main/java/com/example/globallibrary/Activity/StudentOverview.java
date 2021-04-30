@@ -1,12 +1,18 @@
 package com.example.globallibrary.Activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,6 +45,8 @@ public class StudentOverview extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     ImageButton Back;
+    MaterialButton ChangeFee;
+    AlertDialog alertDialog;
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -54,10 +63,62 @@ public class StudentOverview extends AppCompatActivity {
         EmailAddress = findViewById(R.id.email_address_student_overview);
         ContactNumber = findViewById(R.id.contact_number_student_profile_overview);
         ResidentialAddress = findViewById(R.id.residential_address_student_profile_overview);
-        DOB = findViewById(R.id.dob_student_overview);
+        ChangeFee = findViewById(R.id.change_student_fee);
         Intent intent = getIntent();
         StudentId  = intent.getExtras().getString("StudentId");
         BranchId = intent.getExtras().getString("BranchId");
+        ChangeFee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewGroup viewGroup = findViewById(android.R.id.content);
+
+                //then we will inflate the custom alert dialog xml that we created
+                View dialogView = LayoutInflater.from(StudentOverview.this).inflate(R.layout.change_student_fee_dilog, viewGroup, false);
+
+
+                //Now we need an AlertDialog.Builder object
+                AlertDialog.Builder builder = new AlertDialog.Builder(StudentOverview.this);
+
+                //setting the view of the builder to our custom view that we already inflated
+                builder.setView(dialogView);
+
+                //finally creating the alert dialog and displaying it
+                alertDialog = builder.create();
+                alertDialog.show();
+                EditText AmountFee = alertDialog.findViewById(R.id.amount_change_student);
+                Button Change = alertDialog.findViewById(R.id.button_change_student);
+                Log.d("TAG", "onClick: studentId : " + StudentId + " BranchId  : " + BranchId);
+
+                DocumentReference docIdRef = firebaseFirestore.collection("Branches/"  + BranchId + "/StudentDetails" ).document(StudentId);
+                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+
+                                AmountFee.setText(String.valueOf(document.getDouble("Amount")));
+                            } else {
+
+                                Log.d("TAG", "onComplete: not possible" );
+
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+                Change.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        firebaseFirestore.collection("Branches/"  + BranchId + "/StudentDetails" ).document(StudentId).update("Amount" ,Double.parseDouble(AmountFee.getText().toString()));
+                        Toast.makeText(StudentOverview.this , "Fee is Sucessfully Changed to " +AmountFee.getText().toString()  , Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        DOB = findViewById(R.id.dob_student_overview);
+
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         Back  = findViewById(R.id.return_to_studentPallet);

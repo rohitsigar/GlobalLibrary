@@ -51,6 +51,7 @@ public class NewNotification extends AppCompatActivity {
                                     NewNotification.put("Day", day);
                                     NewNotification.put("Date", date);
                                     NewNotification.put("Time", CurrentT);
+                                   NewNotification.put("Sortthis" , currentTime);
                                     String autoID = firebaseFirestore.collection("/Branches").document(BranchId).collection("Notifications").document().getId();
                                     Log.d("Checking", "onComplete: " + autoID);
                                     firebaseFirestore.collection("/Branches").document(BranchId).collection("Notifications").document(autoID).set(NewNotification);

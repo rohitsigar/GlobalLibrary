@@ -2,29 +2,48 @@ package com.example.globallibrary.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.globallibrary.Fragment.SettingFragment;
+import com.example.globallibrary.Fragment.SettingFragmentBranch;
+import com.example.globallibrary.Fragment.StudentSettingFragment;
 import com.example.globallibrary.R;
 
 public class Settings extends AppCompatActivity {
 
     String BranchId;
+    String StudentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Intent intent = getIntent();
-        BranchId = intent.getStringExtra("branchId");
+        BranchId = intent.getStringExtra("BranchId");
+        StudentId = intent.getStringExtra("StudentId");
+        Log.d("TAG", "onCreate: StudentId " + StudentId);
 
-        Fragment fragment = new SettingFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("branchId" , BranchId);
-        fragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_setting,fragment).commit();
+        if(StudentId !=null)
+        {
+            Fragment fragment = new StudentSettingFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("StudentId" , StudentId);
+            bundle.putString("BranchId" , BranchId);
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_setting,fragment).addToBackStack(null).commit();
+        }
+        else
+        {
+            Fragment fragment = new SettingFragmentBranch();
+            Bundle bundle = new Bundle();
+            bundle.putString("BranchId" , BranchId);
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_setting,fragment).addToBackStack(null).commit();
+        }
+
+
     }
 
     @Override

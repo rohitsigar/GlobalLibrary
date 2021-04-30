@@ -55,7 +55,7 @@
                             app:civ_shadow_color="#f4f5f9"
                             app:civ_shadow_radius="10" />
 
-                        <!--  Change Image -->
+
 
                         <ImageView
                             android:layout_width="40dp"
@@ -127,7 +127,7 @@
                     android:layout_weight="5"
                     android:layout_marginTop="0dp"
                     app:tabBackground="@android:color/transparent"
-                    app:tabIndicatorColor="#ff9e7f"
+                    app:tabIndicatorColor="@color/black"
                     app:tabMode="fixed"
                     app:tabSelectedTextColor="@color/color_primary_text"
                     app:tabTextAppearance="@style/MyCustomTextAppearance"

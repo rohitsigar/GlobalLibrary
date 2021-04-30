@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:weightSum="3"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#ffcccb"
+        android:visibility="gone"
+        android:id="@+id/not_marked"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_weight="3">
+        <com.google.android.material.button.MaterialButton
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Not in Library"
+            app:icon="@drawable/ic_clear_black_24dp"
+            app:iconGravity="textEnd"
+            app:rippleColor="#ffcccb"
+            app:iconTint="@color/white"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+            android:textColor="@color/white"
+            android:backgroundTint="#ffcccb"
+            app:strokeColor="#ffcccb"
+            android:visibility="visible"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#3CB371"
+        android:orientation="vertical"
+        android:id="@+id/marked"
+        android:visibility="gone"
+        android:weightSum="1"
+        android:layout_weight="3">
+        <com.google.android.material.button.MaterialButton
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Attandance Marked"
+            app:icon="@drawable/ic_sucess"
+            app:iconGravity="textEnd"
+            app:rippleColor="#3CB371"
+            app:iconTint="@color/white"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+            android:textColor="@color/white"
+            android:backgroundTint="#3CB371"
+            app:strokeColor="#3CB371"
+            android:visibility="visible"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:id="@+id/main_dilog"
+        android:weightSum="3"
+        android:layout_weight="3">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <com.google.android.material.button.MaterialButton
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="Mark Attandance"
+                app:icon="@drawable/mark_attandance"
+                app:iconGravity="textEnd"
+                app:rippleColor="@color/white"
+                app:iconTint="@color/black"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                app:strokeColor="@color/black"
+                android:id="@+id/add_new_notification"
+                android:visibility="visible"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_margin="20dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/quote"
+                android:filterTouchesWhenObscured="true"
+                android:textCursorDrawable="@color/black"
+                android:backgroundTint="@color/black"
+                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:text="Make Sure You are Inside The Library !"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="60dp"
+                android:layout_margin="40dp"
+                android:text="Mark Attandance"
+                android:id="@+id/mark_done"
+                android:elevation="12dp"
+                app:rippleColor="@color/black"
+
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                app:strokeColor="@color/black"
+                style="?attr/materialButtonOutlinedStyle"
+                android:visibility="visible"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

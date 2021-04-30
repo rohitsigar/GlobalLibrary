@@ -2,6 +2,7 @@
 
 <!-- Post List -->
 <androidx.recyclerview.widget.RecyclerView
+    android:layout_margin="20dp"
     android:id="@+id/recycler_view_notification"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
