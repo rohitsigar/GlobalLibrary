@@ -1,5 +1,6 @@
 package com.example.globallibrary.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,21 +14,25 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.globallibrary.Activity.PaymentActivity;
 import com.example.globallibrary.Adpaters.FeeDetailStudentSideAdaptor;
 import com.example.globallibrary.Models.FeeDetailsStudentSide;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class FeeStudentFragment extends Fragment {
+public class FeeStudentFragment extends Fragment{
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     String BranchId;
     String StudentId;
+    int position1;
 
     public RecyclerView recyclerView;
     public FeeDetailStudentSideAdaptor adapter;
@@ -43,6 +48,7 @@ public class FeeStudentFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_fee_student, container, false);
+
         BranchId = getArguments().getString("BranchId");
         StudentId = getArguments().getString("StudentId");
 
@@ -90,6 +96,48 @@ public class FeeStudentFragment extends Fragment {
         listner  = new FeeDetailStudentSideAdaptor.RecyclerViewClickListner() {
             @Override
             public void onClick(View v, int position) {
+
+                position1 = position;
+
+                FeeDetailsStudentSide feeDetailsStudentSide =  list.get(position);
+
+
+                    DocumentReference docIdRef = firestore.collection("/Branches/" + feeDetailsStudentSide.BranchId.trim() + "/StudentDetails" ).document(feeDetailsStudentSide.StudentId.trim());
+                    docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+
+                                    Intent intent = new Intent(getActivity() , PaymentActivity.class);
+                                    intent.putExtra("StudentName" , document.getString("FullName"));
+                                    intent.putExtra("Amount" , String.valueOf(Math.round(feeDetailsStudentSide.Amount)) + "00");
+                                    intent.putExtra("EmailAddress" , document.getString("EmailAddress"));
+                                    intent.putExtra("ContactNumber" , document.getString("ContactNumber"));
+                                    intent.putExtra("UniqueId" , feeDetailsStudentSide.UniquePaymentId);
+                                    intent.putExtra("StudentId" , feeDetailsStudentSide.StudentId);
+                                    intent.putExtra("BranchId" , feeDetailsStudentSide.BranchId);
+                                    startActivity(intent);
+
+
+
+
+
+                                } else {
+
+                                    Log.d("TAG", "onComplete: not possible" );
+
+                                }
+                            } else {
+
+                            }
+                        }
+                    });
+
+
+
+
                 Toast.makeText(getActivity() , "yes :" + list.get(position).UniquePaymentId , Toast.LENGTH_SHORT).show();
 
             }
@@ -102,5 +150,6 @@ public class FeeStudentFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
     }
+
 
 }

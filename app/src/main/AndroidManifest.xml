@@ -23,28 +23,25 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.GlobalLibrary">
-
-
+        <activity android:name=".Activity.ForgetPasswardBranchActivity"></activity>
+        <activity android:name=".Activity.ForgetPasswardStudentActivity" />
+        <activity android:name=".Activity.PaymentActivity" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
-
         <activity
             android:name=".Activity.QuizReportStudent"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_quiz_report_student">
-
-        </activity>
+            android:label="@string/title_activity_quiz_report_student"
+            android:screenOrientation="portrait" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
         <activity
             android:name=".Activity.QuizActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_quiz">
-        </activity>
+            android:label="@string/title_activity_quiz"
+            android:screenOrientation="portrait" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -57,34 +54,38 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Activity.StudentAttandance"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activity.StudentOverview"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activity.MapsActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activity.StudentAttandance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.StudentOverview"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.MapsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.NewNotification"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_new_notification"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.GlobalLibrary.NoActionBar" />
         <activity
             android:name=".Activity.StudentPallet"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_student_pallet" />
+            android:label="@string/title_activity_student_pallet"
+            android:screenOrientation="portrait" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
         <activity
             android:name=".Activity.OtpVerify"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_otp_verify" />
+            android:label="@string/title_activity_otp_verify"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Settings"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_settings" />
-        <activity android:name=".Activity.GeneralActivity"
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.GeneralActivity"
             android:screenOrientation="portrait">
 
             <!-- <intent-filter> -->
@@ -94,7 +95,8 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".Activity.AuthenticationActivity"
+        <activity
+            android:name=".Activity.AuthenticationActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
