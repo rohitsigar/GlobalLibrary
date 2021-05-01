@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.globallibrary.Activity.ForgetPasswardBranchActivity;
 import com.example.globallibrary.Activity.GeneralActivity;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +32,7 @@ public class BranchOwnerLoginFragment extends Fragment {
     Button signUpButton;
     Button loginButton;
     TextInputEditText branchName;
+    Button ForgetPassward;
 
     TextInputEditText passward;
     boolean test = false;
@@ -53,6 +55,7 @@ public class BranchOwnerLoginFragment extends Fragment {
         signUpButton = view.findViewById(R.id.sign_up_branch_owner);
         loginButton = view.findViewById(R.id.go_button_branch_owner);
         branchName = view.findViewById(R.id.branch_branch_name);
+        ForgetPassward = view.findViewById(R.id.forget_password_branch_owner);
         passward = view.findViewById(R.id.branch_owner_password);
         sharedPreferences  = getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         String loged  = sharedPreferences.getString(KEY_ACCESS , null);
@@ -117,6 +120,17 @@ public class BranchOwnerLoginFragment extends Fragment {
                 fragmentTransaction.replace(1, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+            }
+        });
+        ForgetPassward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+                getActivity().finish();
+                Intent intent = new Intent(getActivity(), ForgetPasswardBranchActivity.class);
+                startActivity(intent);
             }
         });
     }

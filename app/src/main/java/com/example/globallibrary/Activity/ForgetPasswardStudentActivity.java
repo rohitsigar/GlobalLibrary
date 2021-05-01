@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -25,6 +26,8 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.concurrent.TimeUnit;
 
@@ -52,7 +55,6 @@ public class ForgetPasswardStudentActivity extends AppCompatActivity {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseAuthSettings firebaseAuthSettings = mAuth.getFirebaseAuthSettings();
     String StudentId;
-    String BranchId;
     Button SendOtp;
     Button resendOtp;
 
@@ -80,7 +82,41 @@ public class ForgetPasswardStudentActivity extends AppCompatActivity {
         SendOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendVerificationCode(ContactNumber.getText().toString());
+                firebaseFirestore.collection("Students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    private static final String TAG = "Rohit";
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            boolean b = false;;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+
+
+                                if(document.getString("ContactNumber").equals(ContactNumber.getText().toString()))
+                                {
+                                    b = true;
+                                    StudentId = document.getId();
+                                    sendVerificationCode(ContactNumber.getText().toString());
+                                }
+                            }
+                            if(!b)
+                            {
+                                Toast.makeText(ForgetPasswardStudentActivity.this , "This number is Not Registred : " , Toast.LENGTH_LONG).show();
+
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.clear();
+                                editor.commit();
+                                finish();
+                                Intent intent = new Intent(ForgetPasswardStudentActivity.this , AuthenticationActivity.class);
+                                startActivity(intent);
+                            }
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
                 ContactLay.setVisibility(View.GONE);
                 OtpLay.setVisibility(View.VISIBLE);
                 CheckOtp.setVisibility(View.VISIBLE);
@@ -112,7 +148,7 @@ public class ForgetPasswardStudentActivity extends AppCompatActivity {
         ResetPassward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseFirestore.collection("Student").document(StudentId).update("Passward" , NewPassward.getText().toString());
+                firebaseFirestore.collection("Students").document(StudentId).update("Passward" , NewPassward.getText().toString());
                 Toast.makeText(ForgetPasswardStudentActivity.this , "Passward Changed Sucessfully" , Toast.LENGTH_LONG).show();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
@@ -206,4 +242,13 @@ public class ForgetPasswardStudentActivity extends AppCompatActivity {
         signInWithCredential(credential);
     }
 
+    @Override
+    public void onBackPressed() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+        finish();
+        Intent intent = new Intent(ForgetPasswardStudentActivity.this , AuthenticationActivity.class);
+        startActivity(intent);
+    }
 }

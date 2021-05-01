@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.globallibrary.Activity.ForgetPasswardStudentActivity;
 import com.example.globallibrary.Activity.GeneralActivity;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,6 +31,7 @@ public class LoginStudentFragment extends Fragment {
     Button signUpButton;
     TextInputEditText contactNumber;
     TextInputEditText passward;
+    Button ForgetPassward;
 
     Button loginButton;
     boolean test = false;
@@ -56,6 +58,19 @@ public class LoginStudentFragment extends Fragment {
         signUpButton = view.findViewById(R.id.sign_up_student);
         contactNumber = view.findViewById(R.id.student_phoneNo);
         passward = view.findViewById(R.id.student_password);
+        ForgetPassward = view.findViewById(R.id.forget_password_student);
+        ForgetPassward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity() , ForgetPasswardStudentActivity.class);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+                getActivity().finish();
+                startActivity(intent);
+
+            }
+        });
         loginButton = view.findViewById(R.id.go_button_student);
         sharedPreferences  = getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         String loged  = sharedPreferences.getString(KEY_ACCESS , null);

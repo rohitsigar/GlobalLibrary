@@ -1,5 +1,8 @@
 package com.example.globallibrary.Fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.globallibrary.Activity.ForgetPasswardStudentActivity;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,6 +34,15 @@ public class ChangePhoneNoStudentFragment extends Fragment {
     MaterialButton Change1;
     Button ForgetPassward;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+    private static final String KEY_ACCESS = "access";
+    private static final String SHARED_PREF = "PREF";
+    private static final String KEY_BRANCH_ID = "id";
+    private static final String KEY_STUDENT_ID = "id_student";
+    private static final String KEY_STUDENT_B_ID = "id_branch";
+    SharedPreferences sharedPreferences;
+
+
 
 
 
@@ -50,6 +63,8 @@ public class ChangePhoneNoStudentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        sharedPreferences  = getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         CurrentPassward = view.findViewById(R.id.current_passward_1_student);
         NewNumber1 = view.findViewById(R.id.new_phone_no_student);
         Change1 = view.findViewById(R.id.change1_student);
@@ -97,6 +112,12 @@ public class ChangePhoneNoStudentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //yet to impliment
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+                getActivity().finish();
+                Intent intent = new Intent(getActivity(), ForgetPasswardStudentActivity.class);
+                startActivity(intent);
             }
         });
 

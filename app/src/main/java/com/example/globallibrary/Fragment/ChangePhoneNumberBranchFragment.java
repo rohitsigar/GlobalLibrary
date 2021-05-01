@@ -1,5 +1,8 @@
 package com.example.globallibrary.Fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.globallibrary.Activity.ForgetPasswardBranchActivity;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,6 +40,10 @@ public class ChangePhoneNumberBranchFragment extends Fragment {
 
 
 
+    private static final String KEY_ACCESS = "access";
+    private static final String SHARED_PREF = "PREF";
+    private static final String KEY_BRANCH_ID = "id";
+    SharedPreferences sharedPreferences;
 
 
     String BranchId;
@@ -52,6 +60,8 @@ public class ChangePhoneNumberBranchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //part1
+
+        sharedPreferences  = getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
 
         CurrentPassward = view.findViewById(R.id.current_passward_1_branch1);
         NewNumber1 = view.findViewById(R.id.new_phone_no_branch);
@@ -99,6 +109,12 @@ public class ChangePhoneNumberBranchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //yet to impliment
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+                getActivity().finish();
+                Intent intent = new Intent(getActivity(), ForgetPasswardBranchActivity.class);
+                startActivity(intent);
             }
         });
 

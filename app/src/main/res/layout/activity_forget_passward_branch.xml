@@ -1,9 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.ForgetPasswardBranchActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activity.ForgetPasswardBranchActivity"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:weightSum="100">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_weight="2"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forget Passward"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:fontFamily="@font/fjalla_one"/>
+    <LinearLayout
+        android:layout_weight="3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/a1"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="Enter Contact Number">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/phone_number_forget_passward2"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/b1"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="ENTER OTP">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/otp122"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/c1"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="Enter New Passward">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/new_passward_branch_activity"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/ResetPassward1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/fjalla_one"
+            android:text="Reset Passward"
+            android:layout_marginBottom="5dp"/>
+        <Button
+            android:id="@+id/send_otp1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/fjalla_one"
+            android:text="Send Otp"
+            android:layout_marginBottom="5dp"/>
+        <Button
+            android:id="@+id/check_otp1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:visibility="gone"
+            android:fontFamily="@font/fjalla_one"
+            android:text="Check Otp"
+            android:layout_marginBottom="5dp"/>
+        <Button
+            android:id="@+id/resend_otp_2"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:textColor="@color/black"
+            android:text="Resend Otp"
+            android:fontFamily="@font/fjalla_one"
+            android:layout_gravity="right"
+            android:elevation="0dp"
+            android:layout_marginTop="5dp"/>
+
+
+
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_weight="80"
+        android:id="@+id/progressbar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_below="@+id/editTextCode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-214dp"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"/>
+
+</LinearLayout>

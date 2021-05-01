@@ -69,6 +69,62 @@
                     android:visibility="visible"/>
 
             </LinearLayout>
+    <include
+
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_facts"
+        app:layout_collapseMode="pin" />
+
+
+
+        <LinearLayout
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <ImageView
+                android:layout_width="0dp"
+                android:src="@drawable/student_logo"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_height="100dp"/>
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/fact_display"
+                android:layout_height="match_parent"
+                android:text="Intresting Facts"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+
+
+
+
+    </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        app:icon="@drawable/ic_baseline_read_more_24"
+        android:layout_gravity="center"
+        app:iconGravity="textEnd"
+        app:rippleColor="@color/black"
+        android:text="More Facts"
+        app:iconTint="@color/black"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        app:strokeColor="@color/black"
+        android:elevation="12dp"
+        android:id="@+id/more_facts"
+        android:visibility="visible"/>
+
 
 
 

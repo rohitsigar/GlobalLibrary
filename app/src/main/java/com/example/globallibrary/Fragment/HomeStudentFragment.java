@@ -15,6 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.globallibrary.Activity.StudentAttandance;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,6 +55,9 @@ public class HomeStudentFragment extends Fragment {
 
     TextView DisplayLocation;
     AlertDialog alertDialog;
+    TextView Factdisplay;
+    MaterialButton MoreFacts;
+    RequestQueue queue;
 
 
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -62,10 +71,23 @@ public class HomeStudentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        queue = Volley.newRequestQueue(getActivity());
 
 
         StudentId = getArguments().getString("StudentId");
         branchId = getArguments().getString("BranchId");
+        MoreFacts = view.findViewById(R.id.more_facts);
+        Factdisplay = view.findViewById(R.id.fact_display);
+        DisplayFact();
+        MoreFacts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DisplayFact();
+
+            }
+        });
+
 
         MarkAttandance = view.findViewById(R.id.mark_attandance);
         MarkAttandance.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +96,7 @@ public class HomeStudentFragment extends Fragment {
 
 
                 ViewGroup viewGroup = getView().findViewById(android.R.id.content);
+
 
                 //then we will inflate the custom alert dialog xml that we created
                 View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dilog_mark_attandance, viewGroup, false);
@@ -238,6 +261,31 @@ public class HomeStudentFragment extends Fragment {
 
 
 
+
+    }
+    void DisplayFact()
+    {
+
+
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://numbersapi.com/random/trivia",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+
+                        Factdisplay.setText(response.toString());
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("TAG", "onResponse: String : " + error);
+
+            }
+        });
+        queue.add(stringRequest);
 
     }
 }

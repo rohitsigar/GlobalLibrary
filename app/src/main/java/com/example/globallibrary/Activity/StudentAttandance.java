@@ -134,7 +134,16 @@ public class StudentAttandance extends AppCompatActivity implements OnNavigation
                         int CurrentDate  = Integer.parseInt(formattedDate.substring(0,2));
                         for(int i=1;i<CurrentDate + 1;i++)
                         {
-                            String Day = Integer.toString(i);
+                            String Day;
+                            if(i < 10)
+                            {
+                                Day = "0" + Integer.toString(i);
+                            }
+                            else
+                            {
+                                Day = Integer.toString(i);
+                            }
+
                             if(document.getBoolean(Day)!=null)
                             {
                                 mapDateToDesc.put(i ,"Present");
@@ -222,18 +231,59 @@ public class StudentAttandance extends AppCompatActivity implements OnNavigation
                         YearMonth yearMonthObject = YearMonth.of(year, month);
                         int daysInMonth = yearMonthObject.lengthOfMonth();
 
-                        for(int i=1;i<daysInMonth + 1;i++)
+                        Calendar calendar1 = Calendar.getInstance();
+
+                        if(month==calendar1.get(Calendar.MONTH)+1)
                         {
-                            String Day = Integer.toString(i);
-                            if(document.getBoolean(Day.toString())!=null)
+                            int date = calendar1.get(Calendar.DATE);
+                            for(int i=1;i<date + 1;i++)
                             {
-                                arr[0].put(i ,"Present");
+                                String Day;
+                                if(i < 10)
+                                {
+                                    Day = "0" + Integer.toString(i);
+                                }
+                                else
+                                {
+                                    Day = Integer.toString(i);
+                                }
+                                if(document.getBoolean(Day.toString())!=null)
+                                {
+                                    arr[0].put(i ,"Present");
+                                }
+                                else
+                                {
+                                    arr[0].put(i ,"Absent");
+                                }
                             }
-                            else
+
+                        }
+                        else
+                        {
+                            for(int i=1;i<daysInMonth + 1;i++)
                             {
-                                arr[0].put(i ,"Absent");
+
+                                String Day;
+                                if(i < 10)
+                                {
+                                    Day = "0" + Integer.toString(i);
+                                }
+                                else
+                                {
+                                    Day = Integer.toString(i);
+                                }
+                                if(document.getBoolean(Day.toString())!=null)
+                                {
+                                    arr[0].put(i ,"Present");
+                                }
+                                else
+                                {
+                                    arr[0].put(i ,"Absent");
+                                }
                             }
                         }
+
+
                         arr[1] = null;
                         customCalendar.setDate(newMonth, arr[0]);
                     } else {
@@ -258,24 +308,6 @@ public class StudentAttandance extends AppCompatActivity implements OnNavigation
         });
 
 
-//        switch(newMonth.get(Calendar.MONTH)) {
-//            case Calendar.AUGUST:
-//                arr[0] = new HashMap<>(); //This is the map linking a date to its description
-//
-//                arr[0].put(3, "Present");
-//                arr[0].put(6, "Absent");
-//                arr[0].put(21, "Present");
-//                arr[0].put(24, "Present");
-//                arr[1] = null; //Optional: This is the map linking a date to its tag.
-//                break;
-//            case Calendar.JUNE:
-//                arr[0] = new HashMap<>();
-//                arr[0].put(5, "Present");
-//                arr[0].put(10, "Absent");
-//                arr[0].put(19, "Present");
-//                arr[1] = null;
-//                break;
-//        }
         return arr;
     }
 
