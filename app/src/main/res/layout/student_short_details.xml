@@ -13,7 +13,7 @@
         android:orientation="horizontal"
         android:weightSum="100">
         <LinearLayout
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_weight="50"
             android:weightSum="2"
             android:layout_height="match_parent"
@@ -55,6 +55,7 @@
         <ImageView
             android:id="@+id/student_image_short_details"
             android:layout_width="0dp"
+            android:layout_margin="5dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"

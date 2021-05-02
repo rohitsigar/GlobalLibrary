@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ public class SettingFragmentBranch extends Fragment {
     EditText Radi;
     AlertDialog alertDialog;
     ProgressBar progressBar;
+    ImageButton BackPress;
 
     LocationRequest mLocationRequest;
     Location mLastLocation;
@@ -71,6 +73,11 @@ public class SettingFragmentBranch extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        getActivity().findViewById(R.id.return_back111_backup).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.return_back111).setVisibility(View.VISIBLE);
+
+
 
 
         BranchId = getArguments().getString("BranchId");
@@ -124,8 +131,16 @@ public class SettingFragmentBranch extends Fragment {
              Change.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
-                     firebaseFirestore.collection("Branches").document(BranchId).update("DefaultAmount" ,Double.parseDouble(FeeAmount.getText().toString()));
-                     Toast.makeText(getActivity() , "Fee is Sucessfully Changed to " +FeeAmount.getText().toString()  , Toast.LENGTH_SHORT).show();
+                     if(FeeAmount.getText().toString().trim().isEmpty())
+                     {
+                         FeeAmount.setError("This Filed Can't be Empty");
+                     }
+                     else
+                     {
+                         firebaseFirestore.collection("Branches").document(BranchId).update("DefaultAmount" ,Double.parseDouble(FeeAmount.getText().toString()));
+                         Toast.makeText(getActivity() , "Fee is Sucessfully Changed to " +FeeAmount.getText().toString()  , Toast.LENGTH_SHORT).show();
+                     }
+
                  }
              });
 
@@ -269,6 +284,7 @@ public class SettingFragmentBranch extends Fragment {
 
 
 
+
         Passward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -301,8 +317,6 @@ public class SettingFragmentBranch extends Fragment {
 
 
     }
-
-
 
 
 }

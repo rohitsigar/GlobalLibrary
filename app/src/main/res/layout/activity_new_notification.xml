@@ -10,9 +10,8 @@
     tools:ignore="HardcodedText">
     <!--  include  Toolbar -->
     <include
-        android:id="@+id/id_toolbar_profile123"
+        android:id="@+id/id_toolbar_new_notification"
         layout="@layout/layout_new_notification"
-        android:contentDescription="For more ui/ux visit www.materialuiux.com"
         app:layout_collapseMode="pin" />
 
     <!-- Title -->

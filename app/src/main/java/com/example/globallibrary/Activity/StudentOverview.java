@@ -174,8 +174,16 @@ public class StudentOverview extends AppCompatActivity {
                 Change.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        firebaseFirestore.collection("Branches/"  + BranchId + "/StudentDetails" ).document(StudentId).update("Amount" ,Double.parseDouble(AmountFee.getText().toString()));
-                        Toast.makeText(StudentOverview.this , "Fee is Sucessfully Changed to " +AmountFee.getText().toString()  , Toast.LENGTH_SHORT).show();
+                        if(AmountFee.getText().toString().trim().isEmpty())
+                        {
+                            AmountFee.setError("This Field is Empty");
+                        }
+                        else
+                        {
+                            firebaseFirestore.collection("Branches/"  + BranchId + "/StudentDetails" ).document(StudentId).update("Amount" ,Double.parseDouble(AmountFee.getText().toString().trim()));
+                            Toast.makeText(StudentOverview.this , "Fee is Sucessfully Changed to " +AmountFee.getText().toString()  , Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
             }

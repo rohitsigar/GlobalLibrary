@@ -1,7 +1,6 @@
 package com.example.globallibrary.Activity;
 
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -75,6 +74,11 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
     MaterialButton NewNotification123;
 
 
+    ImageButton HomeIcon;
+    ImageButton ProfileIcon;
+    ImageButton FeeIcon;
+
+
 
     private static final String KEY_ACCESS = "access";
     private static final String SHARED_PREF = "PREF";
@@ -99,7 +103,10 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
         navigationView = findViewById(R.id.slider);
 //        BranchImage = findViewById(R.id.toolbar_branch_Image);
         NewNotification123 = findViewById(R.id.add_new_notification);
-        PastQuiz = findViewById(R.id.past_quizes);
+        PastQuiz = findViewById(R.id.past_quiz);
+        HomeIcon = findViewById(R.id.home_toolbar);
+        FeeIcon  = findViewById(R.id.fee_toolbar);
+        ProfileIcon = findViewById(R.id.profile_toolbar);
         PastQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +160,6 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
         Log.d("TAG", "onCreate: checking 1 2" + branchId);
         storageReference = storage.getReference();
         if (access.equals("StudentAccess")) {
-
             studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
 
             DocumentReference docIdRef1 = firebaseFirestore.collection("/Students/" ).document(studentId.trim());
@@ -289,8 +295,9 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
             bundle.putString("BranchId" , branchId);
             HomeStudentFragment homeStudentFragment = new HomeStudentFragment();
             homeStudentFragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeStudentFragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeStudentFragment , "HomeFragment").commit();
         } else {
+
             bottomNavBar = findViewById(R.id.bottom_navbar_branch);
             bottomNavBar.setVisibility(View.VISIBLE);
             bottomNavBar.setItemSelected(R.id.bottom_nav_home, true);
@@ -363,7 +370,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
             bundle.putString("branchId", branchId);
             HomeBranchFragment homeBranchFragment = new HomeBranchFragment();
             homeBranchFragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeBranchFragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeBranchFragment , "HomeFragment").commit();
         }
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
@@ -384,6 +391,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                            studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
                            branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
                            Bundle bundle = new Bundle();
+                           OpenFee();
                            bundle.putString("StudentId" , studentId);
                            bundle.putString("BranchId" , branchId);
                            fragment.setArguments(bundle);
@@ -391,6 +399,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                        else
                        {
                            fragment = new FeeBranchFragment();
+                           OpenFee();
                            branchId  = sharedPreferences.getString(KEY_BRANCH_ID , null);
                            Bundle bundle = new Bundle();
                            bundle.putString("BranchId" , branchId);
@@ -409,12 +418,16 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                             branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
                             intent.putExtra("StudentId", studentId);
                             intent.putExtra("BranchId" , branchId);
+                            OpenHome();
+                            drawerLayout.closeDrawer(GravityCompat.START);
                             startActivity(intent);
                         } else {
                             Intent intent = new Intent(GeneralActivity.this, Settings.class);
                             branchId  = sharedPreferences.getString(KEY_BRANCH_ID , null);
                             intent.putExtra("BranchId", branchId);
                             Log.d("TAG", "onNavigationItemSelected: setting activity" + branchId);
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                            OpenHome();
                             startActivity(intent);
                         }
 
@@ -445,8 +458,8 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         if (access.equals("StudentAccess")) {
                             fragment = new HomeStudentFragment();
                             Bundle bundle = new Bundle();
-                            ToolbarText.setText("Home");
-                            PastQuiz.setVisibility(View.GONE);
+                            OpenHome();
+
                             findViewById(R.id.add_new_notification).setVisibility(View.GONE);
                             studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
                             branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
@@ -454,6 +467,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                             bundle.putString("BranchId" , branchId);
                             fragment.setArguments(bundle);
                         } else {
+                            OpenHome();
                             fragment = new HomeBranchFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Home");
@@ -465,6 +479,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         break;
                     case R.id.bottom_nav_Profile:
                         if (access.equals("StudentAccess")) {
+                            OpenProfile();
                             fragment = new ProfileStudentFragment();
                             Bundle bundle = new Bundle();
                             PastQuiz.setVisibility(View.GONE);
@@ -474,6 +489,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                             bundle.putString("BranchId" , branchId);
                             fragment.setArguments(bundle);
                         } else {
+                            OpenProfile();
                             fragment = new BranchProfileFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Profile");
@@ -485,6 +501,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         break;
                     case R.id.bottom_nav_home_notice:
                         if (access.equals("StudentAccess")) {
+                            OpenNotification();
                             fragment = new NoticeStudentFragment();
                             ToolbarText.setText("Notice");
                             PastQuiz.setVisibility(View.GONE);
@@ -496,6 +513,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                             bundle.putString("BranchId" , branchId);
                             fragment.setArguments(bundle);
                         } else {
+                            OpenNotification();
                             fragment = new NoticeBranchFragment();
                             Bundle bundle = new Bundle();
                             ToolbarText.setText("Notice");
@@ -506,6 +524,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         }
                         break;
                     case R.id.bottom_nav_quiz:
+                        OpenQuiz();
                         if (access.equals("StudentAccess")) {
                             fragment = new QuizStudentFragment();
                             Bundle bundle = new Bundle();
@@ -523,21 +542,50 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                         break;
 
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        FragmentManager fm = getFragmentManager();
-        if (fm.getBackStackEntryCount() > 0) {
-            Log.i("MainActivity", "popping backstack");
-            fm.popBackStack();
-        } else {
+
+        Fragment myFragment = getSupportFragmentManager().findFragmentByTag("HomeFragment");
+        if (myFragment != null && myFragment.isVisible()) {
             Log.i("MainActivity", "nothing on backstack, calling super");
             super.onBackPressed();
+
+            // add your code here
         }
+        else
+        {
+            if (access.equals("StudentAccess")) {
+                Fragment fragment = new HomeStudentFragment();
+                Bundle bundle = new Bundle();
+                OpenHome();
+
+                findViewById(R.id.add_new_notification).setVisibility(View.GONE);
+                studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
+                branchId  = sharedPreferences.getString(KEY_STUDENT_B_ID , null);
+                bundle.putString("StudentId" , studentId);
+                bundle.putString("BranchId" , branchId);
+                fragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment , "HomeFragment").commit();
+            } else {
+                OpenHome();
+                Fragment fragment = new HomeBranchFragment();
+                Bundle bundle = new Bundle();
+                ToolbarText.setText("Home");
+                PastQuiz.setVisibility(View.GONE);
+                findViewById(R.id.add_new_notification).setVisibility(View.GONE);
+                bundle.putString("branchId", branchId);
+                fragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment , "HomeFragment").commit();
+            }
+        }
+
+
+
     }
 
 
@@ -546,4 +594,77 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
 
         return true;
     }
+    // sare functions
+
+    void OpenProfile()
+    {
+        ToolbarText.setText("Profile");
+        ProfileIcon.setVisibility(View.VISIBLE);
+        HomeIcon.setVisibility(View.GONE);
+        FeeIcon.setVisibility(View.GONE);
+        NewNotification123.setVisibility(View.GONE);
+        PastQuiz.setVisibility(View.GONE);
+        MenuItem i  = navigationView.getCheckedItem();
+        if(i!=null)
+        {
+            i.setChecked(false);
+        }
+        }
+    void OpenFee()
+    {
+        ToolbarText.setText("Fee Status");
+        ProfileIcon.setVisibility(View.GONE);
+        HomeIcon.setVisibility(View.GONE);
+        FeeIcon.setVisibility(View.VISIBLE);
+        NewNotification123.setVisibility(View.GONE);
+        PastQuiz.setVisibility(View.GONE);
+        int i = bottomNavBar.getSelectedItemId();
+        bottomNavBar.setItemSelected(i , false);
+    }
+    void OpenHome()
+    {
+        ToolbarText.setText("Home");
+        ProfileIcon.setVisibility(View.GONE);
+        HomeIcon.setVisibility(View.VISIBLE);
+        FeeIcon.setVisibility(View.GONE);
+        NewNotification123.setVisibility(View.GONE);
+        PastQuiz.setVisibility(View.GONE);
+        MenuItem i  = navigationView.getCheckedItem();
+
+        bottomNavBar.setItemSelected(R.id.bottom_nav_home , true);
+        if(i!=null)
+        {
+            i.setChecked(false);
+        }
+
+    }
+    void OpenNotification()
+    {
+        ToolbarText.setText("Notice");
+        ProfileIcon.setVisibility(View.GONE);
+        HomeIcon.setVisibility(View.GONE);
+        FeeIcon.setVisibility(View.GONE);
+        NewNotification123.setVisibility(View.VISIBLE);
+        PastQuiz.setVisibility(View.GONE);
+        MenuItem i  = navigationView.getCheckedItem();
+        if(i!=null)
+        {
+            i.setChecked(false);
+        }
+    }
+    void OpenQuiz()
+    {
+        ToolbarText.setText("Quiz");
+        ProfileIcon.setVisibility(View.GONE);
+        HomeIcon.setVisibility(View.GONE);
+        FeeIcon.setVisibility(View.GONE);
+        NewNotification123.setVisibility(View.GONE);
+        PastQuiz.setVisibility(View.VISIBLE);
+        MenuItem i  = navigationView.getCheckedItem();
+        if(i!=null)
+        {
+            i.setChecked(false);
+        }
+    }
+
 }

@@ -3,6 +3,7 @@ package com.example.globallibrary.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,22 @@ public class Settings extends AppCompatActivity {
         BranchId = intent.getStringExtra("BranchId");
         StudentId = intent.getStringExtra("StudentId");
         Log.d("TAG", "onCreate: StudentId " + StudentId);
+        findViewById(R.id.return_back111_backup).setVisibility(View.GONE);
+        findViewById(R.id.return_back111).setVisibility(View.VISIBLE);
+        BackPress = findViewById(R.id.return_back111);
+        BackPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                        Fragment myFragment = getSupportFragmentManager().findFragmentByTag("SettingFragment");
+        if (myFragment != null && myFragment.isVisible()) {
+            finish();
+            // add your code here
+        }
+
+
+            }
+        });
 
         if(StudentId !=null)
         {
@@ -35,7 +52,7 @@ public class Settings extends AppCompatActivity {
             bundle.putString("StudentId" , StudentId);
             bundle.putString("BranchId" , BranchId);
             fragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_setting,fragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_setting,fragment , "SettingFragment").commit();
         }
         else
         {
@@ -43,7 +60,7 @@ public class Settings extends AppCompatActivity {
             Bundle bundle = new Bundle();
             bundle.putString("BranchId" , BranchId);
             fragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_setting,fragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_setting,fragment , "SettingFragment").commit();
         }
 
 
@@ -51,11 +68,16 @@ public class Settings extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        Intent intent = new Intent(this ,GeneralActivity.class );
-//        intent.putExtra("user","branchAccess");
-//        intent.putExtra("branchId" , BranchId);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        startActivity(intent);
-        super.onBackPressed();
+//        Fragment myFragment = getSupportFragmentManager().findFragmentByTag("SettingFragment");
+//        if (myFragment != null && myFragment.isVisible()) {
+//            Intent intent = new Intent(Settings.this , GeneralActivity.class);
+//            startActivity(intent);
+//            // add your code here
+//        }
+//        else
+//        {
+            super.onBackPressed();
+//        }
+
     }
 }

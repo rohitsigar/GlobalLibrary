@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,6 +47,8 @@ public class ChangePhoneNumberBranchFragment extends Fragment {
     SharedPreferences sharedPreferences;
 
 
+    ImageButton BackPress;
+
     String BranchId;
 
 
@@ -59,6 +62,8 @@ public class ChangePhoneNumberBranchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
         //part1
 
         sharedPreferences  = getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
@@ -68,8 +73,41 @@ public class ChangePhoneNumberBranchFragment extends Fragment {
         Change1 = view.findViewById(R.id.change1_branch1);
         ForgetPassward = view.findViewById(R.id.forget_password_branch12);
 
+        getActivity().findViewById(R.id.return_back111_backup).setVisibility(View.VISIBLE);
+        getActivity().findViewById(R.id.return_back111).setVisibility(View.GONE);
+        BackPress = getActivity().findViewById(R.id.return_back111_backup);
+        BackPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().findViewById(R.id.return_back111_backup).setVisibility(View.GONE);
+                getActivity().findViewById(R.id.return_back111).setVisibility(View.VISIBLE);
+
+
+                getFragmentManager().popBackStack();
+
+
+            }
+        });
+
+
+
         BranchId = getArguments().getString("BranchId");
 
+        getActivity().findViewById(R.id.return_back111_backup).setVisibility(View.VISIBLE);
+        getActivity().findViewById(R.id.return_back111).setVisibility(View.GONE);
+        BackPress = getActivity().findViewById(R.id.return_back111_backup);
+        BackPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().findViewById(R.id.return_back111_backup).setVisibility(View.GONE);
+                getActivity().findViewById(R.id.return_back111).setVisibility(View.VISIBLE);
+
+
+                    getFragmentManager().popBackStack();
+
+
+            }
+        });
 
         Change1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,12 +119,13 @@ public class ChangePhoneNumberBranchFragment extends Fragment {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                if(document.getString("Passward")==CurrentPassward.getText().toString().trim())
+                                if(document.getString("Passward").equals(CurrentPassward.getText().toString().trim()))
                                 {
 
                                        firebaseFirestore.collection("Branches").document(BranchId.trim()).update("ContactNumber" , NewNumber1.getText().toString().trim());
-                                    Toast.makeText(getActivity() , "Contact Number is Sucessfully Changed" , Toast.LENGTH_SHORT);
-                                }
+                                    Toast.makeText(getActivity() , "Contact Number is Sucessfully Changed" , Toast.LENGTH_SHORT).show();
+
+                                    getFragmentManager().popBackStack();                                }
                                 else
                                 {
                                     CurrentPassward.setError("Wrong passward");

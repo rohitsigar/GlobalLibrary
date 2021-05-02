@@ -47,6 +47,7 @@ public class ChangePasswardBranchFragment extends Fragment {
 
 
     String BranchId;
+    ImageButton BackPress;
 
 
 
@@ -61,11 +62,29 @@ public class ChangePasswardBranchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
         sharedPreferences  = getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         CurrentPassward = view.findViewById(R.id.current_passward_1_branch);
         NewPassward = view.findViewById(R.id.new_passward_branch);
         Change1 = view.findViewById(R.id.change1_branch);
         ForgetPassward = view.findViewById(R.id.forget_password_branch);
+
+        getActivity().findViewById(R.id.return_back111_backup).setVisibility(View.VISIBLE);
+        getActivity().findViewById(R.id.return_back111).setVisibility(View.GONE);
+        BackPress = getActivity().findViewById(R.id.return_back111_backup);
+        BackPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().findViewById(R.id.return_back111_backup).setVisibility(View.GONE);
+                getActivity().findViewById(R.id.return_back111).setVisibility(View.VISIBLE);
+
+
+                getFragmentManager().popBackStack();
+
+
+            }
+        });
 
         BranchId = getArguments().getString("BranchId");
 
@@ -73,35 +92,49 @@ public class ChangePasswardBranchFragment extends Fragment {
         Change1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DocumentReference docIdRef = firebaseFirestore.collection("/BranchAuth/" ).document(BranchId.trim());
-                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                if(document.getString("Passward")==CurrentPassward.getText().toString().trim())
-                                {
+                if(CurrentPassward.getText().toString().isEmpty())
+                {
+                    CurrentPassward.setError("This Filed is Empty");
+                }
+                else if(NewPassward.getText().toString().trim().isEmpty())
+                {
+                    NewPassward.setError("This Filed is Empty");
+                }
+                else
+                {
+                    DocumentReference docIdRef = firebaseFirestore.collection("/BranchAuth/" ).document(BranchId.trim());
+                    docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
 
-                                    firebaseFirestore.collection("BranchAuth").document(BranchId.trim()).update("Passward" , NewPassward.getText().toString().trim());
-                                    Toast.makeText(getActivity() , "Passward is Sucessfully Changed" , Toast.LENGTH_SHORT);
+                                    if(document.getString("Passward").equals(CurrentPassward.getText().toString().trim()))
+                                    {
+
+                                        firebaseFirestore.collection("BranchAuth").document(BranchId.trim()).update("Passward" , NewPassward.getText().toString().trim());
+                                        Toast.makeText(getActivity() , "Passward is Sucessfully Changed" , Toast.LENGTH_SHORT).show();
+                                        getFragmentManager().popBackStack();
+                                    }
+                                    else
+                                    {
+                                        CurrentPassward.setError("Wrong passward");
+                                    }
+
+
+                                } else {
+
+                                    Log.d("TAG", "onComplete: not possible" );
+
                                 }
-                                else
-                                {
-                                    CurrentPassward.setError("Wrong passward");
-                                }
-
-
                             } else {
 
-                                Log.d("TAG", "onComplete: not possible" );
-
                             }
-                        } else {
-
                         }
-                    }
-                });
+                    });
+                }
+
             }
         });
         ForgetPassward.setOnClickListener(new View.OnClickListener() {

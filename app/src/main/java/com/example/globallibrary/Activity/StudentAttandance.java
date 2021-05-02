@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,8 @@ public class StudentAttandance extends AppCompatActivity implements OnNavigation
     FirebaseFirestore firebaseFirestore;
     Map<String , String> Map1 = new HashMap<String, String>();
 
+    ImageButton BackPress;
+
 
 
     @Override
@@ -50,6 +53,14 @@ public class StudentAttandance extends AppCompatActivity implements OnNavigation
        customCalendar = findViewById(R.id.custom_calendar);
         s = (String) customCalendar.getMonthYearTextView().getText().toString();
         firebaseFirestore = FirebaseFirestore.getInstance();
+
+        BackPress = findViewById(R.id.return_to_student_attandance);
+        BackPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         Map1.put("Jan" , "01");

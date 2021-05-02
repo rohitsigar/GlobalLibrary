@@ -130,14 +130,14 @@ public class StudentRegistrationFragment extends Fragment {
                     Dob.setError("Please Enter Your Date of Birth in yyyy/mm/dd format");
                 }
                 else if(passward.getText().toString().equals(reWritePassward.getText().toString())) {
-                    firestore.collection("Branches").document(branchName.getText().toString()).collection("StudentDetails").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    firestore.collection("Students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         private static final String TAG = "Rohit";
 
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if (contactNumber.getText().toString().equals(document.getId().toString())) {
+                                    if (contactNumber.getText().toString().equals(document.getString("ContactNumber").toString())) {
                                         contactNumber.setError("This Contact Number is already Registered");
                                         test = false;
                                     }
@@ -146,14 +146,14 @@ public class StudentRegistrationFragment extends Fragment {
                                 {
                                     Log.d("hello", "onComplete: ");
                                     Intent intent = new Intent(getActivity(), OtpVerify.class);
-                                    intent.putExtra("phoneNo", phoneNumber);
-                                    intent.putExtra("fullName", fullName.getText().toString());
-                                    intent.putExtra("email", emailAddress.getText().toString());
-                                    intent.putExtra("address", residentialAddress.getText().toString());
-                                    intent.putExtra("dob", Dob.getText().toString());
-                                    intent.putExtra("branch", branchName.getText().toString());
-                                    intent.putExtra("passward", passward.getText().toString());
-                                    intent.putExtra("userName", passward.getText().toString());
+                                    intent.putExtra("phoneNo", contactNumber.getText().toString().trim());
+                                    intent.putExtra("fullName", fullName.getText().toString().trim());
+                                    intent.putExtra("email", emailAddress.getText().toString().trim());
+                                    intent.putExtra("address", residentialAddress.getText().toString().trim());
+                                    intent.putExtra("dob", Dob.getText().toString().trim());
+                                    intent.putExtra("branch", branchName.getText().toString().trim());
+                                    intent.putExtra("passward", passward.getText().toString().trim());
+                                    intent.putExtra("userName", passward.getText().toString().trim());
                                     startActivity(intent);
 
                                 }

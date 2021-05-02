@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="100"
-        android:background="@drawable/background">
+        android:background="@color/white">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -20,28 +20,33 @@
                 android:layout_marginTop="30dp"
                 android:fontFamily="@font/fjalla_one"
                 android:text="GLOBAL LIBRARY"
-                android:textColor="#977070"
+                android:textColor="@color/black"
                 android:textSize="30dp"
                 android:textStyle="bold" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:src="@drawable/logoapp"
+            android:layout_weight="10"
+            android:scaleType="fitCenter"/>
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/sliding_tabs_auth"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="10"
-            android:layout_marginTop="80dp"
             app:tabBackground="@android:color/transparent"
-            app:tabIndicatorColor="#ff9e7f"
+            app:tabIndicatorColor="@color/black"
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/color_primary_text"
             app:tabTextAppearance="@style/MyCustomTextAppearance"
-            app:tabTextColor="@color/color_secondary_text" />
+            app:tabTextColor="@color/black" />
 
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPagerAuth"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="80"
+            android:layout_weight="70"
             android:layout_margin="10dp"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">

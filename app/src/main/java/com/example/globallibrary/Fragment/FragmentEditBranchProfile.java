@@ -1,5 +1,6 @@
 package com.example.globallibrary.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,8 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
+import com.example.globallibrary.Activity.GeneralActivity;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -94,8 +95,9 @@ public class FragmentEditBranchProfile extends Fragment {
 
 
                                 Toast.makeText(getActivity() , "Profile Updated" , Toast.LENGTH_SHORT).show();
-                                FragmentManager fm = getActivity().getSupportFragmentManager();
-                                fm.popBackStack();
+                                Intent intent = new Intent(getActivity() , GeneralActivity.class);
+                                startActivity(intent);
+
 
 
 

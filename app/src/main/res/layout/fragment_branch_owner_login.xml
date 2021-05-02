@@ -44,6 +44,7 @@
                 android:id="@+id/branch_branch_name"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
+                android:inputType="text"
                 android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -95,7 +96,7 @@
             android:layout_height="wrap_content"
             android:background="#00000000"
             android:textColor="@color/black"
-            android:text="New User? SIGN UP"
+            android:text="New User? Please Contact To admin"
             android:fontFamily="@font/fjalla_one"
             android:layout_gravity="center_horizontal"
             android:elevation="0dp"

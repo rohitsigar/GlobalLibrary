@@ -3,6 +3,8 @@ package com.example.globallibrary.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +31,8 @@ public class QuizActivity extends AppCompatActivity {
     TextView Difficuly;
     int ans =0;
 
+    ImageButton BackPress;
+
 
 
     @Override
@@ -39,6 +43,13 @@ public class QuizActivity extends AppCompatActivity {
         Difficuly = findViewById(R.id.difficuly1);
         Intent intent = getIntent();
         URL = intent.getStringExtra("URL");
+        BackPress = findViewById(R.id.return_to_quiz);
+        BackPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 // ...
 
 // Instantiate the RequestQueue.
@@ -65,7 +76,7 @@ public class QuizActivity extends AppCompatActivity {
                         bundle.putInt("ans" , 0);
 
                         fragment.setArguments(bundle);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.quiz_questions, fragment).addToBackStack(null).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.quiz_questions, fragment).commit();
 
                     }
                 }, new Response.ErrorListener() {
@@ -95,4 +106,9 @@ public class QuizActivity extends AppCompatActivity {
         return results.get(i);
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+
+    }
 }

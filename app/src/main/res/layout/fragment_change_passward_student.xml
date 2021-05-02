@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:id="@+id/current_passward_student1"
             android:background="@color/white"
+            android:inputType="textPassword"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -41,6 +42,7 @@
             android:layout_width="match_parent"
             android:textColor="@color/black"
             android:background="@color/white"
+            android:inputType="textPassword"
             android:id="@+id/new_passward_student"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>

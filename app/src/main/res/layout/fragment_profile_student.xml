@@ -131,11 +131,11 @@
             android:layout_height="0dp"
             android:layout_marginTop="0dp"
             app:tabBackground="@android:color/transparent"
-            app:tabIndicatorColor="#ff9e7f"
+            app:tabIndicatorColor="@color/black"
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/color_primary_text"
             app:tabTextAppearance="@style/MyCustomTextAppearance"
-            app:tabTextColor="@color/color_secondary_text" />
+            app:tabTextColor="@color/black" />
 
 
         <androidx.viewpager.widget.ViewPager

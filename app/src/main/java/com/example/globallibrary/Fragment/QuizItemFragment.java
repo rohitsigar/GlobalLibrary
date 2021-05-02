@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class QuizItemFragment extends Fragment {
     int totalQues;
     MaterialButton Next;
     RadioGroup Markedans;
+    ImageButton BackPress;
     int ans;
 
     @Override
@@ -58,6 +60,14 @@ public class QuizItemFragment extends Fragment {
         String temp = "Q . " + String.valueOf(QuesNo) + "/" + String.valueOf(totalQues);
         QuesNoShow = view.findViewById(R.id.Question_no);
         QuesNoShow.setText(temp);
+
+        BackPress = getActivity().findViewById(R.id.return_to_quiz);
+        BackPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
 
         Ques = view.findViewById(R.id.ques);
         opt = new RadioButton[4];

@@ -10,12 +10,12 @@
 
         <!--  back  -->
         <ImageButton
+            android:id="@+id/return_to_quiz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="34dp"
-            android:id="@+id/return_to_home"
             android:background="@android:color/transparent"
             app:srcCompat="@drawable/ic_left_arrow" />
 

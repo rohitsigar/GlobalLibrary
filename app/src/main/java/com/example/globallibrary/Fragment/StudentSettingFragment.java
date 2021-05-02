@@ -39,6 +39,9 @@ public class StudentSettingFragment extends Fragment {
 
         Passward = view.findViewById(R.id.change_passward);
         ContactNumber = view.findViewById(R.id.change_phone_no);
+        getActivity().findViewById(R.id.return_back111_backup).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.return_back111).setVisibility(View.VISIBLE);
+
 
 
 

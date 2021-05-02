@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +35,8 @@ public class QuizReportFragment extends Fragment {
     private static final String SHARED_PREF = "PREF";
     FirebaseFirestore firebaseFirestore ;
 
+    ImageButton BackPress;
+
     SharedPreferences sharedPreferences;
 
     String BranchId;
@@ -58,6 +61,13 @@ public class QuizReportFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.answers);
         RecyclerView.LayoutManager _layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setFocusable(false);
+        BackPress = getActivity().findViewById(R.id.return_to_quiz);
+        BackPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
 
 
 

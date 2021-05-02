@@ -41,11 +41,12 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="30"
+                android:gravity="center"
                 android:text="My Profile"
                 android:layout_marginLeft="40dp"
                 android:layout_gravity="center"
-                android:textColor="@color/color_third_text"
-                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <RelativeLayout
@@ -92,15 +93,40 @@
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:layout_height="match_parent"
-                    android:text="Past Quizes"
-                    android:id="@+id/past_quizes"
+                    android:text=""
+                    android:id="@+id/past_quiz"
                     android:elevation="12dp"
+                    app:iconGravity="textEnd"
+                    app:icon="@drawable/ic_baseline_article_24"
+                    app:iconTint="@color/black"
+                    android:textStyle="bold"
                     app:rippleColor="@color/black"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/white"
                     app:strokeColor="@color/black"
                     style="?attr/materialButtonOutlinedStyle"
                     android:visibility="gone"/>
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/home_toolbar"
+                    android:visibility="visible"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/home"/>
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_baseline_person_24"
+                    android:id="@+id/profile_toolbar"
+                    android:visibility="gone"
+                    android:backgroundTint="@color/white" />
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/fee"
+                    android:id="@+id/fee_toolbar"
+                    android:visibility="gone"
+                    android:backgroundTint="@color/white" />
         </RelativeLayout>
 
         </LinearLayout>

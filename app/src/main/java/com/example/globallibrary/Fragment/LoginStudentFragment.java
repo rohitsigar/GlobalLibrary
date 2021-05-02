@@ -84,50 +84,64 @@ public class LoginStudentFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firestore.collection("/Students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    private static final String TAG = "Rohit";
 
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String s = document.getString("ContactNumber");
-                                if(s.equals(contactNumber.getText().toString()))
-                                {
-                                    String p  = document.getString("Passward");
-                                    if(p.equals(passward.getText().toString()))
+                if(contactNumber.getText().toString().trim().isEmpty())
+                {
+                    contactNumber.setError("This Filed is Empty");
+                }
+                else if(passward.getText().toString().trim().isEmpty())
+                {
+                    contactNumber.setError("This Field is Empty");
+                }
+                else
+                {
+                    firestore.collection("/Students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        private static final String TAG = "Rohit";
+
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String s = document.getString("ContactNumber");
+                                    if(s.equals(contactNumber.getText().toString().trim()))
                                     {
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString(KEY_ACCESS , "StudentAccess");
-                                        Log.d(TAG, "onComplete: checking" + contactNumber.getText().toString());
-                                        String s1  = contactNumber.getText().toString();
-                                        editor.putString(KEY_STUDENT_B_ID ,document.getString("BranchId").trim());
-                                        editor.putString(KEY_STUDENT_ID ,document.getId().trim());
+                                        String p  = document.getString("Passward");
+                                        if(p.equals(passward.getText().toString().trim()))
+                                        {
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString(KEY_ACCESS , "StudentAccess");
+                                            Log.d(TAG, "onComplete: checking" + contactNumber.getText().toString());
+                                            String s1  = contactNumber.getText().toString();
+                                            test = true;
+                                            editor.putString(KEY_STUDENT_B_ID ,document.getString("BranchId").trim());
+                                            editor.putString(KEY_STUDENT_ID ,document.getId().trim());
 
 
-                                        editor.apply();
-                                        Intent intent = new Intent(getActivity(), GeneralActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
+                                            editor.apply();
+                                            Intent intent = new Intent(getActivity(), GeneralActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
 //                                        Toast.makeText(getActivity(), "Login Sucessfully" , Toast.LENGTH_SHORT).show();
+                                        }
+                                        else
+                                        {
+                                            passward.setError("Incorrect Passward");
+                                            test = true;
+                                        }
                                     }
-                                    else
-                                    {
-                                        passward.setError("Incorrect Passward");
-                                        test = true;
-                                    }
+
+                                }
+                                if(!test) {
+                                    contactNumber.setError("User Does not exist");
                                 }
 
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                            if(!test) {
-                                contactNumber.setError("User Does not exist");
-                            }
-
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
+                }
+
 
             }
         });

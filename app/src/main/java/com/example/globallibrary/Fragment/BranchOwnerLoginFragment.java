@@ -69,45 +69,59 @@ public class BranchOwnerLoginFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firestore.collection("BranchAuth").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    private static final String TAG = "Rohit";
+                if(branchName.getText().toString().trim().isEmpty())
+                {
+                    branchName.setError("This Field is Empty");
+                }
+                else if(passward.getText().toString().trim().isEmpty())
+                {
+                    passward.setError("This Filed is empty");
+                }
+                else
+                {
+                    firestore.collection("BranchAuth").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        private static final String TAG = "Rohit";
 
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String s = document.getString("BranchName");
-                                if(s.equals(branchName.getText().toString()))
-                                {
-                                    String p  = document.getString("Passward");
-                                    if(p.equals(passward.getText().toString()))
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String s = document.getString("BranchName");
+                                    if(s.equals(branchName.getText().toString()))
                                     {
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString(KEY_ACCESS , "branchAccess");
-                                        editor.putString(KEY_BRANCH_ID , document.getId().trim());
-                                        Log.d("TAG", "onComplete: checking " + document.getId());
-                                        editor.apply();
-                                        Intent intent = new Intent(getActivity(), GeneralActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
+                                        String p  = document.getString("Passward");
+                                        if(p.equals(passward.getText().toString()))
+                                        {
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString(KEY_ACCESS , "branchAccess");
+                                            editor.putString(KEY_BRANCH_ID , document.getId().trim());
+                                            Log.d("TAG", "onComplete: checking " + document.getId());
+                                            editor.apply();
+                                            test = true;
+                                            Intent intent = new Intent(getActivity(), GeneralActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
+                                        }
+                                        else
+                                        {
+                                            passward.setError("Incorrect Passward");
+                                            test = true;
+                                        }
                                     }
-                                    else
-                                    {
-                                        passward.setError("Incorrect Passward");
-                                        test = true;
-                                    }
+
+                                }
+                                if(!test) {
+                                    branchName.setError("Branch Does not exist");
                                 }
 
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                            if(!test) {
-                                branchName.setError("Branch Does not exist");
-                            }
-
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
+                }
+
 
             }
         });

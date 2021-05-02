@@ -109,16 +109,24 @@ public class QuizStudentFragment extends Fragment {
         Start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int ques = Integer.parseInt(Questions.getText().toString());
-                String Cati = Cat.getText().toString();
-                String Dif = Diff.getText().toString();
-                if(Questions.getText().equals(""))
+                int ques = Integer.parseInt(Questions.getText().toString().trim());
+                String Cati = Cat.getText().toString().trim();
+                String Dif = Diff.getText().toString().trim();
+                if(Questions.getText().toString().isEmpty())
                 {
                     Questions.setError("Enter Number of Questions");
                 }
                else if(ques > 50)
                 {
                     Questions.setError("Maximum Number of Question Can be 50");
+                }
+               else if(Cat.getText().toString().isEmpty())
+                {
+                    Cat.setError("This Filed is Empty");
+                }
+               else if(Diff.getText().toString().trim().isEmpty())
+                {
+                    Diff.setError("This Filed is Empty");
                 }
                else
                 {
