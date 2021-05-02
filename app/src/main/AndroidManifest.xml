@@ -62,9 +62,6 @@
             android:name=".Activity.StudentOverview"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.MapsActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Activity.NewNotification"
             android:label="@string/title_activity_new_notification"
             android:screenOrientation="portrait"

@@ -17,7 +17,7 @@
         android:contentDescription="For more ui/ux visit www.materialuiux.com"
         app:layout_collapseMode="pin" />
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="60dp"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:id="@+id/Short_recyclerView"
         android:layout_height="match_parent"/>

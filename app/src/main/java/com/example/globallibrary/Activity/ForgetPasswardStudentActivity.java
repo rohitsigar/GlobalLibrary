@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
@@ -39,7 +40,7 @@ public class ForgetPasswardStudentActivity extends AppCompatActivity {
     TextInputLayout ContactLay ;
     TextInputLayout OtpLay;
     TextInputLayout PasswardLay;
-    Button ResetPassward;
+    MaterialButton ResetPassward;
 
 
     private static final String KEY_ACCESS = "access";
@@ -50,12 +51,12 @@ public class ForgetPasswardStudentActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
 
-    Button CheckOtp;
+    MaterialButton CheckOtp;
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseAuthSettings firebaseAuthSettings = mAuth.getFirebaseAuthSettings();
     String StudentId;
-    Button SendOtp;
+    MaterialButton SendOtp;
     Button resendOtp;
 
     private String verificationId;

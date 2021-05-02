@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -44,7 +45,7 @@ public class OtpVerify extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private TextInputEditText otp;
     private Button reSendOtp;
-    private Button signUpButton;
+    private MaterialButton signUpButton;
     String phoneNo;
     String fullName;
     String emailAddress;
@@ -66,8 +67,7 @@ public class OtpVerify extends AppCompatActivity {
         Dob = getIntent().getStringExtra("dob");
         branchName = getIntent().getStringExtra("branch");
         passward = getIntent().getStringExtra("passward");
-        progressBar = findViewById(R.id.progressbar);
-        progressBar.setVisibility(View.GONE);
+        progressBar = findViewById(R.id.progressbar1);
         otp = findViewById(R.id.otp123);
         signUpButton = findViewById(R.id.Sign_up);
         reSendOtp = findViewById(R.id.resend_otp_branch);

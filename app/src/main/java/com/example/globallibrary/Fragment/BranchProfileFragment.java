@@ -35,7 +35,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -46,7 +45,7 @@ public class BranchProfileFragment extends Fragment {
     TabLayout tabLayout;
     ViewPager viewPager;
     PagerAdaptorBranchProfile viewPagerAdapter;
-    CircularImageView BranchImage;
+    ImageView BranchImage;
     ImageView ChangeImage;
     ImageView UploadImage;
     TextView BranchName;

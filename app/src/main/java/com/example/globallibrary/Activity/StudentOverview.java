@@ -8,9 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +32,7 @@ import com.squareup.picasso.Picasso;
 
 public class StudentOverview extends AppCompatActivity {
 
-    com.mikhaellopez.circularimageview.CircularImageView StudentImage;
+    ImageView StudentImage;
     TextView StudentName;
     TextView Discreption;
     TextView BranchName;
@@ -47,6 +47,7 @@ public class StudentOverview extends AppCompatActivity {
     ImageButton Back;
     MaterialButton ChangeFee;
     AlertDialog alertDialog;
+    MaterialButton DeleteAccount;
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -61,12 +62,74 @@ public class StudentOverview extends AppCompatActivity {
         Discreption = findViewById(R.id.student_discreption_oveview);
         BranchName  = findViewById(R.id.branch_name_student_overview);
         EmailAddress = findViewById(R.id.email_address_student_overview);
+        DeleteAccount = findViewById(R.id.delete_account);
         ContactNumber = findViewById(R.id.contact_number_student_profile_overview);
         ResidentialAddress = findViewById(R.id.residential_address_student_profile_overview);
         ChangeFee = findViewById(R.id.change_student_fee);
         Intent intent = getIntent();
         StudentId  = intent.getExtras().getString("StudentId");
         BranchId = intent.getExtras().getString("BranchId");
+        DeleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewGroup viewGroup = findViewById(android.R.id.content);
+
+                //then we will inflate the custom alert dialog xml that we created
+                View dialogView = LayoutInflater.from(StudentOverview.this).inflate(R.layout.delete_account_dilog, viewGroup, false);
+
+
+                //Now we need an AlertDialog.Builder object
+                AlertDialog.Builder builder = new AlertDialog.Builder(StudentOverview.this);
+
+                //setting the view of the builder to our custom view that we already inflated
+                builder.setView(dialogView);
+
+                //finally creating the alert dialog and displaying it
+                alertDialog = builder.create();
+                alertDialog.show();
+                MaterialButton Permanentdelete = alertDialog.findViewById(R.id.delete_permanent);
+                Permanentdelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        firebaseFirestore.collection("Branches/" + BranchId + "/StudentDetails/" ).document(StudentId)
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("TAG", "DocumentSnapshot successfully deleted!");
+                                        Toast.makeText(StudentOverview.this,"Account Delete Successfully" , Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("TAG", "Error deleting document", e);
+                                    }
+                                });
+                        firebaseFirestore.collection("Students").document(StudentId)
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("TAG", "DocumentSnapshot successfully deleted!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("TAG", "Error deleting document", e);
+                                    }
+                                });
+
+
+                        alertDialog.dismiss();
+                    }
+                });
+
+            }
+        });
         ChangeFee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +149,7 @@ public class StudentOverview extends AppCompatActivity {
                 alertDialog = builder.create();
                 alertDialog.show();
                 EditText AmountFee = alertDialog.findViewById(R.id.amount_change_student);
-                Button Change = alertDialog.findViewById(R.id.button_change_student);
+                MaterialButton Change = alertDialog.findViewById(R.id.button_change_student);
                 Log.d("TAG", "onClick: studentId : " + StudentId + " BranchId  : " + BranchId);
 
                 DocumentReference docIdRef = firebaseFirestore.collection("Branches/"  + BranchId + "/StudentDetails" ).document(StudentId);

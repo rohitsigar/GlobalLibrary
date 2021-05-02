@@ -1,54 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
-    android:background="@drawable/bg_recat"
     android:id="@+id/ChangeColor"
 
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
+        android:background="@drawable/btn_background"
         android:orientation="horizontal"
         android:weightSum="100">
         <LinearLayout
             android:layout_width="150dp"
             android:layout_weight="50"
-            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_gravity="center">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:text="Student Name"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+
 
                 android:layout_gravity="center"
                 android:fontFamily="@font/fjalla_one"
-                android:textSize="10dp"
+                android:textSize="20dp"
                 android:layout_marginLeft="10dp"
 
                 android:id="@+id/StudentName_short_details"/>
             <TextView
+                android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginTop="5dp"
+                android:textColor="@color/black"
                 android:text="Discreption"
                 android:layout_gravity="center"
                 android:fontFamily="@font/fjalla_one"
-                android:textSize="5dp"
+                android:textSize="15dp"
                 android:layout_marginLeft="5dp"
 
                 android:id="@+id/branch_discreption_short_details"/>
 
 
         </LinearLayout>
-
-
         <ImageView
             android:id="@+id/student_image_short_details"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
             android:layout_weight="50"
@@ -59,4 +66,4 @@
 
 
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

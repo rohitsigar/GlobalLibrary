@@ -1,5 +1,6 @@
 package com.example.globallibrary.Activity;
 
+
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -26,13 +27,11 @@ import androidx.fragment.app.Fragment;
 import com.example.globallibrary.Fragment.BranchProfileFragment;
 import com.example.globallibrary.Fragment.FeeBranchFragment;
 import com.example.globallibrary.Fragment.FeeStudentFragment;
-import com.example.globallibrary.Fragment.FineStudentFragment;
 import com.example.globallibrary.Fragment.HomeBranchFragment;
 import com.example.globallibrary.Fragment.HomeStudentFragment;
 import com.example.globallibrary.Fragment.NoticeBranchFragment;
 import com.example.globallibrary.Fragment.NoticeStudentFragment;
 import com.example.globallibrary.Fragment.ProfileStudentFragment;
-import com.example.globallibrary.Fragment.QuizBranchFragment;
 import com.example.globallibrary.Fragment.QuizStudentFragment;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -154,6 +153,36 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
         Log.d("TAG", "onCreate: checking 1 2" + branchId);
         storageReference = storage.getReference();
         if (access.equals("StudentAccess")) {
+
+            studentId = sharedPreferences.getString(KEY_STUDENT_ID , null);
+
+            DocumentReference docIdRef1 = firebaseFirestore.collection("/Students/" ).document(studentId.trim());
+            docIdRef1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+
+
+                        } else {
+
+
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.clear();
+                            editor.commit();
+                            finish();
+                            Intent intent = new Intent(GeneralActivity.this, AuthenticationActivity.class);
+                            startActivity(intent);
+
+
+
+                        }
+                    } else {
+
+                    }
+                }
+            });
             bottomNavBar = findViewById(R.id.bottom_navbar_student);
             bottomNavBar.setVisibility(View.VISIBLE);
             bottomNavBar.setItemSelected(R.id.bottom_nav_home, true);
@@ -273,6 +302,36 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
 
 //            branchName = getIntent().getStringExtra("branchName");
             branchId = sharedPreferences.getString(KEY_BRANCH_ID , null);
+            DocumentReference docIdRef2 = firebaseFirestore.collection("/BranchAuth/"  ).document(branchId.trim());
+            docIdRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+
+
+
+
+                        } else {
+
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.clear();
+                            editor.commit();
+                            finish();
+                            Intent intent = new Intent(GeneralActivity.this, AuthenticationActivity.class);
+                            startActivity(intent);
+
+
+                            Log.d("TAG", "onComplete: not possible" );
+
+                        }
+                    } else {
+
+                    }
+                }
+            });
+
             Log.d("TAG", "onCreate: branchName /Branches/" + branchId.trim());
             DocumentReference docIdRef = firebaseFirestore.collection("/Branches/" ).document(branchId.trim());
             docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -340,11 +399,6 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
 
 
 
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
-                        break;
-                    case R.id.slider_fine:
-                        fragment = new FineStudentFragment();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
                         break;
@@ -463,13 +517,7 @@ public class GeneralActivity extends AppCompatActivity implements NavigationView
                             fragment.setArguments(bundle);
                         } else {
 
-                            fragment = new QuizBranchFragment();
-                            Bundle bundle = new Bundle();
-                            PastQuiz.setVisibility(View.GONE);
-                            ToolbarText.setText("Quiz");
-                            findViewById(R.id.add_new_notification).setVisibility(View.GONE);
-                            bundle.putString("branchId", branchId);
-                            fragment.setArguments(bundle);
+
                         }
 
                         break;

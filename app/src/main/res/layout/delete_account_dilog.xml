@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Are You Sure ? "
+        android:layout_margin="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_margin="15dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Delete Account"
+        android:id="@+id/delete_permanent"
+        android:elevation="12dp"
+        app:rippleColor="@color/black"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        app:strokeColor="@color/black"
+        style="?attr/materialButtonOutlinedStyle"
+        android:visibility="visible"/>
+
+
+
+</LinearLayout>

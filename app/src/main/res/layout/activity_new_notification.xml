@@ -10,23 +10,22 @@
     tools:ignore="HardcodedText">
     <!--  include  Toolbar -->
     <include
-        android:id="@+id/id_toolbar_profile"
+        android:id="@+id/id_toolbar_profile123"
         layout="@layout/layout_new_notification"
         android:contentDescription="For more ui/ux visit www.materialuiux.com"
         app:layout_collapseMode="pin" />
 
     <!-- Title -->
     <EditText
+        android:layout_margin="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
+        android:textStyle="bold"
         android:id="@+id/title_new_notification"
-        android:layout_marginLeft="35dp"
   android:filterTouchesWhenObscured="true"
         android:textCursorDrawable="@color/black"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginRight="70dp"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:backgroundTint="@color/black"
         android:contentDescription="For more ui/ux visit www.materialuiux.com"
         android:hint="Title of Notification"
@@ -37,16 +36,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="42dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_margin="20dp"
         android:contentDescription="For more ui/ux visit www.materialuiux.com"
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="For more ui/ux visit www.materialuiux.com"
             android:text="@string/edit_description"
@@ -56,10 +51,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="4dp"
             android:background="@color/white"
+            android:layout_gravity="center"
             android:id="@+id/body_new_notification"
             android:contentDescription="For more ui/ux visit www.materialuiux.com"
             android:gravity="left"

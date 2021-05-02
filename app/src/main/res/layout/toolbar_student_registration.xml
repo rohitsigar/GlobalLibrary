@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
-        android:background="@drawable/bg_recat"
+        android:background="@color/white"
         android:layout_height="match_parent">
 
         <!--  back  -->
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:background="#8278cf"
+            android:background="@color/white"
             android:layout_marginLeft="34dp"
             android:src="@drawable/ic_left_arrow" />
 
@@ -30,7 +30,7 @@
             android:layout_centerVertical="true"
             android:text="Registration"
             android:textColor="@color/color_third_text"
-            android:textSize="18dp"
+            android:textSize="25dp"
             android:textStyle="bold" />
 
 
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="#8278cf"
+            android:background="@color/white"
             android:layout_marginRight="34dp"
             android:src="@drawable/ic_check_done" />
     </RelativeLayout>

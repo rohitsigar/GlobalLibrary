@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ques"
+            android:textColor="@color/black"
             android:text="Animate the transition between fragments?"
             android:textStyle="bold"/>
         <RadioGroup
@@ -36,21 +37,25 @@
             <RadioButton
                 android:id="@+id/radio_button_1"
                 android:layout_width="match_parent"
+                android:buttonTint="@color/black"
                 android:layout_height="match_parent"
                 android:text="Option 1"/>
             <RadioButton
                 android:id="@+id/radio_button_2"
                 android:layout_width="match_parent"
+                android:buttonTint="@color/black"
                 android:layout_height="match_parent"
                 android:text="Option 2"/>
             <RadioButton
                 android:id="@+id/radio_button_3"
                 android:layout_width="match_parent"
+                android:buttonTint="@color/black"
                 android:layout_height="match_parent"
                 android:text="Option 3"/>
             <RadioButton
                 android:id="@+id/radio_button_4"
                 android:layout_width="match_parent"
+                android:buttonTint="@color/black"
                 android:layout_height="match_parent"
                 android:text="Option 4"/>
         </RadioGroup>

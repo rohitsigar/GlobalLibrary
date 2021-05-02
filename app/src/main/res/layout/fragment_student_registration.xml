@@ -96,7 +96,7 @@
                         app:endIconMode="dropdown_menu"
                         android:id="@+id/student_branch"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:hint="Select Branch">
+                        android:hint="   Select Branch">
                         <AutoCompleteTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

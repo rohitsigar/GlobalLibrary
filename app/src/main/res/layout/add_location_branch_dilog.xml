@@ -2,20 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="	#3CB371">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/ic_sucess" />
-
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Mark Location"
+            android:textStyle="bold"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
@@ -43,15 +33,19 @@
             android:hint="Enter radius for Attandance Range"
             android:id="@+id/radious"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonOk"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:background="@drawable/btn_background"
-            android:text="Ok"
-            android:textColor="@color/colorPrimary" />
+            android:elevation="12dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            app:strokeColor="@color/black"
+            style="?attr/materialButtonOutlinedStyle"
+            android:text="Ok" />
 
     </LinearLayout>
 

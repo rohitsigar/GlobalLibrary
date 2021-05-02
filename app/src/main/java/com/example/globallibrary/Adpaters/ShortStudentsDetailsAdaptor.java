@@ -8,10 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.globallibrary.Models.ShortStudentDetails;
@@ -62,11 +62,11 @@ public class ShortStudentsDetailsAdaptor extends RecyclerView.Adapter<ShortStude
         viewHolder.Discreption.setText(itam.Discreption);
         if(itam.Color.equals("Red"))
         {
-           viewHolder.ChangeColor.setBackgroundColor(Color.RED);
+           viewHolder.ChangeColor.setBackgroundColor(Color.parseColor(	"#ffcccb"));
         }
         else if(itam.Color.equals("Green"))
         {
-            viewHolder.ChangeColor.setBackgroundColor(Color.GREEN);
+            viewHolder.ChangeColor.setBackgroundColor(Color.parseColor(	"#90EE90"));
         }
         Log.d("TAG", "onBindViewHolder: " + itam.PhootoURL);
 
@@ -96,7 +96,7 @@ public class ShortStudentsDetailsAdaptor extends RecyclerView.Adapter<ShortStude
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView StudentName, Discreption ;
         public ImageView StudentPhoto;
-        public LinearLayout ChangeColor;
+        public CardView ChangeColor;
 
 
         public ViewHolder(final View v) {
@@ -104,7 +104,7 @@ public class ShortStudentsDetailsAdaptor extends RecyclerView.Adapter<ShortStude
             StudentName = (TextView) v.findViewById(R.id.StudentName_short_details);
             Discreption = (TextView) v.findViewById(R.id.branch_discreption_short_details);
             StudentPhoto = (ImageView) v.findViewById(R.id.student_image_short_details);
-            ChangeColor = (LinearLayout) v.findViewById(R.id.ChangeColor);
+            ChangeColor = (CardView) v.findViewById(R.id.ChangeColor);
             v.setOnClickListener(this);
 
         }

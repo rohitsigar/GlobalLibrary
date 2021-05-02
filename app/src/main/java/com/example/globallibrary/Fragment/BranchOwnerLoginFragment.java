@@ -22,6 +22,7 @@ import com.example.globallibrary.Activity.GeneralActivity;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -30,7 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class BranchOwnerLoginFragment extends Fragment {
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     Button signUpButton;
-    Button loginButton;
+    MaterialButton loginButton;
     TextInputEditText branchName;
     Button ForgetPassward;
 

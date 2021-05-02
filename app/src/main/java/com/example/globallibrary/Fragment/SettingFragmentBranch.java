@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,10 +28,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
 
 public class SettingFragmentBranch extends Fragment {
 
@@ -39,9 +40,11 @@ public class SettingFragmentBranch extends Fragment {
     String BranchId;
     Button MarkLocation;
     Button ChangeLocation;
-    Button Done;
+    MaterialButton Done;
     EditText Radi;
     AlertDialog alertDialog;
+    ProgressBar progressBar;
+
     LocationRequest mLocationRequest;
     Location mLastLocation;
     Marker mCurrLocationMarker;
@@ -49,6 +52,8 @@ public class SettingFragmentBranch extends Fragment {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private FusedLocationProviderClient fusedLocationProviderClient;
     Button ChangeFee;
+
+    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
 
 
 
@@ -95,7 +100,7 @@ public class SettingFragmentBranch extends Fragment {
              alertDialog = builder.create();
              alertDialog.show();
              EditText FeeAmount = alertDialog.findViewById(R.id.amount_change);
-             Button Change = alertDialog.findViewById(R.id.button_change);
+             MaterialButton Change = alertDialog.findViewById(R.id.button_change);
              DocumentReference docIdRef = firebaseFirestore.collection("/Branches/" ).document(BranchId.trim());
              docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                  @Override
@@ -191,7 +196,6 @@ public class SettingFragmentBranch extends Fragment {
                         }
                         else
                         {
-
                             if(getActivity().getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION )== PackageManager.PERMISSION_GRANTED)
                             {
                                 fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
@@ -201,12 +205,13 @@ public class SettingFragmentBranch extends Fragment {
                                         {
                                             double lati =location.getLatitude();
                                             double longi = location.getLongitude();
-                                            GeoPoint geoPoint = new GeoPoint(lati , longi);
                                             int i = Integer.parseInt(Radi.getText().toString().trim());
-                                            firebaseFirestore.collection("Branches/").document(BranchId).update("Location" , geoPoint);
+                                            firebaseFirestore.collection("Branches/").document(BranchId).update("Longitude" , longi);
+                                            firebaseFirestore.collection("Branches/").document(BranchId).update("Latitude" , lati);
                                             firebaseFirestore.collection("Branches/").document(BranchId).update("Radius" , i);
-                                            Toast.makeText(getActivity() , "Location: " + lati + " " + longi , Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity() , "Location: is SucessFully Marked" , Toast.LENGTH_SHORT).show();
                                             alertDialog.dismiss();
+
                                         }
 
                                     }
@@ -253,31 +258,7 @@ public class SettingFragmentBranch extends Fragment {
                         else
                         {
 
-                            if(getActivity().getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION )== PackageManager.PERMISSION_GRANTED)
-                            {
-                                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                                    @Override
-                                    public void onSuccess(Location location) {
-                                        if(location!=null)
-                                        {
-                                            double lati =location.getLatitude();
-                                            double longi = location.getLongitude();
-                                            int i = Integer.parseInt(Radi.getText().toString().trim());
-                                            firebaseFirestore.collection("Branches/").document(BranchId).update("Longitude" , longi);
-                                            firebaseFirestore.collection("Branches/").document(BranchId).update("Latitude" , lati);
-                                            firebaseFirestore.collection("Branches/").document(BranchId).update("Radius" , i);
-                                            Toast.makeText(getActivity() , "Location: is SucessFully Marked" , Toast.LENGTH_SHORT).show();
-                                            alertDialog.dismiss();
 
-                                        }
-
-                                    }
-                                });
-                            }
-                            else
-                            {
-                                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
-                            }
                         }
 
                     }
@@ -320,6 +301,8 @@ public class SettingFragmentBranch extends Fragment {
 
 
     }
+
+
 
 
 }

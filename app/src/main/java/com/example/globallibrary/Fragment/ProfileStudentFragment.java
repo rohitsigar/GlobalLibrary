@@ -35,7 +35,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -50,7 +49,7 @@ public class ProfileStudentFragment extends Fragment {
     TabLayout tabLayout;
     ViewPager viewPager;
     PageAdaptorStudentProfile viewPagerAdapter;
-    CircularImageView StudentImage;
+    ImageView StudentImage;
     ImageView ChangeImage;
     ImageView UploadImage;
     TextView StudentName;

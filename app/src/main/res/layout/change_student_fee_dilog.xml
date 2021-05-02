@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
 
@@ -16,6 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Change Fee"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
@@ -32,15 +35,20 @@
             android:hint="Change Fee"
             android:id="@+id/amount_change_student"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_change_student"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:elevation="12dp"
+            app:rippleColor="@color/black"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            app:strokeColor="@color/black"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:background="@drawable/btn_background"
-            android:text="Set Fee"
-            android:textColor="@color/colorPrimary" />
+            android:text="Set Fee" />
 
     </LinearLayout>
 
