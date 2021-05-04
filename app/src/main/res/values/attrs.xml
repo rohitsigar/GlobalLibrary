@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleImageView"></declare-styleable>
+    <declare-styleable name="CircleImageView_civ_border_width"></declare-styleable>
+    <declare-styleable name="CircleImageView_civ_border_color"></declare-styleable>
+    <declare-styleable name="CircleImageView_civ_border_overlay"></declare-styleable>
+    <declare-styleable name="CircleImageView_civ_circle_background_color"></declare-styleable>
+</resources>

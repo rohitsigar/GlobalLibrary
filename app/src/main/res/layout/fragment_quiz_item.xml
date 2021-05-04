@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_gravity="start"
+    tools:context=".Fragment.QuizItemFragment">
+    <Button
+        android:id="@+id/Question_no"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Q . 0/10"
+        android:background="#00FFFFFF"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        android:textAlignment="center"
+        android:layout_gravity="right"
+        android:fontFamily="@font/fjalla_one"
+        android:elevation="12dp"
+        android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ques"
+            android:textColor="@color/black"
+            android:text="Animate the transition between fragments?"
+            android:textStyle="bold"/>
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/radio_button_1"
+                android:layout_width="match_parent"
+                android:buttonTint="@color/black"
+                android:layout_height="match_parent"
+                android:text="Option 1"/>
+            <RadioButton
+                android:id="@+id/radio_button_2"
+                android:layout_width="match_parent"
+                android:buttonTint="@color/black"
+                android:layout_height="match_parent"
+                android:text="Option 2"/>
+            <RadioButton
+                android:id="@+id/radio_button_3"
+                android:layout_width="match_parent"
+                android:buttonTint="@color/black"
+                android:layout_height="match_parent"
+                android:text="Option 3"/>
+            <RadioButton
+                android:id="@+id/radio_button_4"
+                android:layout_width="match_parent"
+                android:buttonTint="@color/black"
+                android:layout_height="match_parent"
+                android:text="Option 4"/>
+        </RadioGroup>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:id="@+id/NextQuestion"
+            android:elevation="12dp"
+            app:rippleColor="@color/black"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            app:strokeColor="@color/black"
+            style="?attr/materialButtonOutlinedStyle"
+            android:visibility="visible"/>
+    </LinearLayout>
+

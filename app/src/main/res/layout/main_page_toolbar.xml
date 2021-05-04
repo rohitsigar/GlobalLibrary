@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/toolbar"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+
+            <!--  back  -->
+            <ImageButton
+                android:id="@+id/Slider_menu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="0dp"
+                android:layout_weight="40"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_menu" />
+
+
+            <!--  Title Toolbar  -->
+
+            <TextView
+                android:id="@+id/main_text_branch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="30"
+                android:gravity="center"
+                android:text="My Profile"
+                android:layout_marginLeft="40dp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/id_ProfileImage_RelativeLayout"
+                android:layout_width="match_parent"
+                android:layout_weight="30"
+                android:layout_marginLeft="30dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true">
+
+                <!--  Profile Image -->
+
+<!--                <com.mikhaellopez.circularimageview.CircularImageView-->
+<!--                    android:id="@+id/toolbar_branch_Image"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_centerInParent="true"-->
+<!--                    android:src="@drawable/image"-->
+<!--                    app:civ_border_color="#EEEEEE"-->
+<!--                    app:civ_shadow="true"-->
+<!--                    app:civ_shadow_color="#f4f5f9"-->
+<!--                    app:civ_shadow_radius="10" />-->
+                <com.google.android.material.button.MaterialButton
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:icon="@drawable/ic_baseline_add_24"
+                    app:iconGravity="textEnd"
+                    app:rippleColor="@color/black"
+                    app:iconTint="@color/black"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"
+                    app:strokeColor="@color/black"
+                    android:elevation="12dp"
+                    android:id="@+id/add_new_notification"
+                    android:visibility="gone"/>
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:id="@+id/past_quiz"
+                    android:elevation="12dp"
+                    app:iconGravity="textEnd"
+                    app:icon="@drawable/ic_baseline_article_24"
+                    app:iconTint="@color/black"
+                    android:textStyle="bold"
+                    app:rippleColor="@color/black"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"
+                    app:strokeColor="@color/black"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:visibility="gone"/>
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/home_toolbar"
+                    android:visibility="visible"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/home"/>
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_baseline_person_24"
+                    android:id="@+id/profile_toolbar"
+                    android:visibility="gone"
+                    android:backgroundTint="@color/white" />
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/fee"
+                    android:id="@+id/fee_toolbar"
+                    android:visibility="gone"
+                    android:backgroundTint="@color/white" />
+        </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</androidx.appcompat.widget.Toolbar>
+
+
+

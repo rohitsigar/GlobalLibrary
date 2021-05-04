@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.LoginStudentFragment"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:weightSum="100"
+    android:padding="20dp">
+    <include
+        android:id="@+id/id_toolbar_profile12"
+        layout="@layout/toolbar_settings"
+        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+        app:layout_collapseMode="pin" />
+
+
+    <FrameLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_weight="100"
+        android:layout_height="0dp"
+        android:id="@+id/fragment_container_setting">
+
+    </FrameLayout>
+
+</LinearLayout>

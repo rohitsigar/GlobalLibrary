@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fragment.SettingFragmentBranch">
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:padding="20dp"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:gravity="start"
+        android:text="Change Passward"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:textColor="@color/black"
+        android:id="@+id/change_passward"
+
+        android:background="@color/white"/>
+    <Button
+        android:padding="20dp"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:textStyle="bold"
+        android:gravity="start"
+        android:text="Change Contact Number"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:id="@+id/change_phone_no"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:background="@drawable/btn_background"/>
+    <Button
+        android:padding="20dp"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:gravity="start"
+        android:text="Change Location"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:id="@+id/change_location"
+        android:visibility="gone"
+        android:background="@drawable/btn_background"/>
+    <Button
+        android:padding="20dp"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:text="Mark Location"
+        android:gravity="start"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:id="@+id/mark_location"
+        android:background="@drawable/btn_background"/>
+    <Button
+        android:padding="20dp"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:text="Change Standard Fee"
+        android:gravity="start"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:id="@+id/change_default_amount"
+        android:background="@drawable/btn_background"/>
+
+
+
+
+</LinearLayout>

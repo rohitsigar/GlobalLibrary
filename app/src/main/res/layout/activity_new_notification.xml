@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+    android:orientation="vertical"
+    tools:context=".Activity.NewNotification"
+    tools:ignore="HardcodedText">
+    <!--  include  Toolbar -->
+    <include
+        android:id="@+id/id_toolbar_new_notification"
+        layout="@layout/layout_new_notification"
+        app:layout_collapseMode="pin" />
+
+    <!-- Title -->
+    <EditText
+        android:layout_margin="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:id="@+id/title_new_notification"
+  android:filterTouchesWhenObscured="true"
+        android:textCursorDrawable="@color/black"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:backgroundTint="@color/black"
+        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+        android:hint="Title of Notification"
+        android:textColor="@color/black"
+        android:textSize="38sp" />
+
+    <!-- body  -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:text="@string/edit_description"
+            android:textColor="@color/color_secondary_text"
+            android:textSize="14sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_gravity="center"
+            android:id="@+id/body_new_notification"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:gravity="left"
+            android:minHeight="50dp"
+            android:text=""
+            android:hint="Write here!"
+            android:textColor="@color/black"
+            android:textCursorDrawable="@color/black"
+            android:textSize="18sp"
+            android:theme="@style/cutomTextstyle"
+            tools:ignore="RtlHardcoded" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
