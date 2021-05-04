@@ -44,6 +44,10 @@ public class AuthenticationActivity<ViewPagerAdapter> extends FragmentActivity {
                 AuthenticationActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE)
                 + ContextCompat.checkSelfPermission(
                 AuthenticationActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                +ContextCompat.checkSelfPermission(
+                AuthenticationActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)
+                + ContextCompat.checkSelfPermission(
+                AuthenticationActivity.this,Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
 
             // Do something, when permissions not granted
@@ -52,7 +56,11 @@ public class AuthenticationActivity<ViewPagerAdapter> extends FragmentActivity {
                     || ActivityCompat.shouldShowRequestPermissionRationale(
                     AuthenticationActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE)
                     || ActivityCompat.shouldShowRequestPermissionRationale(
-                    AuthenticationActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                    AuthenticationActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            ||ActivityCompat.shouldShowRequestPermissionRationale(
+                    AuthenticationActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)
+                    ||ActivityCompat.shouldShowRequestPermissionRationale(
+                    AuthenticationActivity.this,Manifest.permission.ACCESS_COARSE_LOCATION)){
                 // If we should give explanation of requested permissions
 
                 // Show an alert dialog here with request explanation
@@ -68,7 +76,9 @@ public class AuthenticationActivity<ViewPagerAdapter> extends FragmentActivity {
                                 new String[]{
                                         Manifest.permission.INTERNET ,
                                         Manifest.permission.READ_EXTERNAL_STORAGE,
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                        Manifest.permission.ACCESS_FINE_LOCATION,
+                                        Manifest.permission.ACCESS_COARSE_LOCATION
                                 },
                                 MY_PERMISSIONS_REQUEST_CODE
                         );
@@ -84,7 +94,9 @@ public class AuthenticationActivity<ViewPagerAdapter> extends FragmentActivity {
                         new String[]{
                                 Manifest.permission.INTERNET,
                                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE ,
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
                         },
                         MY_PERMISSIONS_REQUEST_CODE
                 );
@@ -105,6 +117,8 @@ public class AuthenticationActivity<ViewPagerAdapter> extends FragmentActivity {
                                 (grantResults[0]
                                         + grantResults[1]
                                         + grantResults[2]
+                                        +grantResults[3]
+                                        +grantResults[4]
                                         == PackageManager.PERMISSION_GRANTED
                                 )
                 ){

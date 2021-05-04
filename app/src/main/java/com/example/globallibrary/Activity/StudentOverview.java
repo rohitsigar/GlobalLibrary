@@ -100,6 +100,7 @@ public class StudentOverview extends AppCompatActivity {
                                     public void onSuccess(Void aVoid) {
                                         Log.d("TAG", "DocumentSnapshot successfully deleted!");
                                         Toast.makeText(StudentOverview.this,"Account Delete Successfully" , Toast.LENGTH_LONG).show();
+                                        finish();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {

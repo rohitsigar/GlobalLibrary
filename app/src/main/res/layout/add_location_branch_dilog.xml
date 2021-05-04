@@ -32,6 +32,13 @@
             android:layout_height="wrap_content"
             android:hint="Enter radius for Attandance Range"
             android:id="@+id/radious"/>
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:indeterminateTint="@color/black"
+            android:id="@+id/progressbar_location"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonOk"

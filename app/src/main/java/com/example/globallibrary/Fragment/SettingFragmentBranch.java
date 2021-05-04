@@ -2,8 +2,12 @@ package com.example.globallibrary.Fragment;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -27,12 +32,12 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 public class SettingFragmentBranch extends Fragment {
 
@@ -159,7 +164,7 @@ public class SettingFragmentBranch extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 
-                        if(document.getDouble("Longitude")!=null)
+                        if(document.getGeoPoint("Location")!=null)
                         {
                             MarkLocation.setVisibility(View.GONE);
                             ChangeLocation.setVisibility(View.VISIBLE);
@@ -202,40 +207,65 @@ public class SettingFragmentBranch extends Fragment {
                 alertDialog.show();
                 Done = alertDialog.findViewById(R.id.buttonOk);
                 Radi = alertDialog.findViewById(R.id.radious);
+                ProgressBar progressBar = alertDialog.findViewById(R.id.progressbar_location);
                 Done.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+
                         if(Radi.getText().toString()==null)
                         {
                             Toast.makeText(getActivity(),"Please Enter Radious",Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
-                            if(getActivity().getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION )== PackageManager.PERMISSION_GRANTED)
-                            {
-                                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                                    @Override
-                                    public void onSuccess(Location location) {
-                                        if(location!=null)
-                                        {
-                                            double lati =location.getLatitude();
-                                            double longi = location.getLongitude();
-                                            int i = Integer.parseInt(Radi.getText().toString().trim());
-                                            firebaseFirestore.collection("Branches/").document(BranchId).update("Longitude" , longi);
-                                            firebaseFirestore.collection("Branches/").document(BranchId).update("Latitude" , lati);
-                                            firebaseFirestore.collection("Branches/").document(BranchId).update("Radius" , i);
-                                            Toast.makeText(getActivity() , "Location: is SucessFully Marked" , Toast.LENGTH_SHORT).show();
-                                            alertDialog.dismiss();
+
+                            final LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+                            boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+                            if (isNetworkEnabled) {
+                                Criteria criteria = new Criteria();
+                                criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+
+                                if ((ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                                        PackageManager.PERMISSION_GRANTED) &&
+                                        ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                                                PackageManager.PERMISSION_GRANTED) {
+
+                                } else {
+
+                                    locationManager.requestSingleUpdate(criteria, new LocationListener() {
+                                        @Override
+                                        public void onStatusChanged(String provider, int status, Bundle extras) {
 
                                         }
 
-                                    }
-                                });
+                                        @Override
+                                        public void onProviderEnabled(@NonNull String provider) {
+
+                                        }
+
+                                        @Override
+                                        public void onProviderDisabled(@NonNull String provider) {
+
+                                        }
+
+                                        @Override
+                                        public void onLocationChanged(@NonNull Location location) {
+                                            System.out.println(location.getLongitude());
+                                            System.out.println(location.getLongitude());
+                                            GeoPoint geoPoint  = new GeoPoint(location.getLatitude() ,location.getLongitude());
+                                            firebaseFirestore.collection("Branches").document(BranchId).update("Location" , geoPoint);
+                                            firebaseFirestore.collection("Branches").document(BranchId).update("Radius" , Double.parseDouble(Radi.getText().toString().trim()));
+                                            alertDialog.dismiss();
+                                        }
+                                    }, null);
+                                }
                             }
-                            else
-                            {
-                                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
-                            }
+
+
+
+
                         }
 
                     }
@@ -263,6 +293,7 @@ public class SettingFragmentBranch extends Fragment {
                 alertDialog.show();
                 Done = alertDialog.findViewById(R.id.buttonOk);
                 Radi = alertDialog.findViewById(R.id.radious);
+                ProgressBar progressBar = alertDialog.findViewById(R.id.progressbar_location);
                 Done.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -272,6 +303,49 @@ public class SettingFragmentBranch extends Fragment {
                         }
                         else
                         {
+                            System.out.println("asddf");
+                            final LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+                            boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+                            if (isNetworkEnabled) {
+                                Criteria criteria = new Criteria();
+                                criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+
+                                if ((ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                                        PackageManager.PERMISSION_GRANTED) &&
+                                        ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                                                PackageManager.PERMISSION_GRANTED) {
+
+                                } else {
+
+                                    locationManager.requestSingleUpdate(criteria, new LocationListener() {
+                                        @Override
+                                        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                                        }
+
+                                        @Override
+                                        public void onProviderEnabled(@NonNull String provider) {
+
+                                        }
+
+                                        @Override
+                                        public void onProviderDisabled(@NonNull String provider) {
+
+                                        }
+
+                                        @Override
+                                        public void onLocationChanged(@NonNull Location location) {
+                                            System.out.println(location.getLongitude());
+                                            System.out.println(location.getLongitude());
+                                            GeoPoint geoPoint  = new GeoPoint(location.getLatitude() ,location.getLongitude());
+                                            firebaseFirestore.collection("Branches").document(BranchId).update("Location" , geoPoint);
+                                            firebaseFirestore.collection("Branches").document(BranchId).update("Radius" , Double.parseDouble(Radi.getText().toString().trim()));
+                                            alertDialog.dismiss();
+                                        }
+                                    }, null);
+                                }
+                            }
 
 
                         }
