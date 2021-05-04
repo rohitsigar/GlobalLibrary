@@ -1,14 +1,17 @@
 package com.example.globallibrary.Fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
+import android.app.Service;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +36,17 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.globallibrary.Activity.StudentAttandance;
 import com.example.globallibrary.R;
-import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -42,10 +54,17 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 // pending
 //1. store phone number locally in phone and keep student user loged in for now user have to log in every time
 
-public class HomeStudentFragment extends Fragment {
+public class HomeStudentFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, OnMapReadyCallback {
 
     RecyclerView recyclerView;
     String StudentId;
@@ -58,18 +77,23 @@ public class HomeStudentFragment extends Fragment {
     LinearLayout NotMaked;
     LinearLayout MainDilog;
     ProgressBar progressBar;
-    LocationManager locationManager;
 
-
-    TextView DisplayLocation;
     AlertDialog alertDialog;
     TextView Factdisplay;
     MaterialButton MoreFacts;
     RequestQueue queue;
-    private Boolean mLocationPermissionsGranted = false;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
 
-    private FusedLocationProviderClient mFusedLocationProviderClient;
+
+    private static final int PLAY_SERVICE_REQUEST = 9000;
+    private static final int PERMISSION_CODE = 101;
+    String[] permissions_all={Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION};
+    LocationManager locationManager;
+    boolean isGpsProvider;
+    boolean isNetworkProvider;
+    GoogleApiClient googleApiClient;
+    Location location;
+    GoogleMap googleMap;
+
 
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     @Override
@@ -143,95 +167,28 @@ public class HomeStudentFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                        final LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-                        boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                        if(!checkPlayServiceInstalled()){
+                            return;
+                        }
 
-                        if (isNetworkEnabled) {
-                            Criteria criteria = new Criteria();
-                            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+                        //now checking permission and request permission
 
-                            if ((ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-                                    PackageManager.PERMISSION_GRANTED) &&
-                                    ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                                            PackageManager.PERMISSION_GRANTED) {
-
-                            } else {  Log.d("TAG", "getLocationPermission: getting location permissions");
-                                String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
-                                        Manifest.permission.ACCESS_COARSE_LOCATION};
-
-                                if(ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                                    if(ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                                            Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                                        mLocationPermissionsGranted = true;
-                                    }else{
-                                        ActivityCompat.requestPermissions(getActivity(),
-                                                permissions,
-                                                LOCATION_PERMISSION_REQUEST_CODE);
-                                    }
-                                }else{
-                                    ActivityCompat.requestPermissions(getActivity(),
-                                            permissions,
-                                            LOCATION_PERMISSION_REQUEST_CODE);
-                                }
-
-
-                                mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
-                                try{
-                                    if(mLocationPermissionsGranted){
-
-                                        final Task location = mFusedLocationProviderClient.getLastLocation();
-                                        location.addOnCompleteListener(new OnCompleteListener() {
-                                            @Override
-                                            public void onComplete(@NonNull Task task) {
-                                                if(task.isSuccessful()){
-                                                    Log.d("TAG", "onComplete: found location!");
-                                                    Location currentLocation = (Location) task.getResult();
-
-                                                    DocumentReference docIdRef = firestore.collection("Branches").document(branchId.trim());
-                                                    docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                            if (task.isSuccessful()) {
-                                                                DocumentSnapshot document = task.getResult();
-                                                                if (document.exists()) {
-
-                                                                    GeoPoint geoPoint = document.getGeoPoint("Location");
-                                                                    Location location1 = new Location("");
-                                                                    location1.setLongitude(geoPoint.getLongitude());
-                                                                    location1.setLatitude(geoPoint.getLatitude());
-
-                                                                    Toast.makeText(getActivity() ,String.valueOf(currentLocation.distanceTo(location1)) , Toast.LENGTH_LONG).show();
-
-
-
-
-                                                                } else {
-
-                                                                    Log.d("TAG", "onComplete: not possible" );
-
-                                                                }
-                                                            } else {
-
-                                                            }
-                                                        }
-                                                    });
-
-
-
-                                                }else{
-                                                    Log.d("TAG", "onComplete: current location is null");
-                                                    Toast.makeText(getActivity(), "unable to get current location", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-                                    }
-                                }catch (SecurityException e){
-                                    Log.e("TAG", "getDeviceLocation: SecurityException: " + e.getMessage() );
-                                }
-
+                        if(Build.VERSION.SDK_INT>=23){
+                            if(checkPermission()){
+                                getDeviceLocation();
+                            }
+                            else{
+                                requestPermission();
                             }
                         }
+                        else{
+                            getDeviceLocation();
+                        }
+
+//                        SupportMapFragment supportMapFragment=(SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
+//                        supportMapFragment.getMapAsync(MapWithPlayServiceLocationActivity.this);
+
+
 
 
                     }
@@ -307,7 +264,273 @@ public class HomeStudentFragment extends Fragment {
 
     }
 
+    private void getDeviceLocation() {
+        locationManager=(LocationManager)getActivity().getSystemService(Service.LOCATION_SERVICE);
+        isGpsProvider=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        isNetworkProvider=locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        if(!isGpsProvider && !isNetworkProvider){
+            //showing setting for enable gps
+            showSettingAlert();
+        }
+        else{
+            GetLocationData();
+        }
+    }
+
+    private void GetLocationData() {
+        googleApiClient=new GoogleApiClient.Builder(getActivity())
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
+        googleApiClient.connect();
+    }
+    private void showSettingAlert() {
+        AlertDialog.Builder al=new AlertDialog.Builder(getActivity());
+        al.setTitle("Enable GPS");
+        al.setMessage("Please Enable GPS");
+        al.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent=new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+
+            }
+        });
+        al.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        al.show();
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(getActivity(),permissions_all,PERMISSION_CODE);
+    }
+
+    private boolean checkPermission() {
+        for(int i=0;i<permissions_all.length;i++){
+            int result= ContextCompat.checkSelfPermission(getActivity(),permissions_all[i]);
+            if(result== PackageManager.PERMISSION_GRANTED){
+                continue;
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case PERMISSION_CODE:
+                if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    getDeviceLocation();
+                }
+                else{
+                    Toast.makeText(getActivity(), "Permission Failed", Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+    private boolean checkPlayServiceInstalled() {
+        GoogleApiAvailability apiAvailability=GoogleApiAvailability.getInstance();
+        int result=apiAvailability.isGooglePlayServicesAvailable(getActivity());
+        if(result!= ConnectionResult.SUCCESS){
+            if(apiAvailability.isUserResolvableError(result)){
+                apiAvailability.getErrorDialog(getActivity(),result,PLAY_SERVICE_REQUEST).show();
+                return false;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return true;
+        }
+    }
+
+    @SuppressWarnings(value = "MissingPermission")
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        location=LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+
+        DocumentReference docIdRef = firestore.collection("Branches" ).document(branchId.trim());
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+
+                        GeoPoint geoPoint = document.getGeoPoint("Location");
+                        Location location1 = new Location("");
+                        location1.setLatitude(geoPoint.getLatitude());
+                        location1.setLongitude(geoPoint.getLongitude());
+
+                        Toast.makeText(getActivity() , "distance : "  + location.distanceTo(location1) , Toast.LENGTH_LONG).show();
+
+                        //here de can compare the dist with the radius given by branch
+                        double radi = document.getDouble("Radius");
+
+                        if(radi  > location.distanceTo(location1) && location.distanceTo(location1)!=0)
+                        {
+                            Marked.setVisibility(View.VISIBLE);
+                            MainDilog.setVisibility(View.GONE);
+                            Date c = Calendar.getInstance().getTime();
+                            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                            String formattedDate = df.format(c);
+                            String studentDoc = formattedDate.substring(3,10);
+                            String doc = formattedDate.substring(0,2);
+                            Log.d("TAG", "onComplete: check 1" + studentDoc + " " + doc + " " + formattedDate);
+                            DocumentReference docIdRef = firestore.collection("/Branches/" + branchId.trim() + "/Attandance/" ).document(formattedDate.trim());
+                            docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            firestore.collection("Branches").document(branchId).collection("Attandance").document(formattedDate).update(StudentId , true);
 
 
 
+                                        } else {
+                                            Map<String,Object> allDetails = new HashMap<>();
+                                            allDetails.put(StudentId, true);
+                                            firestore.collection("Branches").document(branchId).collection("Attandance").document(formattedDate).set(allDetails);
+
+                                            Log.d("TAG", "onComplete: not possible" );
+
+                                        }
+                                    } else {
+
+                                    }
+                                }
+                            });
+                            DocumentReference docIdRef1 = firestore.collection("/Branches/" + branchId.trim() + "/StudentDetails/"  + StudentId.trim() + "/Attandance/").document(studentDoc.trim());
+                            docIdRef1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            firestore.collection("Branches").document(branchId).collection("StudentDetails").document(StudentId).collection("Attandance").document(studentDoc.trim()).update(doc , true);
+
+
+
+
+                                        } else {
+                                            Map<String,Object> allDetails = new HashMap<>();
+                                            allDetails.put(doc, true);
+                                            firestore.collection("Branches").document(branchId).collection("StudentDetails").document(StudentId).collection("Attandance").document(studentDoc).set(allDetails);
+
+                                            Log.d("TAG", "onComplete: not possible" );
+
+                                        }
+                                    } else {
+
+                                    }
+                                }
+                            });
+                        }
+                        else
+                        {
+                            NotMaked.setVisibility(View.VISIBLE);
+                            MainDilog.setVisibility(View.GONE);
+                        }
+
+
+
+                    } else {
+
+                        Log.d("TAG", "onComplete: not possible" );
+
+                    }
+                } else {
+
+                }
+            }
+        });
+        if(location!=null){
+//            Toast.makeText(getActivity(), "Lat : "+location.getLatitude()+" Lng "+location.getLongitude(), Toast.LENGTH_SHORT).show();
+            if(googleMap!=null){
+                LatLng latLng=new LatLng(location.getLatitude(),location.getLongitude());
+                googleMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10f));
+            }
+        }
+        startLocationUpdates();
+
+    }
+    @SuppressLint("MissingPermission")
+    private void startLocationUpdates() {
+        LocationRequest locationRequest=new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        //10 sec
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,locationRequest,this::onLocationChanged);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+    private void stopLocationUpdates() {
+        if(googleApiClient!=null){
+            if(googleApiClient.isConnected()){
+                LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient,this::onLocationChanged);
+                googleApiClient.disconnect();
+            }
+        }
+    }
+
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        googleMap.getUiSettings().setRotateGesturesEnabled(false);
+        //if you need to disable zooming
+        googleMap.getUiSettings().setZoomGesturesEnabled(false);
+
+        //now zooming and rotation now working
+
+        //we can also customize map
+        //googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        this.googleMap=googleMap;
+        //let fixed map loading problem
+        // i missed api key
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+
+
+
+//        Toast.makeText(getActivity(), "Lat : "+location.getLatitude()+" Lng "+location.getLongitude(), Toast.LENGTH_SHORT).show();
+        if(googleMap!=null){
+            LatLng latLng=new LatLng(location.getLatitude(),location.getLongitude());
+            googleMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10f));
+        }
+
+    }
 }
+

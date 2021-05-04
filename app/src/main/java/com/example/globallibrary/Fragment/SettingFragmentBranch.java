@@ -1,14 +1,18 @@
 package com.example.globallibrary.Fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
+import android.app.Service;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,16 +25,23 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.globallibrary.R;
-import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -39,7 +50,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
-public class SettingFragmentBranch extends Fragment {
+public class SettingFragmentBranch extends Fragment  implements  GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, OnMapReadyCallback {
 
     Button Passward;
     Button ContactNumber;
@@ -52,15 +63,21 @@ public class SettingFragmentBranch extends Fragment {
     ProgressBar progressBar;
     ImageButton BackPress;
 
-    LocationRequest mLocationRequest;
-    Location mLastLocation;
-    Marker mCurrLocationMarker;
-    FusedLocationProviderClient mFusedLocationClient;
+
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-    private FusedLocationProviderClient fusedLocationProviderClient;
+
     Button ChangeFee;
 
-    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+    private static final int PLAY_SERVICE_REQUEST = 9000;
+    private static final int PERMISSION_CODE = 101;
+    String[] permissions_all={Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION};
+    LocationManager locationManager;
+    boolean isGpsProvider;
+    boolean isNetworkProvider;
+    GoogleApiClient googleApiClient;
+    Location location;
+    GoogleMap googleMap;
+
 
 
 
@@ -88,7 +105,7 @@ public class SettingFragmentBranch extends Fragment {
         BranchId = getArguments().getString("BranchId");
         Passward = view.findViewById(R.id.change_passward);
         ContactNumber = view.findViewById(R.id.change_phone_no);
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
         MarkLocation = view.findViewById(R.id.mark_location);
         ChangeLocation = view.findViewById(R.id.change_location);
         ChangeFee = view.findViewById(R.id.change_default_amount);
@@ -207,7 +224,7 @@ public class SettingFragmentBranch extends Fragment {
                 alertDialog.show();
                 Done = alertDialog.findViewById(R.id.buttonOk);
                 Radi = alertDialog.findViewById(R.id.radious);
-                ProgressBar progressBar = alertDialog.findViewById(R.id.progressbar_location);
+                 progressBar = alertDialog.findViewById(R.id.progressbar_location);
                 Done.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -220,50 +237,32 @@ public class SettingFragmentBranch extends Fragment {
                         else
                         {
 
-                            final LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-                            boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-                            if (isNetworkEnabled) {
-                                Criteria criteria = new Criteria();
-                                criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-
-                                if ((ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-                                        PackageManager.PERMISSION_GRANTED) &&
-                                        ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                                                PackageManager.PERMISSION_GRANTED) {
-
-                                } else {
-
-                                    locationManager.requestSingleUpdate(criteria, new LocationListener() {
-                                        @Override
-                                        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                                        }
-
-                                        @Override
-                                        public void onProviderEnabled(@NonNull String provider) {
-
-                                        }
-
-                                        @Override
-                                        public void onProviderDisabled(@NonNull String provider) {
-
-                                        }
-
-                                        @Override
-                                        public void onLocationChanged(@NonNull Location location) {
-                                            System.out.println(location.getLongitude());
-                                            System.out.println(location.getLongitude());
-                                            GeoPoint geoPoint  = new GeoPoint(location.getLatitude() ,location.getLongitude());
-                                            firebaseFirestore.collection("Branches").document(BranchId).update("Location" , geoPoint);
-                                            firebaseFirestore.collection("Branches").document(BranchId).update("Radius" , Double.parseDouble(Radi.getText().toString().trim()));
-                                            alertDialog.dismiss();
-                                        }
-                                    }, null);
-                                }
+                            if(Radi.getText().toString()==null)
+                            {
+                                Toast.makeText(getActivity(),"Please Enter Radious",Toast.LENGTH_SHORT).show();
                             }
+                            else
+                            {
+                                if(!checkPlayServiceInstalled()){
+                                    return;
+                                }
+
+                                //now checking permission and request permission
+
+                                if(Build.VERSION.SDK_INT>=23){
+                                    if(checkPermission()){
+                                        getDeviceLocation();
+                                    }
+                                    else{
+                                        requestPermission();
+                                    }
+                                }
+                                else{
+                                    getDeviceLocation();
+                                }
 
 
+                            }
 
 
                         }
@@ -293,7 +292,7 @@ public class SettingFragmentBranch extends Fragment {
                 alertDialog.show();
                 Done = alertDialog.findViewById(R.id.buttonOk);
                 Radi = alertDialog.findViewById(R.id.radious);
-                ProgressBar progressBar = alertDialog.findViewById(R.id.progressbar_location);
+                 progressBar = alertDialog.findViewById(R.id.progressbar_location);
                 Done.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -303,48 +302,22 @@ public class SettingFragmentBranch extends Fragment {
                         }
                         else
                         {
-                            System.out.println("asddf");
-                            final LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-                            boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                            if(!checkPlayServiceInstalled()){
+                                return;
+                            }
 
-                            if (isNetworkEnabled) {
-                                Criteria criteria = new Criteria();
-                                criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+                            //now checking permission and request permission
 
-                                if ((ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-                                        PackageManager.PERMISSION_GRANTED) &&
-                                        ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                                                PackageManager.PERMISSION_GRANTED) {
-
-                                } else {
-
-                                    locationManager.requestSingleUpdate(criteria, new LocationListener() {
-                                        @Override
-                                        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                                        }
-
-                                        @Override
-                                        public void onProviderEnabled(@NonNull String provider) {
-
-                                        }
-
-                                        @Override
-                                        public void onProviderDisabled(@NonNull String provider) {
-
-                                        }
-
-                                        @Override
-                                        public void onLocationChanged(@NonNull Location location) {
-                                            System.out.println(location.getLongitude());
-                                            System.out.println(location.getLongitude());
-                                            GeoPoint geoPoint  = new GeoPoint(location.getLatitude() ,location.getLongitude());
-                                            firebaseFirestore.collection("Branches").document(BranchId).update("Location" , geoPoint);
-                                            firebaseFirestore.collection("Branches").document(BranchId).update("Radius" , Double.parseDouble(Radi.getText().toString().trim()));
-                                            alertDialog.dismiss();
-                                        }
-                                    }, null);
+                            if(Build.VERSION.SDK_INT>=23){
+                                if(checkPermission()){
+                                    getDeviceLocation();
                                 }
+                                else{
+                                    requestPermission();
+                                }
+                            }
+                            else{
+                                getDeviceLocation();
                             }
 
 
@@ -389,6 +362,184 @@ public class SettingFragmentBranch extends Fragment {
         });
 
 
+
+    }
+    private void getDeviceLocation() {
+        locationManager=(LocationManager)getActivity().getSystemService(Service.LOCATION_SERVICE);
+        isGpsProvider=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        isNetworkProvider=locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        if(!isGpsProvider && !isNetworkProvider){
+            //showing setting for enable gps
+            showSettingAlert();
+        }
+        else{
+            GetLocationData();
+        }
+    }
+
+    private void GetLocationData() {
+        googleApiClient=new GoogleApiClient.Builder(getActivity())
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
+        googleApiClient.connect();
+    }
+    private void showSettingAlert() {
+        AlertDialog.Builder al=new AlertDialog.Builder(getActivity());
+        al.setTitle("Enable GPS");
+        al.setMessage("Please Enable GPS");
+        al.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent=new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+
+            }
+        });
+        al.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        al.show();
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(getActivity(),permissions_all,PERMISSION_CODE);
+    }
+
+    private boolean checkPermission() {
+        for(int i=0;i<permissions_all.length;i++){
+            int result= ContextCompat.checkSelfPermission(getActivity(),permissions_all[i]);
+            if(result== PackageManager.PERMISSION_GRANTED){
+                continue;
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case PERMISSION_CODE:
+                if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    getDeviceLocation();
+                }
+                else{
+                    Toast.makeText(getActivity(), "Permission Failed", Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+    private boolean checkPlayServiceInstalled() {
+        GoogleApiAvailability apiAvailability=GoogleApiAvailability.getInstance();
+        int result=apiAvailability.isGooglePlayServicesAvailable(getActivity());
+        if(result!= ConnectionResult.SUCCESS){
+            if(apiAvailability.isUserResolvableError(result)){
+                apiAvailability.getErrorDialog(getActivity(),result,PLAY_SERVICE_REQUEST).show();
+                return false;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return true;
+        }
+    }
+
+    @SuppressWarnings(value = "MissingPermission")
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        location=LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        GeoPoint geoPoint  = new GeoPoint(location.getLatitude() ,location.getLongitude());
+        firebaseFirestore.collection("Branches").document(BranchId).update("Location" , geoPoint);
+        firebaseFirestore.collection("Branches").document(BranchId).update("Radius" , Double.parseDouble(Radi.getText().toString().trim()));
+        progressBar.setVisibility(View.GONE);
+        alertDialog.dismiss();
+
+
+
+        if(location!=null){
+            Toast.makeText(getActivity(), "Lat : "+location.getLatitude()+" Lng "+location.getLongitude(), Toast.LENGTH_SHORT).show();
+            if(googleMap!=null){
+                LatLng latLng=new LatLng(location.getLatitude(),location.getLongitude());
+                googleMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10f));
+            }
+        }
+        startLocationUpdates();
+
+    }
+    @SuppressLint("MissingPermission")
+    private void startLocationUpdates() {
+        LocationRequest locationRequest=new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        //10 sec
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,locationRequest,this::onLocationChanged);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+    private void stopLocationUpdates() {
+        if(googleApiClient!=null){
+            if(googleApiClient.isConnected()){
+                LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient,this::onLocationChanged);
+                googleApiClient.disconnect();
+            }
+        }
+    }
+
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        googleMap.getUiSettings().setRotateGesturesEnabled(false);
+        //if you need to disable zooming
+        googleMap.getUiSettings().setZoomGesturesEnabled(false);
+
+        //now zooming and rotation now working
+
+        //we can also customize map
+        //googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        this.googleMap=googleMap;
+        //let fixed map loading problem
+        // i missed api key
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+
+
+
+//        Toast.makeText(getActivity(), "Lat : "+location.getLatitude()+" Lng "+location.getLongitude(), Toast.LENGTH_SHORT).show();
+        if(googleMap!=null){
+            LatLng latLng=new LatLng(location.getLatitude(),location.getLongitude());
+            googleMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10f));
+        }
 
     }
 
