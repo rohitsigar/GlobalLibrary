@@ -21,6 +21,9 @@ import com.example.globallibrary.R;
 public class AuthenticationActivity<ViewPagerAdapter> extends FragmentActivity {
 
 
+    private static int SPLASH_TIME_OUT  = 1000;
+
+
 //    private static final int PERMISSION_CODE_EXTERAL = 1;
 //    private static final int PERMISSION_CODE_INTERNET = 1;
     private static final int   MY_PERMISSIONS_REQUEST_CODE = 123;
@@ -35,6 +38,7 @@ public class AuthenticationActivity<ViewPagerAdapter> extends FragmentActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_authentication);
+
         Fragment fragment = new MainPageAuthFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_auth,fragment).addToBackStack(null).commit();
     }

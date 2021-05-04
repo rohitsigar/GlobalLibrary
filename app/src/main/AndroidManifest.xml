@@ -14,19 +14,26 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:icon="@mipmap/app"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.GlobalLibrary">
-        <activity android:name=".Activity.ForgetPasswardBranchActivity"></activity>
+        android:theme="@style/Theme.GlobalLibrary"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Activity.FlashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.ForgetPasswardBranchActivity" />
         <activity android:name=".Activity.ForgetPasswardStudentActivity" />
         <activity android:name=".Activity.PaymentActivity" />
         <!--
@@ -53,8 +60,6 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-
-
         <activity
             android:name=".Activity.StudentAttandance"
             android:screenOrientation="portrait" />
@@ -96,11 +101,6 @@
         <activity
             android:name=".Activity.AuthenticationActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
