@@ -44,7 +44,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
 
         Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_test_aN6TKxMme2tnOO");
+        checkout.setKeyID("ENTER_RAZER_PAY_KEY_HERE");
         /**
          * Instantiate Checkout
          */
