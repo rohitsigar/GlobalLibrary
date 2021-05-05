@@ -14,11 +14,9 @@
     <br />
     <a href="https://github.com/rohitsigar/GlobalLibrary"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-
-   
+    <br /> 
   </p>
-</p>
+
 
 
 
