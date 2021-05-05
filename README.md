@@ -101,7 +101,7 @@
   present in the Institute
   
   
-  These is a little in accuracy in getting location 
+  There is a little inaccuracy in getting location 
     :no_mouth:
     
 <img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/attandance_branch.gif" width="200" height="320" /> <img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/mark_attandance.gif" width="200" height="320" /> <img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/show_attandance.gif" width="200" height="320"  />
