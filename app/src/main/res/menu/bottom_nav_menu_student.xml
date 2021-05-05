@@ -23,7 +23,7 @@
     <item
         android:id="@+id/bottom_nav_Profile"
         android:title="Profile"
-        android:icon="@drawable/profile"
+        android:icon="@drawable/profile_a"
         app:cnb_iconColor="@color/black"
         app:cnb_backgroundColor  = "#FFFFFF"/>
 </menu>

@@ -38,7 +38,7 @@
             android:layout_marginRight="34dp"
             android:id="@+id/attandance_student_pallet"
             android:background="@android:color/transparent"
-            app:srcCompat="@drawable/profile" />
+            app:srcCompat="@drawable/profile_a" />
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -43,7 +43,7 @@
                     android:textColor="@color/black"
                     android:backgroundTint="@color/white"
                     app:strokeColor="@color/black"
-                    app:icon="@drawable/mark_attandance"
+                    app:icon="@drawable/mark_attandance_a"
                     app:iconGravity="textEnd"
                     app:iconTint="@color/black"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
