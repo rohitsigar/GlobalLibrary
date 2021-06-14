@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mark Location"
+            android:text="Generate QR Code"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
@@ -24,14 +24,58 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Make Sure You are Present in Library Before Marking Location"
+            android:text="Make Sure to Generate New Qr Code Everyday"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        <EditText
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter radius for Attandance Range"
-            android:id="@+id/radious"/>
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/openinig_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="00"
+                android:inputType="number" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:inputType="number"
+                android:layout_height="wrap_content"
+                android:hint="00"
+                android:id="@+id/openinig_minute"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_height="wrap_content"
+                android:text="To"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="00"
+                android:id="@+id/closing_hour"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="00"
+                android:id="@+id/closing_minute"/>
+
+        </LinearLayout>
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +96,7 @@
             android:backgroundTint="@color/white"
             app:strokeColor="@color/black"
             style="?attr/materialButtonOutlinedStyle"
-            android:text="Ok" />
+            android:text="Generate" />
 
     </LinearLayout>
 

@@ -1,17 +1,13 @@
 package com.example.globallibrary.Fragment;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Service;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,24 +32,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.globallibrary.Activity.StudentAttandance;
 import com.example.globallibrary.R;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -61,10 +47,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import eu.livotov.labs.android.camview.ScannerLiveView;
+import eu.livotov.labs.android.camview.scanner.decoder.zxing.ZXDecoder;
 // pending
 //1. store phone number locally in phone and keep student user loged in for now user have to log in every time
 
-public class HomeStudentFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, OnMapReadyCallback {
+public class HomeStudentFragment extends Fragment  {
 
     RecyclerView recyclerView;
     String StudentId;
@@ -77,25 +66,31 @@ public class HomeStudentFragment extends Fragment implements GoogleApiClient.Con
     LinearLayout NotMaked;
     LinearLayout MainDilog;
     ProgressBar progressBar;
+    boolean check = false;
 
     AlertDialog alertDialog;
     TextView Factdisplay;
     MaterialButton MoreFacts;
     RequestQueue queue;
 
+    TextView First;
+    TextView Second;
+
 
     private static final int PLAY_SERVICE_REQUEST = 9000;
     private static final int PERMISSION_CODE = 101;
-    String[] permissions_all={Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION};
+    String[] permissions_all = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
     LocationManager locationManager;
     boolean isGpsProvider;
     boolean isNetworkProvider;
     GoogleApiClient googleApiClient;
     Location location;
     GoogleMap googleMap;
+    private ScannerLiveView camera;
 
 
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -107,6 +102,13 @@ public class HomeStudentFragment extends Fragment implements GoogleApiClient.Con
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         queue = Volley.newRequestQueue(getActivity());
+
+        if (checkPermission()) {
+            // if permission is already granted display a toast message
+            Toast.makeText(getActivity(), "Permission Granted..", Toast.LENGTH_SHORT).show();
+        } else {
+            requestPermission();
+        }
 
 
         StudentId = getArguments().getString("StudentId");
@@ -122,6 +124,7 @@ public class HomeStudentFragment extends Fragment implements GoogleApiClient.Con
 
             }
         });
+camera = view.findViewById(R.id.camview);
 
 
         MarkAttandance = view.findViewById(R.id.mark_attandance);
@@ -129,72 +132,242 @@ public class HomeStudentFragment extends Fragment implements GoogleApiClient.Con
             @Override
             public void onClick(View v) {
 
-                if(ContextCompat.checkSelfPermission(getActivity() , Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
-                {
-                    ActivityCompat.requestPermissions(getActivity(),new String[]{
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                    },100);
-                }
+                Date c = Calendar.getInstance().getTime();
+                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                String formattedDate = df.format(c);
+                String s1 = c.toString();
+//                int hour = Integer.getInteger(s1.substring(11,13));
+//                int minute = Integer.getInteger(s1.substring(14,16));
+                Log.d("TAG", "onClick: checking" + s1.substring(11,13) + " "  + s1.substring(14,16) );
 
-
-                ViewGroup viewGroup = getView().findViewById(android.R.id.content);
-
-
-                //then we will inflate the custom alert dialog xml that we created
-                View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dilog_mark_attandance, viewGroup, false);
-
-
-                //Now we need an AlertDialog.Builder object
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                //setting the view of the builder to our custom view that we already inflated
-                builder.setView(dialogView);
-
-                //finally creating the alert dialog and displaying it
-                alertDialog = builder.create();
-
-
-                alertDialog.show();
-                MarkDone = alertDialog.findViewById(R.id.mark_done);
-                Marked = alertDialog.findViewById(R.id.marked);
-                NotMaked = alertDialog.findViewById(R.id.not_marked);
-                MainDilog = alertDialog.findViewById(R.id.main_dilog);
-                 progressBar = alertDialog.findViewById(R.id.progress_mark_attandance);
-                Marked.setVisibility(View.GONE);
-                MainDilog.setVisibility(View.VISIBLE);
-                NotMaked.setVisibility(View.GONE);
-                MarkDone.setOnClickListener(new View.OnClickListener() {
+                String Hour = s1.substring(11,13);
+                String Minute = s1.substring(14,16);
+                Log.d("TAG", "onClick: checking " + Hour  + " " + Minute);
+                int hour = Integer.parseInt(Hour);
+                int minute = Integer.parseInt(Minute);
+                DocumentReference docIdRef1 = firestore.collection("/Branches/" ).document(branchId.trim());
+                docIdRef1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onClick(View v) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
 
-                        if(!checkPlayServiceInstalled()){
-                            return;
-                        }
+                                int OpenHour = document.getDouble("OpenHour").intValue();
+                                int CloseHour = document.getDouble("CloseHour").intValue();
+                                int OpenMinute = document.getDouble("OpenMinute").intValue();
+                                int CloseMinute = document.getDouble("CloseMinute").intValue();
 
-                        //now checking permission and request permission
+                                if(((hour > OpenHour) || (hour==OpenHour && minute >=OpenMinute)) && (hour < CloseHour || (hour== CloseHour && minute <=CloseMinute)))
+                                {
+                                    Log.d("TAG", "onComplete: Hello" + "hahahahahahahaha");
+                                    DocumentReference docIdRef = firestore.collection("/Branches/" + branchId.trim() + "/Attandance/").document(formattedDate.trim());
 
-                        if(Build.VERSION.SDK_INT>=23){
-                            if(checkPermission()){
-                                getDeviceLocation();
+                                    docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                DocumentSnapshot document = task.getResult();
+                                                if (document.exists()) {
+                                                    if(document.contains(StudentId.trim()))
+                                                    {
+                                                        ViewGroup viewGroup = getView().findViewById(android.R.id.content);
+                                                        View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dilog_mark_attandance, viewGroup, false);
+                                                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                                        builder.setView(dialogView);
+                                                        alertDialog = builder.create();
+                                                        alertDialog.show();
+                                                        LinearLayout AlreadyMarked = alertDialog.findViewById(R.id.already_marked);
+                                                        AlreadyMarked.setVisibility(View.VISIBLE);
+                                                    }
+                                                    else
+                                                    {
+                                                        camera.setVisibility(View.VISIBLE);
+                                                        ZXDecoder decoder = new ZXDecoder();
+                                                        // 0.5 is the area where we have
+                                                        // to place red marker for scanning.
+                                                        decoder.setScanAreaPercent(0.8);
+                                                        // below method will set secoder to camera.
+                                                        camera.setDecoder(decoder);
+                                                        camera.startScanner();
+
+                                                    }
+
+
+                                                } else {
+                                                    camera.setVisibility(View.VISIBLE);
+                                                    ZXDecoder decoder = new ZXDecoder();
+                                                    // 0.5 is the area where we have
+                                                    // to place red marker for scanning.
+                                                    decoder.setScanAreaPercent(0.8);
+                                                    // below method will set secoder to camera.
+                                                    camera.setDecoder(decoder);
+                                                    camera.startScanner();
+
+                                                }
+                                            } else {
+
+                                            }
+                                        }
+                                    });
+
+
+
+                                }
+                                else
+                                {
+                                    ViewGroup viewGroup = getView().findViewById(android.R.id.content);
+                                    View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dilog_mark_attandance, viewGroup, false);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                    builder.setView(dialogView);
+                                    alertDialog = builder.create();
+                                    alertDialog.show();
+                                    LinearLayout AlreadyMarked = alertDialog.findViewById(R.id.not_on_time);
+                                    AlreadyMarked.setVisibility(View.VISIBLE);
+
+                                }
+
+
+
+
+
+                            } else {
+
+
                             }
-                            else{
-                                requestPermission();
-                            }
+                        } else {
+
                         }
-                        else{
-                            getDeviceLocation();
-                        }
-
-//                        SupportMapFragment supportMapFragment=(SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
-//                        supportMapFragment.getMapAsync(MapWithPlayServiceLocationActivity.this);
-
-
-
+                    }
+                });
 
                     }
                 });
 
+        camera.setScannerViewEventListener(new ScannerLiveView.ScannerViewEventListener() {
+            @Override
+            public void onScannerStarted(ScannerLiveView scanner) {
+                // method is called when scanner is started
+                Toast.makeText(getActivity(), "Scanner Started", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onScannerStopped(ScannerLiveView scanner) {
+                // method is called when scanner is stoped.
+                Toast.makeText(getActivity(), "Scanner Stopped", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onScannerError(Throwable err) {
+                // method is called when scanner gives some error.
+                Toast.makeText(getActivity(), "Scanner Error: " + err.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCodeScanned(String data) {
+
+                camera.stopScanner();
+                // method is called when camera scans the
+                // qr code and the data from qr code is
+                // stored in data in string format.
+                camera.setVisibility(View.GONE);
+                ViewGroup viewGroup = getView().findViewById(android.R.id.content);
+                View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dilog_mark_attandance, viewGroup, false);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(dialogView);
+                alertDialog = builder.create();
+                alertDialog.show();
+                Marked = alertDialog.findViewById(R.id.marked);
+                NotMaked = alertDialog.findViewById(R.id.not_marked);
+
+
+                DocumentReference docIdRef1 = firestore.collection("/Branches/" ).document(branchId.trim());
+                docIdRef1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+
+                                if(data.equals(document.getString("UniqueQrCode")))
+                                {
+                                    Marked.setVisibility(View.VISIBLE);
+                                    NotMaked.setVisibility(View.GONE);
+                                    Date c = Calendar.getInstance().getTime();
+                                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                                    String formattedDate = df.format(c);
+                                    String studentDoc = formattedDate.substring(3, 10);
+                                    String doc = formattedDate.substring(0, 2);
+                                    DocumentReference docIdRef = firestore.collection("/Branches/" + branchId.trim() + "/Attandance/").document(formattedDate.trim());
+                                    docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                DocumentSnapshot document = task.getResult();
+                                                if (document.exists()) {
+                                                    firestore.collection("Branches").document(branchId).collection("Attandance").document(formattedDate).update(StudentId, true);
+
+
+                                                } else {
+                                                    Map<String, Object> allDetails = new HashMap<>();
+                                                    allDetails.put(StudentId, true);
+                                                    firestore.collection("Branches").document(branchId).collection("Attandance").document(formattedDate).set(allDetails);
+
+                                                    Log.d("TAG", "onComplete: not possible");
+
+                                                }
+                                            } else {
+
+                                            }
+                                        }
+                                    });
+                                    DocumentReference docIdRef1 = firestore.collection("/Branches/" + branchId.trim() + "/StudentDetails/"  + StudentId.trim() + "/Attandance/").document(studentDoc.trim());
+                                    docIdRef1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                DocumentSnapshot document = task.getResult();
+                                                if (document.exists()) {
+                                                    firestore.collection("Branches").document(branchId).collection("StudentDetails").document(StudentId).collection("Attandance").document(studentDoc.trim()).update(doc , true);
+
+
+
+
+                                                } else {
+                                                    Map<String,Object> allDetails = new HashMap<>();
+                                                    allDetails.put(doc, true);
+                                                    firestore.collection("Branches").document(branchId).collection("StudentDetails").document(StudentId).collection("Attandance").document(studentDoc).set(allDetails);
+
+                                                    Log.d("TAG", "onComplete: not possible" );
+
+                                                }
+                                            } else {
+
+                                            }
+                                        }
+                                    });
+
+                                }
+                                else
+                                {
+                                    Marked.setVisibility(View.GONE);
+                                    NotMaked.setVisibility(View.VISIBLE);
+                                }
+
+
+                            } else {
+
+
+
+
+
+
+                            }
+                        } else {
+
+                        }
+                    }
+                });
             }
         });
 
@@ -205,13 +378,13 @@ public class HomeStudentFragment extends Fragment implements GoogleApiClient.Con
         showAttandance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity() , StudentAttandance.class);
-                intent.putExtra("StudentId" , StudentId);
-                intent.putExtra("BranchId" , branchId);
+                Intent intent = new Intent(getActivity(), StudentAttandance.class);
+                intent.putExtra("StudentId", StudentId);
+                intent.putExtra("BranchId", branchId);
                 startActivity(intent);
             }
         });
-        DocumentReference docIdRef1 = firestore.collection("/Branches/" ).document(branchId.trim());
+        DocumentReference docIdRef1 = firestore.collection("/Branches/").document(branchId.trim());
         docIdRef1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -224,7 +397,7 @@ public class HomeStudentFragment extends Fragment implements GoogleApiClient.Con
 
                     } else {
 
-                        Log.d("TAG", "onComplete: not possible" );
+                        Log.d("TAG", "onComplete: not possible");
 
                     }
                 } else {
@@ -234,12 +407,9 @@ public class HomeStudentFragment extends Fragment implements GoogleApiClient.Con
         });
 
 
-
-
     }
 
-    void DisplayFact()
-    {
+    void DisplayFact() {
 
 
 // Request a string response from the provided URL.
@@ -264,193 +434,75 @@ public class HomeStudentFragment extends Fragment implements GoogleApiClient.Con
 
     }
 
-    private void getDeviceLocation() {
-        locationManager=(LocationManager)getActivity().getSystemService(Service.LOCATION_SERVICE);
-        isGpsProvider=locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        isNetworkProvider=locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        if(!isGpsProvider && !isNetworkProvider){
-            //showing setting for enable gps
-            showSettingAlert();
-        }
-        else{
-            GetLocationData();
-        }
+    private boolean checkPermission() {
+        // here we are checking two permission that is vibrate
+        // and camera which is granted by user and not.
+        // if permission is granted then we are returning
+        // true otherwise false.
+        int camera_permission = ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Context.CAMERA_SERVICE);
+        int vibrate_permission = ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Context.VIBRATOR_SERVICE);
+        return camera_permission == PackageManager.PERMISSION_GRANTED && vibrate_permission == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void GetLocationData() {
-        googleApiClient=new GoogleApiClient.Builder(getActivity())
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-
-        googleApiClient.connect();
-    }
-    private void showSettingAlert() {
-        AlertDialog.Builder al=new AlertDialog.Builder(getActivity());
-        al.setTitle("Enable GPS");
-        al.setMessage("Please Enable GPS");
-        al.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                Intent intent=new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-
-            }
-        });
-        al.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        al.show();
-    }
 
     private void requestPermission() {
-        ActivityCompat.requestPermissions(getActivity(),permissions_all,PERMISSION_CODE);
-    }
-
-    private boolean checkPermission() {
-        for(int i=0;i<permissions_all.length;i++){
-            int result= ContextCompat.checkSelfPermission(getActivity(),permissions_all[i]);
-            if(result== PackageManager.PERMISSION_GRANTED){
-                continue;
-            }
-            else {
-                return false;
-            }
-        }
-        return true;
+        // this method is to request
+        // the runtime permission.
+        int PERMISSION_REQUEST_CODE = 200;
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Context.CAMERA_SERVICE,  Context.VIBRATOR_SERVICE}, PERMISSION_REQUEST_CODE);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
-            case PERMISSION_CODE:
-                if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                    getDeviceLocation();
-                }
-                else{
-                    Toast.makeText(getActivity(), "Permission Failed", Toast.LENGTH_SHORT).show();
-                }
-        }
-    }
-    private boolean checkPlayServiceInstalled() {
-        GoogleApiAvailability apiAvailability=GoogleApiAvailability.getInstance();
-        int result=apiAvailability.isGooglePlayServicesAvailable(getActivity());
-        if(result!= ConnectionResult.SUCCESS){
-            if(apiAvailability.isUserResolvableError(result)){
-                apiAvailability.getErrorDialog(getActivity(),result,PLAY_SERVICE_REQUEST).show();
-                return false;
-            }
-            else{
-                return false;
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        // this method is called when user
+        // allows the permission to use camera.
+        if (grantResults.length > 0) {
+            boolean cameraaccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            boolean vibrateaccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+            if (cameraaccepted && vibrateaccepted) {
+                Toast.makeText(getActivity(), "Permission granted..", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Permission Denined \n You cannot use app without providing permssion", Toast.LENGTH_SHORT).show();
             }
         }
-        else{
-            return true;
-        }
     }
+    public boolean checkLateORnot(int hour , int minute)
+    {
 
-    @SuppressWarnings(value = "MissingPermission")
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        location=LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        final boolean[] check1 = new boolean[1];
 
-        DocumentReference docIdRef = firestore.collection("Branches" ).document(branchId.trim());
-        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        DocumentReference docIdRef1 = firestore.collection("/Branches/" ).document(branchId.trim());
+        docIdRef1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 
+                        int OpenHour = document.getDouble("OpenHour").intValue();
+                        int CloseHour = document.getDouble("CloseHour").intValue();
+                        int OpenMinute = document.getDouble("OpenMinute").intValue();
+                        int CloseMinute = document.getDouble("CloseMinute").intValue();
 
-                        GeoPoint geoPoint = document.getGeoPoint("Location");
-                        Location location1 = new Location("");
-                        location1.setLatitude(geoPoint.getLatitude());
-                        location1.setLongitude(geoPoint.getLongitude());
-
-                        Toast.makeText(getActivity() , "distance : "  + location.distanceTo(location1) , Toast.LENGTH_LONG).show();
-
-                        //here de can compare the dist with the radius given by branch
-                        double radi = document.getDouble("Radius");
-
-                        if(radi  > location.distanceTo(location1) && location.distanceTo(location1)!=0)
+                        if(((hour > OpenHour) || (hour==OpenHour && minute >=OpenMinute)) && (hour < CloseHour || (hour== CloseHour && minute <=CloseMinute)))
                         {
-                            Marked.setVisibility(View.VISIBLE);
-                            MainDilog.setVisibility(View.GONE);
-                            Date c = Calendar.getInstance().getTime();
-                            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                            String formattedDate = df.format(c);
-                            String studentDoc = formattedDate.substring(3,10);
-                            String doc = formattedDate.substring(0,2);
-                            Log.d("TAG", "onComplete: check 1" + studentDoc + " " + doc + " " + formattedDate);
-                            DocumentReference docIdRef = firestore.collection("/Branches/" + branchId.trim() + "/Attandance/" ).document(formattedDate.trim());
-                            docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()) {
-                                            firestore.collection("Branches").document(branchId).collection("Attandance").document(formattedDate).update(StudentId , true);
+                            Log.d("TAG", "onComplete: Hello" + "hahahahahahahaha");
 
+                           check = true;
 
-
-                                        } else {
-                                            Map<String,Object> allDetails = new HashMap<>();
-                                            allDetails.put(StudentId, true);
-                                            firestore.collection("Branches").document(branchId).collection("Attandance").document(formattedDate).set(allDetails);
-
-                                            Log.d("TAG", "onComplete: not possible" );
-
-                                        }
-                                    } else {
-
-                                    }
-                                }
-                            });
-                            DocumentReference docIdRef1 = firestore.collection("/Branches/" + branchId.trim() + "/StudentDetails/"  + StudentId.trim() + "/Attandance/").document(studentDoc.trim());
-                            docIdRef1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()) {
-                                            firestore.collection("Branches").document(branchId).collection("StudentDetails").document(StudentId).collection("Attandance").document(studentDoc.trim()).update(doc , true);
-
-
-
-
-                                        } else {
-                                            Map<String,Object> allDetails = new HashMap<>();
-                                            allDetails.put(doc, true);
-                                            firestore.collection("Branches").document(branchId).collection("StudentDetails").document(StudentId).collection("Attandance").document(studentDoc).set(allDetails);
-
-                                            Log.d("TAG", "onComplete: not possible" );
-
-                                        }
-                                    } else {
-
-                                    }
-                                }
-                            });
+                           check1[0] = true;
                         }
                         else
                         {
-                            NotMaked.setVisibility(View.VISIBLE);
-                            MainDilog.setVisibility(View.GONE);
+                            check = false;
                         }
+
+
 
 
 
                     } else {
 
-                        Log.d("TAG", "onComplete: not possible" );
 
                     }
                 } else {
@@ -458,79 +510,12 @@ public class HomeStudentFragment extends Fragment implements GoogleApiClient.Con
                 }
             }
         });
-        if(location!=null){
-//            Toast.makeText(getActivity(), "Lat : "+location.getLatitude()+" Lng "+location.getLongitude(), Toast.LENGTH_SHORT).show();
-            if(googleMap!=null){
-                LatLng latLng=new LatLng(location.getLatitude(),location.getLongitude());
-                googleMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10f));
-            }
-        }
-        startLocationUpdates();
 
-    }
-    @SuppressLint("MissingPermission")
-    private void startLocationUpdates() {
-        LocationRequest locationRequest=new LocationRequest();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        //10 sec
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(5000);
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,locationRequest,this::onLocationChanged);
-    }
 
-    @Override
-    public void onConnectionSuspended(int i) {
 
-    }
-    private void stopLocationUpdates() {
-        if(googleApiClient!=null){
-            if(googleApiClient.isConnected()){
-                LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient,this::onLocationChanged);
-                googleApiClient.disconnect();
-            }
-        }
+        return  check;
     }
 
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-        googleMap.getUiSettings().setRotateGesturesEnabled(false);
-        //if you need to disable zooming
-        googleMap.getUiSettings().setZoomGesturesEnabled(false);
-
-        //now zooming and rotation now working
-
-        //we can also customize map
-        //googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        this.googleMap=googleMap;
-        //let fixed map loading problem
-        // i missed api key
-
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-
-
-
-//        Toast.makeText(getActivity(), "Lat : "+location.getLatitude()+" Lng "+location.getLongitude(), Toast.LENGTH_SHORT).show();
-        if(googleMap!=null){
-            LatLng latLng=new LatLng(location.getLatitude(),location.getLongitude());
-            googleMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10f));
-        }
-
-    }
 }
 

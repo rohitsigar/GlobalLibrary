@@ -17,13 +17,11 @@ public class FlashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(FlashScreenActivity.this , AuthenticationActivity.class);
+                Intent intent = new Intent(FlashScreenActivity.this, AuthenticationActivity.class);
                 startActivity(intent);
                 finish();
-
-
             }
-        } ,500);
+        }, 200);
 
     }
 }

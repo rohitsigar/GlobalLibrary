@@ -16,13 +16,22 @@
         layout="@layout/toolbar_student_pallet"
         android:contentDescription="For more ui/ux visit www.materialuiux.com"
         app:layout_collapseMode="pin" />
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:id="@+id/student_pallet_progress_bar"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/black"
+        android:progressTint="@color/black"
+        android:foregroundTint="@color/black"
+        android:visibility="gone"
+        android:indeterminateTint="@color/black"
+        android:layout_height="match_parent"/>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_margin="10dp"
         android:layout_width="match_parent"
+        android:visibility="visible"
         android:id="@+id/Short_recyclerView"
         android:layout_height="match_parent"/>
-
-
 
 
 </LinearLayout>

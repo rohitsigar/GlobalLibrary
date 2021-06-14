@@ -16,7 +16,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "com.example.globallibrary"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -92,6 +92,11 @@ dependencies {
 
 
     implementation 'com.razorpay:checkout:1.6.6'
+    implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
+
+    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+
+    implementation ('eu.livotov.labs.android:CAMView:2.0.1@aar') {transitive=true}
 
 
 

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -55,6 +56,7 @@ public class StudentPallet extends AppCompatActivity {
     LinearLayout DatePallet;
     TextView DateShow;
     ImageButton CanlenderDilog;
+    ProgressBar progressBar;
 
     private Uri filePath;
     String URL  = "";
@@ -76,6 +78,8 @@ public class StudentPallet extends AppCompatActivity {
         recyclerView.setFocusable(false);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        progressBar = findViewById(R.id.student_pallet_progress_bar);
+
         Intent intent = getIntent();
         BranchId = intent.getStringExtra("branchId");
         Back = findViewById(R.id.return_to_home12);
@@ -238,8 +242,8 @@ public class StudentPallet extends AppCompatActivity {
 
        list = new ArrayList();
                             firestore.collection("/Branches/" + BranchId + "/StudentDetails").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                private static final String TAG = "Rohit";
 
+                                private static final String TAG = "Rohit";
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
@@ -269,11 +273,11 @@ public class StudentPallet extends AppCompatActivity {
                                                     list.add(new ShortStudentDetails(document1.getString("FullName") , document1.getString("Discreption") , "NoImage" , document1.getId() , "NoColor"));
                                                     Log.d(TAG, "onSuccess: checking" + list.size());
 
-
-                                                    adapter.notifyDataSetChanged();
                                                 }
                                             });
                                         }
+
+
 
                                     } else {
                                         Log.d(TAG, "Error getting documents: ", task.getException());
@@ -282,6 +286,7 @@ public class StudentPallet extends AppCompatActivity {
                             });
 
         Log.d("TAG", "onCreate: hello guys");
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(_layoutManager);
         setOnClickListner();
@@ -289,6 +294,9 @@ public class StudentPallet extends AppCompatActivity {
         adapter = new ShortStudentsDetailsAdaptor(list , listner);
         ///  set Adapter to RecyclerView
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+
 
 
 
@@ -307,4 +315,7 @@ public class StudentPallet extends AppCompatActivity {
         };
 
     }
+
+
+
 }

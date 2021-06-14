@@ -36,7 +36,6 @@ public class adapterPost  extends RecyclerView.Adapter<adapterPost.ViewHolder> {
         View view = inflater.inflate(R.layout.branch_details, viewGroup, false);
         ViewHolder vh = new ViewHolder(view);
         return vh;
-
     }
 
     @Override
@@ -50,25 +49,7 @@ public class adapterPost  extends RecyclerView.Adapter<adapterPost.ViewHolder> {
         viewHolder.Address.setText(String.valueOf(itam.Address));
         viewHolder.ContactNumber.setText(itam.ContactNumber);
         viewHolder.EmailAddress.setText(itam.EmailAddress);
-//        storageReference.child(itam.PhotoURL).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                // Got the download URL for 'users/me/profile.png'
-////                Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
-//                /// The string(file link) that you need
-////
-//                Uri downloadUrl = uri;
-//                String s = downloadUrl.toString();
-//                Picasso.get().load(s).into(viewHolder.BranchPhoto);
-//
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                // Handle any errors
-//            }
-//        });
+
         Picasso.get().load(itam.PhotoURL).into(viewHolder.BranchPhoto);
 
     }
@@ -78,9 +59,7 @@ public class adapterPost  extends RecyclerView.Adapter<adapterPost.ViewHolder> {
         return mData.size();
     }
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+
     public class ViewHolder extends RecyclerView.ViewHolder {
        public TextView BranchName , Discreption , Address , ContactNumber, EmailAddress ;
        public ImageView BranchPhoto;
