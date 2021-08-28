@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:id="@+id/student_fee_recyclerview"
-    tools:context=".Fragment.FeeStudentFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/main_color"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".Fragment.FeeStudentFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal"
+        tools:listitem="@layout/fee_item_branch"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:id="@+id/student_fee_recyclerview"/>
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="match_parent"
+        android:id="@+id/progress_bar_7"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:src="@drawable/animation_500_ksoc1ua4"/>
 
-
-
-</androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>

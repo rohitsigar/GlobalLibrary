@@ -27,12 +27,15 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+
+import pl.droidsonroids.gif.GifImageView;
 
 
 public class FeeBranchFragment extends Fragment {
@@ -50,6 +53,7 @@ public class FeeBranchFragment extends Fragment {
 
     ArrayList<FeeDetailsBranchSide> list;
     FeeDetailsBranchSideAdaptor.RecyclerViewClickListner listner;
+    GifImageView progressBar;
 
 
     @Override
@@ -64,9 +68,13 @@ public class FeeBranchFragment extends Fragment {
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        progressBar = v.findViewById(R.id.progress_bar_6);
+
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
 
         list = new ArrayList();
-        firestore.collection("/Branches/" + BranchId +"/Fee").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firestore.collection("/Branches/" + BranchId +"/Fee").orderBy("Sortthis" , Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             private static final String TAG = "Rohit";
 
             @Override
@@ -136,6 +144,8 @@ public class FeeBranchFragment extends Fragment {
 
 
                     }
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -146,10 +156,10 @@ public class FeeBranchFragment extends Fragment {
 
 
 
-
-
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(_layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setHasFixedSize(true);
+
         setOnClickListner();
 
         adapter = new FeeDetailsBranchSideAdaptor(list , listner);

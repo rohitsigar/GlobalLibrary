@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_margin="20dp"
-    android:layout_height="match_parent"
-    android:id="@+id/branch_fee_recyclerview"
-    tools:context=".Fragment.FeeBranchFragment">
 
-</androidx.recyclerview.widget.RecyclerView>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/main_color"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".Fragment.FeeBranchFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/branch_fee_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="false"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbarSize="10dp"
+        android:scrollbarStyle="insideOverlay"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/fee_item_student" />
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="match_parent"
+        android:id="@+id/progress_bar_6"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:src="@drawable/animation_500_ksoc1ua4"/>
+
+</LinearLayout>

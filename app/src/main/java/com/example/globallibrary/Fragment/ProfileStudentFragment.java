@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,12 +22,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.globallibrary.Activity.GeneralActivity;
 import com.example.globallibrary.Adpaters.PageAdaptorStudentProfile;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -39,6 +42,8 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ProfileStudentFragment extends Fragment {
 
@@ -49,14 +54,16 @@ public class ProfileStudentFragment extends Fragment {
     TabLayout tabLayout;
     ViewPager viewPager;
     PageAdaptorStudentProfile viewPagerAdapter;
-    ImageView StudentImage;
+    CircleImageView StudentImage;
     ImageView ChangeImage;
     ImageView UploadImage;
-    TextView StudentName;
+    EditText StudentName;
     TextView Discreption;
     String URL  = "";
     private ProgressBar mProgressBar;
     private Uri filePath;
+
+    MaterialButton TickButton ;
 
     // request code
     private final int PICK_IMAGE_REQUEST = 22;
@@ -65,6 +72,7 @@ public class ProfileStudentFragment extends Fragment {
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     FirebaseStorage storage;
     StorageReference storageReference;
+    EditText ResidentialAddress  , EmailAddress , Dob ;
 
 
     @Override
@@ -77,21 +85,16 @@ public class ProfileStudentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewPager = view.findViewById(R.id.viewPagerstudentProfile);
-        viewPagerAdapter = new PageAdaptorStudentProfile(getChildFragmentManager()); //change krna hai
         UploadImage = view.findViewById(R.id.change_upload_student);
-        viewPager.setAdapter(viewPagerAdapter); //change krna hai
-        tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs_student_profile);
-        tabLayout.setupWithViewPager(viewPager); //change krna hai
-        tabLayout.setTabRippleColor(null);
         StudentImage = view.findViewById(R.id.id_Profile_Image_student);
         ChangeImage = view.findViewById(R.id.change_image_button_student);
-        StudentName  = view.findViewById(R.id.id_fullName_TextView_student);
-        Discreption  = view.findViewById(R.id.student_discreption);
                 StudentId = getArguments().getString("StudentId");
                 BranchId = getArguments().getString("BranchId");
         Log.d("TAG", "onViewCreated: StudentId " + StudentId + " BranchId "  + BranchId);
         storage = FirebaseStorage.getInstance();
+
+
+
         storageReference = storage.getReference();
 
         DocumentReference docIdRef = firebaseFirestore.collection("/Branches/" + BranchId.trim() + "/StudentDetails" ).document(StudentId.trim());
@@ -102,8 +105,8 @@ public class ProfileStudentFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 
-                        StudentName.setText(document.getString("FullName"));
-                                                                   Discreption.setText(document.getString("Discreption"));
+
+
                                                                     URL = "Student/" + StudentId;
                                                                    storageReference.child(URL).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                                        @Override
@@ -117,7 +120,6 @@ public class ProfileStudentFragment extends Fragment {
                                                                    }).addOnFailureListener(new OnFailureListener() {
                                                                        @Override
                                                                        public void onFailure(@NonNull Exception exception) {
-                                                                           StudentImage.setImageResource(R.drawable.student_logo);
                                                                            // Handle any errors
                                                                        }
                                                                    });
@@ -150,6 +152,85 @@ public class ProfileStudentFragment extends Fragment {
                 UploadImage.setVisibility(View.GONE);
                 ChangeImage.setVisibility(View.VISIBLE);
                 uploadImage();
+            }
+        });
+
+        StudentName = view.findViewById(R.id.change_student_name_edit_profile_student);
+        ResidentialAddress = view.findViewById(R.id.change_student_residential_address_edit_student_profile);
+        EmailAddress = view.findViewById(R.id.change_student_email_address_edit_student_profile);
+        Dob = view.findViewById(R.id.change_student_dob_edit_student_profile);
+        TickButton = view.findViewById(R.id.tick_button_student);
+
+
+                firebaseFirestore.collection("/Branches/" + BranchId.trim() + "/StudentDetails/" ).document(StudentId.trim()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        StudentName.setText(document.getString("FullName"));
+                        Dob.setText(document.getString("DateOFBirth"));
+                        ResidentialAddress.setText(document.getString("ResidentialAddress"));
+                        EmailAddress.setText(document.getString("EmailAddress"));
+
+                    } else {
+
+                        Log.d("TAG", "onComplete: not possible" );
+
+                    }
+                } else {
+
+                }
+            }
+        });
+
+
+        TickButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DocumentReference docIdRef = firebaseFirestore.collection("/Branches/" + BranchId.trim() + "/StudentDetails/").document(StudentId.trim());
+                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+
+
+
+                                if (!StudentName.getText().toString().isEmpty()) {
+                                    firebaseFirestore.collection("Branches/" + BranchId.trim() + "/StudentDetails/").document(StudentId.trim()).update("FullName", StudentName.getText().toString());
+                                }
+                                if (!EmailAddress.getText().toString().isEmpty()) {
+                                    firebaseFirestore.collection("Branches/" + BranchId.trim() + "/StudentDetails/").document(StudentId.trim()).update("EmailAddress", EmailAddress.getText().toString());
+                                }
+                                if (!ResidentialAddress.getText().toString().isEmpty()) {
+                                    firebaseFirestore.collection("Branches/" + BranchId.trim() + "/StudentDetails/").document(StudentId.trim()).update("ResidentialAddress", ResidentialAddress.getText().toString());
+                                }
+                                if (!Dob.getText().toString().isEmpty()) {
+                                    firebaseFirestore.collection("Branches/" + BranchId.trim() + "/StudentDetails/").document(StudentId.trim()).update("DateOfBirth", Dob.getText().toString());
+                                }
+
+
+                                Toast.makeText(getActivity(), "Profile Is Updated ", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getActivity() , GeneralActivity.class);
+                                startActivity(intent);
+
+
+                            } else {
+
+                                Log.d("TAG", "onComplete: not possible");
+
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+
+
             }
         });
 

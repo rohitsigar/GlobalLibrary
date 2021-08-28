@@ -22,7 +22,6 @@ public class PageAdaptorStudentProfile extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-
                 return ProfileStudentDetailsFragment.newInstance(ProfileStudentFragment.kuhaName());
             case 1:
                 return new FragmentEditStudentProfile().newInstance(ProfileStudentFragment.kuhaName());

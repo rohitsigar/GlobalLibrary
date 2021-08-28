@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:weightSum="100"
+    android:background="@color/main_color"
     tools:context=".Activity.QuizActivity"
     android:layout_height="match_parent">
     <include
@@ -12,85 +13,23 @@
         layout="@layout/layout_quiz"
         android:contentDescription="For more ui/ux visit www.materialuiux.com"
         app:layout_collapseMode="pin" />
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="20"
-    android:weightSum="2"
-    android:orientation="vertical">
-    <LinearLayout
+    <pl.droidsonroids.gif.GifImageView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="5dp"
-        android:contentDescription="For more ui/ux visit www.materialuiux.com"
-        android:orientation="vertical">
+        android:id="@+id/progress_bar_9"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:src="@drawable/animation_500_ksoc1ua4"/>
 
-        <TextView
+
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="30"
-            android:contentDescription="For more ui/ux visit www.materialuiux.com"
-            android:text="Catigory"
-            android:textColor="@color/color_secondary_text"
-            android:textSize="12sp" />
+            android:layout_height="0dp"
+            android:layout_weight="100"
+            android:id="@+id/quiz_questions"/>
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="70"
-            android:layout_marginTop="14dp"
-            android:contentDescription="For more ui/ux visit www.materialuiux.com"
-            android:text="Catigory"
-            android:textStyle="bold"
-            android:id="@+id/Catigory1"
-            android:textColor="@color/color_primary_text"
-            android:textSize="16sp" />
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="5dp"
-        android:contentDescription="For more ui/ux visit www.materialuiux.com"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="30"
-            android:contentDescription="For more ui/ux visit www.materialuiux.com"
-            android:text="Difficulty"
-            android:textColor="@color/color_secondary_text"
-            android:textSize="12sp" />
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="70"
-            android:textStyle="bold"
-            android:layout_marginTop="14dp"
-            android:contentDescription="For more ui/ux visit www.materialuiux.com"
-            android:text="Difficulty"
-            android:id="@+id/difficuly1"
-            android:textColor="@color/color_primary_text"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-</LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="80"
-        android:id="@+id/quiz_questions"/>
-
-
-
-
-
-</LinearLayout>

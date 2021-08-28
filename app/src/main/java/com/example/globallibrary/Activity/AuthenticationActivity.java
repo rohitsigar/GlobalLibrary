@@ -4,43 +4,143 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
-import com.example.globallibrary.Fragment.MainPageAuthFragment;
+import com.example.globallibrary.Fragment.BranchOwnerLoginFragment;
+import com.example.globallibrary.Fragment.FragmentAllBranches;
+import com.example.globallibrary.Fragment.LoginStudentFragment;
 import com.example.globallibrary.R;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 
-public class AuthenticationActivity<ViewPagerAdapter> extends FragmentActivity {
+public class AuthenticationActivity extends AppCompatActivity {
 
 
-    private static int SPLASH_TIME_OUT  = 1000;
 
+    ChipNavigationBar AuthMenu;
 
-//    private static final int PERMISSION_CODE_EXTERAL = 1;
-//    private static final int PERMISSION_CODE_INTERNET = 1;
+    ImageButton menu;
+
+    RelativeLayout AuthLayout;
+    LinearLayout ToolbarLayout;
     private static final int   MY_PERMISSIONS_REQUEST_CODE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.white, this.getTheme()));
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.white));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
+        }
+
+        setContentView(R.layout.activity_authentication);
         checkPermission();
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_auth, new LoginStudentFragment() , "StudentFragment").commit();
+
+        AuthMenu = findViewById(R.id.auth_navbar);
+
+        AuthMenu.setItemSelected(R.id.auth_student, true);
+
+        menu = findViewById(R.id.auth_menu);
+
+        ToolbarLayout = findViewById(R.id.toolbar_layout);
+
+        AuthLayout = findViewById(R.id.auth_background);
+
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(AuthMenu.getVisibility()==View.VISIBLE)
+                {
+                    AuthMenu.setVisibility(View.GONE);
+                }
+                else
+                {
+                    AuthMenu.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
+        AuthMenu.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int i) {
+                Fragment fragment = null;
+                switch (i)
+                {
+                    case R.id.auth_student :
+                        fragment = new LoginStudentFragment();
+                        ToolbarLayout.setBackgroundColor(getColor(R.color.white));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            getWindow().setStatusBarColor(getResources().getColor(R.color.white, getApplicationContext().getTheme()));
+                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getWindow().setStatusBarColor(getResources().getColor(R.color.white));
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getWindow().setNavigationBarColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                        }
+
+                        AuthLayout.setBackgroundColor(getColor(R.color.white));
+                        break;
+                    case R.id.auth_branch :
+                        fragment  = new BranchOwnerLoginFragment();
+                        ToolbarLayout.setBackgroundColor(getColor(R.color.white));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            getWindow().setStatusBarColor(getResources().getColor(R.color.white, getApplicationContext().getTheme()));
+                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getWindow().setStatusBarColor(getResources().getColor(R.color.white));
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getWindow().setNavigationBarColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                        }
+
+                        AuthLayout.setBackgroundColor(getColor(R.color.white));
+                        break;
+                    case R.id.auth_all_branches:
+
+                        fragment = new FragmentAllBranches();
+                        ToolbarLayout.setBackgroundColor(getColor(R.color.main_color));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            getWindow().setStatusBarColor(getResources().getColor(R.color.main_color, getApplicationContext().getTheme()));
+                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getWindow().setStatusBarColor(getResources().getColor(R.color.main_color));
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getWindow().setNavigationBarColor(ContextCompat.getColor(getApplicationContext(), R.color.main_color));
+                        }
+
+                        AuthLayout.setBackgroundColor(getColor(R.color.main_color));
+                        break;
+
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_auth, fragment).commit();
+
+                AuthMenu.setVisibility(View.GONE);
+            }
+        });
 
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_authentication);
-
-        Fragment fragment = new MainPageAuthFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_auth,fragment).addToBackStack(null).commit();
+//        Fragment fragment = new MainPageAuthFragment();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_auth,fragment).addToBackStack(null).commit();
     }
     protected void checkPermission(){
         if(ContextCompat.checkSelfPermission(AuthenticationActivity.this,Manifest.permission.INTERNET)
@@ -141,7 +241,17 @@ public class AuthenticationActivity<ViewPagerAdapter> extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        AuthenticationActivity.this.finish();
-        System.exit(0);
-    }
+
+        Fragment myFragment = getSupportFragmentManager().findFragmentByTag("StudentFragment");
+        if (myFragment != null && myFragment.isVisible()) {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+            // add your code here
+        }
+        else
+        {  AuthMenu.setItemSelected(R.id.auth_student, true);
+                Fragment fragment = new LoginStudentFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_auth, fragment , "StudentFragment").commit();
+            }
+        }
 }

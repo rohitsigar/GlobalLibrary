@@ -25,6 +25,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+import pl.droidsonroids.gif.GifImageView;
+
 
 public class NoticeBranchFragment extends Fragment {
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -34,6 +36,7 @@ public class NoticeBranchFragment extends Fragment {
 
 
     String branchId;
+    GifImageView progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +50,12 @@ public class NoticeBranchFragment extends Fragment {
         recyclerView.setFocusable(false);
         ArrayList<NotificationDetails> list = new ArrayList();
         CollectionReference docIdRef = firestore.collection(s );
+
+        progressBar = v.findViewById(R.id.progress_bar_5);
+
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+
         docIdRef.orderBy("Sortthis" , Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             private static final String TAG = "Rohit";
 
@@ -70,6 +79,8 @@ public class NoticeBranchFragment extends Fragment {
 
                         ///  add items to the adapter
                     }
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
 
 
 

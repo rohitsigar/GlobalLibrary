@@ -7,38 +7,55 @@
     tools:context=".Activity.ForgetPasswardBranchActivity"
     android:background="@color/white"
     android:orientation="vertical"
-    android:padding="20dp"
     android:weightSum="100">
 
 
     <TextView
-        android:layout_weight="5"
-        android:layout_marginTop="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_weight="15"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:text="Forget Passward"
-        android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="30sp"
-        android:fontFamily="@font/fjalla_one"/>
+        android:background="@color/main_color"
+        android:textColor="@color/dark_main_color"
+        android:textSize="25dp"
+        android:fontFamily="@font/roboto_regular"/>
     <LinearLayout
-        android:layout_weight="95"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/setting_background"
+        android:layout_weight="40">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/ic_undraw_mobile_re_q4nk"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="45"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
         android:orientation="vertical">
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
             android:id="@+id/a1"
-            app:hintTextColor="@color/black"
-            app:boxStrokeColor="@color/black"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Enter Contact Number">
+            app:hintEnabled="false"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:textColor="@color/black"
+                android:textColor="@color/more_dark_main_color"
+                android:textColorHint="@color/dark_main_color"
+                android:textSize="18dp"
+                android:textStyle="normal"
+                android:fontFamily="@font/quicksand_regular"
+                android:hint="Enter Contact Number"
+                android:background="@drawable/setting_textview"
                 android:id="@+id/phone_number_forget_passward2"
                 android:layout_height="wrap_content" />
 
@@ -55,16 +72,22 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
             android:visibility="gone"
-            app:boxStrokeColor="@color/black"
-            app:hintTextColor="@color/black"
+            app:hintEnabled="false"
             android:id="@+id/b1"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="ENTER OTP">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:textColor="@color/black"
+                android:hint="Enter OTP"
+                android:background="@drawable/setting_textview"
+                android:textColor="@color/more_dark_main_color"
+                android:textSize="18dp"
+                android:fontFamily="@font/quicksand_regular"
+                android:textColorHint="@color/dark_main_color"
                 android:id="@+id/otp122"
                 android:layout_height="wrap_content" />
 
@@ -73,15 +96,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:boxStrokeColor="@color/black"
-            app:hintTextColor="@color/black"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
             android:id="@+id/c1"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Enter New Passward">
-
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:textColor="@color/black"
+                android:textColor="@color/more_dark_main_color"
+                android:background="@drawable/setting_textview"
+                android:hint="Enter New Passward"
+                android:textColorHint="@color/dark_main_color"
                 android:id="@+id/new_passward_branch_activity"
                 android:layout_height="wrap_content" />
 
@@ -90,29 +115,36 @@
             android:id="@+id/ResetPassward1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
             android:visibility="gone"
-            android:layout_marginTop="5dp"
-            android:elevation="12dp"
-            app:rippleColor="@color/black"
+            android:textAllCaps="false"
+            app:cornerRadius="10dp"
+            app:rippleColor="@color/main_color"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/white"
-            app:strokeColor="@color/black"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/dark_main_color"
             style="?attr/materialButtonOutlinedStyle"
-            android:fontFamily="@font/fjalla_one"
+            android:textSize="16dp"
+            android:fontFamily="@font/quicksand_regular"
             android:text="Reset Passward"
             android:layout_marginBottom="5dp"/>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/send_otp1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:elevation="12dp"
-            app:rippleColor="@color/black"
+            android:textAllCaps="false"
+            app:rippleColor="@color/main_color"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/white"
-            app:strokeColor="@color/black"
+            android:textColor="@color/white"
+            app:cornerRadius="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"
+            android:textSize="16dp"
+            android:fontFamily="@font/quicksand_regular"
+            android:layout_marginEnd="40dp"
+            android:backgroundTint="@color/dark_main_color"
             style="?attr/materialButtonOutlinedStyle"
             android:text="Send Otp"
             android:layout_marginBottom="5dp"/>
@@ -120,16 +152,19 @@
             android:id="@+id/check_otp1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
+            android:textAllCaps="false"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
             android:visibility="gone"
-            android:elevation="12dp"
-            app:rippleColor="@color/black"
+            app:rippleColor="@color/main_color"
+            android:textSize="16dp"
+            android:fontFamily="@font/quicksand_regular"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/white"
-            app:strokeColor="@color/black"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/dark_main_color"
+            app:cornerRadius="10dp"
             style="?attr/materialButtonOutlinedStyle"
-            android:fontFamily="@font/fjalla_one"
             android:text="Check Otp"
             android:layout_marginBottom="5dp"/>
         <Button
@@ -138,6 +173,7 @@
             android:layout_height="wrap_content"
             android:background="#00000000"
             android:textColor="@color/black"
+            android:visibility="gone"
             android:textStyle="bold"
             android:text="Resend Otp"
             android:fontFamily="@font/fjalla_one"

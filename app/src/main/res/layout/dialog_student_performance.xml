@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="20dp"
+    app:cardCornerRadius="10dp"
+    style="@style/Theme.MaterialComponents"
+    android:elevation="12dp"
+    android:layout_marginEnd="20dp"
+    android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="20dp"
+    android:orientation="vertical">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/student_image_quiz_report1"
+        android:src="@drawable/ic_student__1_"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/student_name_quiz_report1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Student Name"
+        android:textColor="@color/dark_main_color"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Branch Name"
+        android:fontFamily="@font/quicksand_regular"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:id="@+id/branch_name_quiz_report1"
+        android:textColor="@color/dark_main_color"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/main_color"
+        android:weightSum="100"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:background="@color/white"
+            android:layout_marginEnd="1dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total"
+                android:layout_marginTop="20dp"
+                android:textSize="16sp"
+                android:fontFamily="@font/quicksand_regular"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:textColor="@color/dark_main_color"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="Quiz Performed"
+                android:fontFamily="@font/quicksand_regular"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/dark_main_color"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:fontFamily="@font/quicksand_regular"
+                android:textSize="13sp"
+                android:id="@+id/total_quiz_quiz_report1"
+                android:textStyle="bold"
+                android:textColor="@color/dark_main_color"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:background="@color/white"
+            android:layout_marginStart="1dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Overall"
+                android:singleLine="true"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/quicksand_regular"
+                android:textStyle="bold"
+                android:textColor="@color/dark_main_color"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Performance"
+                android:singleLine="true"
+                android:textSize="16sp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/quicksand_regular"
+                android:textStyle="bold"
+                android:textColor="@color/dark_main_color"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0 %"
+                android:textSize="13sp"
+                android:fontFamily="@font/quicksand_regular"
+                android:id="@+id/performance_quiz_report1"
+                android:textStyle="bold"
+                android:textColor="@color/dark_main_color"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

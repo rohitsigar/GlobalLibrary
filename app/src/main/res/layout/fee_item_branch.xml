@@ -1,125 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/status_branch_side"
+    android:layout_margin="10dp"
+        android:background="@drawable/play_quiz_background"
+        android:layout_height="460dp"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:background="@drawable/play_quiz"
+        android:gravity="center"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:src="@drawable/ic_undraw_season_change_f99v"/>
+    </LinearLayout>
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="16dp"
-    android:id="@+id/status_branch_side"
-
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@drawable/btn_background"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="14dp">
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/fjalla_one"
-                    android:text="Amount"
-                    android:id="@+id/amount_branch_side"
-                    android:textColor="#fdb501"
-                    android:textSize="24dp" />
-
-
-
-            </LinearLayout>
-
-
-
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_height="100dp">
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:text="StudentName"
-                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/due_date_branch_side"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:text="Date"
                 android:textStyle="bold"
-                android:textSize="25dp"
-                android:id="@+id/student_name_branch_side"/>
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:id="@+id/student_image_branch_side"
-                android:layout_height="match_parent"
-                android:src="@drawable/student_logo"/>
+                android:textSize="18dp"
+                android:textColor="@color/black"/>
 
 
-        </LinearLayout>
 
 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:weightSum="2"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:layout_weight="1">
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="70dp"
+                app:strokeWidth="4dp"
+                android:id="@+id/paid"
+                app:strokeColor="@color/scrl"
+                app:cardCornerRadius="10dp"
+                android:layout_height="70dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:id="@+id/student_image_branch_side"
+                    android:layout_height="match_parent"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_student__1_"/>
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/student_name_branch_side"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:fontFamily="@font/quicksand_regular"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:text="Student Name"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_gravity="center"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_rupee"/>
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Rupee"
+                android:layout_gravity="center"
                 android:gravity="center"
-                android:weightSum="2"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/fjalla_one"
-                    android:gravity="center"
-                    android:text="Due Date"
-                    android:id="@+id/due_date_branch_side"
-                    android:textColor="#264653"
-                    android:textSize="12dp" />
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:layout_height="wrap_content"
-                    android:text="Mark as Paid"
-                    android:id="@+id/pay_fees_branch_side"
-                    android:elevation="12dp"
-                    app:rippleColor="@color/black"
-
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/white"
-                    app:strokeColor="@color/black"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:visibility="visible"/>
-
-            </LinearLayout>
+                android:id="@+id/amount_branch_side"
+                android:fontFamily="@font/quicksand_regular"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:textColor="@color/black"/>
         </LinearLayout>
 
     </LinearLayout>
+        <TextView
+            android:layout_width="70dp"
+            android:elevation="5dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/pay_fees_branch_side"
+            android:background="@drawable/circle_background"
+            android:backgroundTint="@color/dark_main_color"
+            android:text="Mark as paid"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="15dp"/>
+    <TextView
+        android:layout_width="70dp"
+        android:layout_marginBottom="20dp"
+        android:elevation="5dp"
+        android:layout_height="70dp"
+        android:id="@+id/paid_branch_side"
+        android:visibility="visible"
+        android:background="@drawable/circle_background"
+        android:backgroundTint="@color/scrl"
+        android:fontFamily="@font/quicksand_regular"
+        android:textStyle="bold"
+        android:text="Paid"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="15dp"/>
 
-</androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+
+
+
 
 

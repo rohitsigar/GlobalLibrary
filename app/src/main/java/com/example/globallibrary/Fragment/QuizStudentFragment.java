@@ -11,6 +11,7 @@ import android.widget.AutoCompleteTextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.globallibrary.Activity.QuizActivity;
@@ -79,8 +80,12 @@ public class QuizStudentFragment extends Fragment {
         Difficulty.add("hard");
         ArrayAdapter<String> adaptor = new ArrayAdapter<String>(getContext(), R.layout.drop_down_item_branch_name_with_address,Catigory);
         Cat.setAdapter(adaptor);
+        Cat.setDropDownBackgroundDrawable(ContextCompat.getDrawable(getContext() , R.drawable.newbar_background));
+        Cat.setDropDownHeight(1000);
         ArrayAdapter<String> adaptor1 = new ArrayAdapter<String>(getContext(), R.layout.drop_down_item_branch_name_with_address,Difficulty);
         Diff.setAdapter(adaptor1);
+        Diff.setDropDownBackgroundDrawable(ContextCompat.getDrawable(getContext() , R.drawable.newbar_background));
+        Diff.setDropDownHeight(300);
         Map1 = new HashMap<>();
         Map1.put("General Knowledge" , "9");
         Map1.put("Entertainment: Books" , "10");

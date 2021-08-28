@@ -4,109 +4,119 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="16dp"
-
     android:layout_width="match_parent"
-    android:layout_height="300dp"
-    app:cardCornerRadius="8dp">
+    android:layout_margin="20dp"
+    android:elevation="10dp"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@drawable/btn_background"
-        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:weightSum="100"
         android:padding="14dp">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="85"
-            android:weightSum="3"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_margin="5dp"
-                android:contentDescription="For more ui/ux visit www.materialuiux.com"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="30"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:layout_margin="5dp"
                     android:contentDescription="For more ui/ux visit www.materialuiux.com"
-                    android:text="Catigory"
-                    android:textColor="@color/color_secondary_text"
-                    android:textSize="12sp" />
+                    android:orientation="vertical">
+
+                    <!--                <TextView-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="0dp"-->
+                    <!--                    android:layout_weight="30"-->
+                    <!--                    android:contentDescription="For more ui/ux visit www.materialuiux.com"-->
+                    <!--                    android:text="Catigory"-->
+                    <!--                    android:textColor="@color/color_secondary_text"-->
+                    <!--                    android:textSize="12sp" />-->
 
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="70"
-                    android:layout_marginTop="14dp"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:textStyle="bold"
+                        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                        android:text="Catigory"
+                        android:id="@+id/Catigory_report_student"
+                        android:textColor="@color/dark_main_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:layout_margin="5dp"
                     android:contentDescription="For more ui/ux visit www.materialuiux.com"
-                    android:text="Catigory"
-                    android:id="@+id/Catigory_report_student"
-                    android:textColor="@color/color_primary_text"
-                    android:textSize="16sp" />
+                    android:orientation="vertical">
+
+                    <!--                <TextView-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="0dp"-->
+                    <!--                    android:layout_weight="30"-->
+                    <!--                    android:contentDescription="For more ui/ux visit www.materialuiux.com"-->
+                    <!--                    android:text="Difficulty"-->
+                    <!--                    android:textColor="@color/color_secondary_text"-->
+                    <!--                    android:textSize="12sp" />-->
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                        android:text="Difficulty"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:textStyle="bold"
+                        android:id="@+id/difficuly_report_student"
+                        android:textColor="#46E6BA"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:contentDescription="For more ui/ux visit www.materialuiux.com"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="30"
-                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
-                    android:text="Difficulty"
-                    android:textColor="@color/color_secondary_text"
-                    android:textSize="12sp" />
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_weight="30"-->
+<!--                    android:contentDescription="For more ui/ux visit www.materialuiux.com"-->
+<!--                    android:text="Performance"-->
+<!--                    android:textColor="@color/color_secondary_text"-->
+<!--                    android:textSize="12sp" />-->
 
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="70"
-                    android:layout_marginTop="14dp"
-                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
-                    android:text="Difficulty"
-                    android:id="@+id/difficuly_report_student"
-                    android:textColor="@color/color_primary_text"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_margin="5dp"
-                android:contentDescription="For more ui/ux visit www.materialuiux.com"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="30"
-                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
-                    android:text="Performance"
-                    android:textColor="@color/color_secondary_text"
-                    android:textSize="12sp" />
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="70"
-                    android:layout_marginTop="14dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
                     android:contentDescription="For more ui/ux visit www.materialuiux.com"
                     android:text="Performance"
                     android:id="@+id/performance_report_student"
@@ -130,8 +140,9 @@
             android:layout_marginLeft="6dp"
             android:layout_width="match_parent"
             android:orientation="horizontal"
+            android:layout_marginTop="10dp"
             android:layout_weight="10"
-            android:layout_height="0dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:gravity="center"
@@ -145,16 +156,20 @@
                 <ImageView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
+                    android:background="@color/main_color"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_wb_sunny_24" />
+                    android:src="@drawable/ic_baseline_wb_sunny_24"
+                    app:tint="@color/dark_main_color" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:text="Day  "
                     android:id="@+id/day_report_student"
                     android:layout_marginLeft="5dp"
-                    android:fontFamily="@font/fjalla_one"
-                    android:textColor="#F06A90B5"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:textStyle="bold"
+                    android:textSize="12dp"
+                    android:textColor="@color/dark_main_color"
                     android:layout_height="wrap_content" />
 
 
@@ -172,16 +187,20 @@
                 <ImageView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
+                    android:background="@color/main_color"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_access_time_24" />
+                    android:src="@drawable/ic_baseline_access_time_24"
+                    app:tint="@color/dark_main_color" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:text="Time "
                     android:id="@+id/time_report_student"
                     android:layout_marginLeft="5dp"
-                    android:fontFamily="@font/fjalla_one"
-                    android:textColor="#F06A90B5"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:textSize="12dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/dark_main_color"
                     android:layout_height="wrap_content" />
 
 
@@ -200,15 +219,19 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_date_range_24" />
+                    android:background="@color/main_color"
+                    android:src="@drawable/ic_baseline_date_range_24"
+                    app:tint="@color/dark_main_color" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:text="Date  "
                     android:id="@+id/date_report_student"
                     android:layout_marginLeft="5dp"
-                    android:fontFamily="@font/fjalla_one"
-                    android:textColor="#F06A90B5"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:textStyle="bold"
+                    android:textSize="12dp"
+                    android:textColor="@color/dark_main_color"
                     android:layout_height="wrap_content" />
 
 

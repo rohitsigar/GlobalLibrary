@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- Post List -->
-<androidx.recyclerview.widget.RecyclerView
-    android:layout_margin="20dp"
-    android:id="@+id/recycler_view_notification"
+
+<LinearLayout
+
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Fragment.NoticeBranchFragment" />
+    tools:context=".Fragment.NoticeBranchFragment"
+    android:background="@color/main_color"
+    android:orientation="vertical" android:layout_height="match_parent" android:layout_width="match_parent">
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="match_parent"
+        android:id="@+id/progress_bar_5"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:src="@drawable/animation_500_ksoc1ua4"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_margin="20dp"
+        android:id="@+id/recycler_view_notification"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</LinearLayout>
+

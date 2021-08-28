@@ -1,28 +1,19 @@
 package com.example.globallibrary.Fragment;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,60 +23,30 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.globallibrary.R;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.zxing.WriterException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
-import androidmads.library.qrgenearator.QRGContents;
-import androidmads.library.qrgenearator.QRGEncoder;
 
 public class SettingFragmentBranch extends Fragment   {
 
-    Button Passward;
-    Button ContactNumber;
+    TextView Passward;
+    TextView ContactNumber;
     String BranchId;
-    Button GenerateQrCode;
-//    Button ChangeLocation;
-    MaterialButton Done;
-    EditText OpeningHour , ClosingHour , OpeningMinute , ClosingMinute;
-    AlertDialog alertDialog;
-    ProgressBar progressBar;
-    ImageButton BackPress;
-    private Button generateQrBtn;
-    Bitmap bitmap;
-    QRGEncoder qrgEncoder;
 
+
+    AlertDialog alertDialog;
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
-    Button ChangeFee;
-
-    private static final int PLAY_SERVICE_REQUEST = 9000;
-    private static final int PERMISSION_CODE = 101;
-    String[] permissions_all={Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION};
-    LocationManager locationManager;
-    boolean isGpsProvider;
-    boolean isNetworkProvider;
-    GoogleApiClient googleApiClient;
-    Location location;
-    GoogleMap googleMap;
-
-
+    TextView ChangeFee;
 
 
 
@@ -113,7 +74,7 @@ public class SettingFragmentBranch extends Fragment   {
         Passward = view.findViewById(R.id.change_passward);
         ContactNumber = view.findViewById(R.id.change_phone_no);
 
-        GenerateQrCode = view.findViewById(R.id.mark_location);
+
 //        ChangeLocation = view.findViewById(R.id.change_location);
         ChangeFee = view.findViewById(R.id.change_default_amount);
 
@@ -211,155 +172,7 @@ public class SettingFragmentBranch extends Fragment   {
 //                }
 //            }
 //        });
-        GenerateQrCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ViewGroup viewGroup = getView().findViewById(android.R.id.content);
 
-                //then we will inflate the custom alert dialog xml that we created
-                View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.add_location_branch_dilog, viewGroup, false);
-
-
-                //Now we need an AlertDialog.Builder object
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                //setting the view of the builder to our custom view that we already inflated
-                builder.setView(dialogView);
-
-                //finally creating the alert dialog and displaying it
-                alertDialog = builder.create();
-                alertDialog.show();
-                Done = alertDialog.findViewById(R.id.buttonOk);
-               OpeningHour  = alertDialog.findViewById(R.id.openinig_hour);
-               OpeningMinute = alertDialog.findViewById(R.id.openinig_minute);
-               ClosingHour = alertDialog.findViewById(R.id.closing_hour);
-               ClosingMinute  = alertDialog.findViewById(R.id.closing_minute);
-
-                DocumentReference docIdRef1 = firebaseFirestore.collection("/Branches/" ).document(BranchId.trim());
-                docIdRef1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-
-                                if (document.contains("OpenHour"))
-                                {
-                                    OpeningHour.setText(String.valueOf(document.getDouble("OpenHour").intValue()));
-                                    ClosingHour.setText(String.valueOf(document.getDouble("CloseHour").intValue()));
-                                    ClosingMinute.setText(String.valueOf(document.getDouble("CloseMinute").intValue()));
-                                    OpeningMinute.setText(String.valueOf(document.getDouble("OpenMinute").intValue()));
-
-                                }
-                                else
-                                {
-                                    OpeningHour.setText("0");
-                                    ClosingHour.setText("0");
-                                    ClosingMinute.setText("0");
-                                    OpeningMinute.setText("0");
-
-                                }
-
-
-                            } else {
-                            }
-                        } else {
-
-                        }
-                    }
-                });
-
-                 progressBar = alertDialog.findViewById(R.id.progressbar_location);
-                Done.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-
-                        Double OpenHour , OpenMinute , CloseHour , CloseMinute;
-                        if(OpeningHour.getText().toString().isEmpty() || OpeningMinute.getText().toString().isEmpty() ||
-                                ClosingMinute.getText().toString().isEmpty() || ClosingHour.getText().toString().isEmpty() )
-                        {
-                            Toast.makeText(getContext() , "Timings are not properly set!" , Toast.LENGTH_LONG).show();
-                            alertDialog.dismiss();
-                        }
-                        OpenHour = Double.valueOf(OpeningHour.getText().toString().trim());
-                        CloseHour = Double.valueOf(ClosingHour.getText().toString().trim());
-                        CloseMinute = Double.valueOf(ClosingMinute.getText().toString().trim());
-                        OpenMinute =Double.valueOf(OpeningMinute.getText().toString().trim());
-
-                        WindowManager manager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-
-                        // initializing a variable for default display.
-                        Display display = manager.getDefaultDisplay();
-
-                        // creating a variable for point which
-                        // is to be displayed in QR Code.
-                        Point point = new Point();
-                        display.getSize(point);
-
-                        // getting width and
-                        // height of a point
-                        int width = point.x;
-                        int height = point.y;
-
-                        // generating dimension from width and height.
-                        int dimen = width < height ? width : height;
-                        dimen = dimen * 3 / 4;
-
-                        // setting this dimensions inside our qr code
-                        // encoder to generate our qr code.
-                        Date c = Calendar.getInstance().getTime();
-                        System.out.println("Current time => " + c);
-                        Date currentTime = Calendar.getInstance().getTime();
-                        System.out.println("Current time => " + currentTime.toString());
-
-                        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                        String formattedDate = df.format(c);
-
-
-
-
-
-                        qrgEncoder = new QRGEncoder(currentTime.toString().trim(), null, QRGContents.Type.TEXT, dimen);
-                        try {
-                            // getting our qrcode in the form of bitmap.
-                            bitmap = qrgEncoder.encodeAsBitmap();
-
-                            Log.d("TAG", "onClick: checking" + bitmap.toString());
-                            saveImage(bitmap);
-                            firebaseFirestore.collection("Branches").document(BranchId).update("UniqueQrCode" , currentTime.toString().trim());
-                            firebaseFirestore.collection("Branches").document(BranchId).update("OpenHour" , OpenHour);
-                            firebaseFirestore.collection("Branches").document(BranchId).update("CloseHour" , CloseHour);
-                            firebaseFirestore.collection("Branches").document(BranchId).update("OpenMinute" , OpenMinute);
-                            firebaseFirestore.collection("Branches").document(BranchId).update("CloseMinute" , CloseMinute);
-
-
-                            Toast.makeText(getContext() , "QR Code is saved in your gallery which can be used for student attandance" , Toast.LENGTH_LONG).show();
-                            alertDialog.dismiss();
-//                            saveTempBitmap(bitmap);
-                            // the bitmap is set inside our image
-                            // view using .setimagebitmap method.
-
-                        } catch (WriterException e) {
-                            // this method is called for
-                            // exception handling.
-                            Log.e("Tag", e.toString());
-                        }
-
-
-
-
-
-
-
-
-
-
-                    }
-                });
-
-            }
-        });
 //        ChangeLocation.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

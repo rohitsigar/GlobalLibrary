@@ -1,18 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activity.AuthenticationActivity"
     android:layout_width="match_parent"
+    android:background="@color/white"
+    android:weightSum="100"
+    android:id="@+id/auth_background"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     android:scrollbarAlwaysDrawVerticalTrack="true" >
+
+    <LinearLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <ImageButton
+            android:id="@+id/return_to_notification"
+            android:layout_width="0dp"
+            android:padding="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:layout_weight="20"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/logo12" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="17dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toStartOf="@+id/auth_menu"
+            android:layout_toEndOf="@+id/return_to_notification"
+            android:layout_weight="65"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Global Library"
+            android:textColor="@color/dark_main_color"
+            android:textSize="25dp" />
+
+        <ImageButton
+            android:id="@+id/auth_menu"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="34dp"
+            android:layout_weight="12"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/ic_menu" />
+    </LinearLayout>
+
+    <com.ismaeldivita.chipnavigation.ChipNavigationBar
+        android:id="@+id/auth_navbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="end"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/newbar_background"
+        android:elevation="4dp"
+        android:visibility="visible"
+        app:cnb_menuResource="@menu/auth_menu"
+        app:cnb_orientationMode="vertical"
+        app:cnb_radius="8dp"
+        app:cnb_unselectedColor = "@color/dark_main_color" />
+
     <FrameLayout
+        android:id="@+id/fragment_container_auth"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragment_container_auth">
-    </FrameLayout>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="70dp"
+        tools:ignore="Suspicious0dp" />
 
 
-
-</LinearLayout>
+</RelativeLayout>

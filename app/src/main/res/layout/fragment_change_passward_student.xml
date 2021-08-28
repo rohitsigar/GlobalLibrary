@@ -8,82 +8,124 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".Fragment.ChangePasswardBranchFragment">
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/white"
-        android:layout_weight="10"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Enter Your current Passward"
-        android:id="@+id/current_passward_l_1"
-        app:hintTextColor="@color/black"
-        app:boxStrokeColor="@color/black"
-        android:visibility="visible">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:id="@+id/current_passward_student1"
-            android:background="@color/white"
-            android:inputType="textPassword"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-
-        android:layout_weight="10"
-        android:background="@color/white"
-        app:helperTextTextColor="@color/black"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:hintTextColor="@color/black"
-        app:boxStrokeColor="@color/black"
-        android:hint="Enter Your New Passward">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:textColor="@color/black"
-            android:background="@color/white"
-            android:inputType="textPassword"
-            android:id="@+id/new_passward_student"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="20"
-        android:weightSum="2"
-        android:orientation="horizontal">
-        <com.google.android.material.button.MaterialButton
-            android:layout_marginLeft="30dp"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:layout_height="60dp"
-            android:text="Change"
-            android:id="@+id/change1student"
-            android:elevation="12dp"
-            app:rippleColor="@color/black"
+        android:background="@drawable/setting_background"
+        android:layout_weight="40">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="50dp"
+            android:src="@drawable/ic_undraw_mobile_re_q4nk"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="60">
 
-            android:textColor="@color/black"
-            android:backgroundTint="@color/white"
-            app:strokeColor="@color/black"
-            style="?attr/materialButtonOutlinedStyle"
-            android:visibility="visible"/>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/dark_main_color"
+            android:background="@color/white"
+            app:boxStrokeWidth="0dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/current_passward_l_1"
+            app:hintEnabled="false"
+            android:visibility="visible">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:hint="Enter Your current Passward"
+                android:textSize="15dp"
+                android:fontFamily="@font/quicksand_regular"
+                android:textStyle="bold"
+                android:textColor="@color/more_dark_main_color"
+                android:textColorHint="@color/dark_main_color"
+                android:id="@+id/current_passward_student1"
+                android:background="@drawable/setting_textview"
+                android:inputType="textPassword"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/dark_main_color"
+            android:layout_marginEnd="40dp"
+            android:background="@color/white"
+            app:helperTextTextColor="@color/dark_main_color"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:hintEnabled="false"
+            app:boxStrokeColor="@color/black"
+            android:hint="Enter Your New Passward">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:textColor="@color/more_dark_main_color"
+                android:hint="Enter Your New Passward"
+                android:textSize="15dp"
+                android:fontFamily="@font/quicksand_regular"
+                android:textStyle="bold"
+                android:textColorHint="@color/dark_main_color"
+                android:background="@drawable/setting_textview"
+                android:inputType="textPassword"
+                android:id="@+id/new_passward_student"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/forget_password_student1"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="80dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
             android:text="Forget Password?"
             android:background="#00FFFFFF"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_main_color"
             android:backgroundTint="@color/white"
             android:textAlignment="center"
             android:layout_gravity="right"
-            android:fontFamily="@font/fjalla_one"
+            android:fontFamily="@font/quicksand_regular"
+            android:textStyle="bold"
+            android:textSize="12dp"
             android:elevation="12dp"
             android:layout_marginTop="5dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                app:cornerRadius="10dp"
+                android:text="Change"
+                android:id="@+id/change1student"
+                app:rippleColor="@color/main_color"
+                android:textAllCaps="false"
+                android:fontFamily="@font/quicksand_regular"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/dark_main_color"
+                app:strokeColor="@color/black"
+                style="?attr/materialButtonOutlinedStyle"
+                android:visibility="visible"/>
+
+
+
 
     </LinearLayout>
 

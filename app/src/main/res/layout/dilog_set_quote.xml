@@ -1,69 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:weightSum="3"
-    android:layout_height="match_parent">
-
-
+    android:background="@drawable/dialog_background"
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
         <com.google.android.material.button.MaterialButton
             android:layout_margin="10dp"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:text="Set Today's Quote"
-            app:icon="@drawable/ic_baseline_wb_sunny_24"
+            android:layout_height="wrap_content"
+            android:text="Today's Quote"
+            android:fontFamily="@font/roboto_regular"
+            android:textAllCaps="false"
             app:iconGravity="textEnd"
-            app:rippleColor="@color/white"
-            app:iconTint="@color/black"
+            app:strokeWidth="0dp"
+            android:textSize="20dp"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-            android:textColor="@color/black"
+            android:textColor="@color/dark_main_color"
+            android:textStyle="bold"
             android:backgroundTint="@color/white"
-            app:strokeColor="@color/black"
             android:id="@+id/add_new_notification"
             android:visibility="visible"/>
 
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
         <EditText
            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_height="150dp"
+            android:gravity="top"
+            android:fontFamily="@font/quicksand_regular"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:padding="10dp"
+            android:textColorHint="@color/color_secondary_text"
             android:id="@+id/quote"
             android:filterTouchesWhenObscured="true"
-            android:textCursorDrawable="@color/black"
-            android:backgroundTint="@color/black"
+            android:background="@drawable/newbar_background"
             android:contentDescription="For more ui/ux visit www.materialuiux.com"
-            android:hint="Enter Quote"
-            android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:hint="Write today's quote for the customers."
+            android:textColor="@color/more_dark_main_color"
+            android:textSize="15sp"
+            tools:ignore="RtlCompat" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        android:layout_height="wrap_content">
         <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:gravity="center"
             android:layout_gravity="center"
-            android:layout_height="60dp"
-            android:layout_margin="40dp"
-            android:text="Publish Quote"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:textAllCaps="false"
+            android:textSize="18dp"
+            android:fontFamily="@font/quicksand_regular"
+            android:paddingBottom="10dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginTop="10dp"
+            android:text="Publish"
             android:id="@+id/sendQuote"
-            android:elevation="12dp"
-            app:rippleColor="@color/black"
-
-            android:textColor="@color/black"
+            app:rippleColor="@color/main_color"
+            android:textColor="@color/dark_main_color"
+            android:textStyle="bold"
             android:backgroundTint="@color/white"
-            app:strokeColor="@color/black"
+            app:strokeColor="@color/scrl"
+            app:strokeWidth="3dp"
+            app:cornerRadius="10dp"
             style="?attr/materialButtonOutlinedStyle"
             android:visibility="visible"/>
 

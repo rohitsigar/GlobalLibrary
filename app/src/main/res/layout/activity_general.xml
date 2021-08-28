@@ -6,10 +6,8 @@
     android:id="@+id/main_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/main_color"
     tools:context=".Activity.GeneralActivity">
-
-
    <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -39,20 +37,21 @@
             <FrameLayout
                 android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
+                android:background="@color/main_color"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
-
-
-
             <com.ismaeldivita.chipnavigation.ChipNavigationBar
                 android:id="@+id/bottom_navbar_student"
                 android:layout_width="match_parent"
                 android:layout_gravity="bottom"
-                android:layout_height="50dp"
-
-                android:background="@color/white"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:elevation="4dp"
+                android:background="@drawable/newbar_background"
                 app:cnb_menuResource="@menu/bottom_nav_menu_student"
-                app:cnb_unselectedColor="@color/black"
+                app:cnb_unselectedColor="#3e373a"
+                app:cnb_badgeColor="@color/skyBlue"
                 android:visibility="gone"
                 app:cnb_radius="8dp"
                 app:cnb_orientationMode="horizontal"
@@ -61,10 +60,15 @@
                 android:id="@+id/bottom_navbar_branch"
                 android:layout_width="match_parent"
                 android:layout_gravity="bottom"
-                android:layout_height="50dp"
-                android:background="@color/white"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:elevation="4dp"
+                app:cnb_badgeColor="@color/skyBlue"
+                android:visibility="visible"
+                android:background="@drawable/newbar_background"
                 app:cnb_menuResource="@menu/bottom_nav_menu_branch"
-                app:cnb_unselectedColor="@color/black"
+                app:cnb_unselectedColor="#3e373a"
                 app:cnb_radius="8dp"
                 app:cnb_orientationMode="horizontal"
                 android:layout_marginBottom="10dp" />
@@ -72,10 +76,15 @@
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/slider"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
+            app:itemTextColor="@color/white"
+            app:itemIconTint="@color/white"
             android:layout_height="match_parent"
+            android:background="@drawable/slider_background"
             android:layout_gravity="start"
-            app:headerLayout="@menu/header_slider"
+            android:visibility="visible"
+            app:headerLayout="@layout/slider_header"
             app:menu="@menu/slider_menu" />
+
     </androidx.drawerlayout.widget.DrawerLayout>
 </LinearLayout>

@@ -7,6 +7,7 @@ public class BranchOverview {
     public String EmailAddress;
     public String ContactNumber;
     public String PhotoURL;
+    public  String Fees;
 
 
     public BranchOverview() {
@@ -14,13 +15,14 @@ public class BranchOverview {
     }
 
 
-    public BranchOverview(String BranchName, String Discreption, String Address, String ContactNumber, String PhotoURL,String EmailAddress) {
+    public BranchOverview(String BranchName, String Discreption, String Address, String ContactNumber, String PhotoURL,String EmailAddress , String Fees) {
         this.BranchName = BranchName;
         this.Discreption = Discreption;
         this.Address = Address;
         this.ContactNumber = ContactNumber;
         this.PhotoURL  =PhotoURL;
         this.EmailAddress = EmailAddress;
+        this.Fees = Fees;
     }
 
     public String getBranchName() {
@@ -45,5 +47,13 @@ public class BranchOverview {
 
     public String getPhotoURL() {
         return this.PhotoURL;
+    }
+
+    public String getFees() {
+        return Fees;
+    }
+
+    public void setFees(String fees) {
+        Fees = fees;
     }
 }

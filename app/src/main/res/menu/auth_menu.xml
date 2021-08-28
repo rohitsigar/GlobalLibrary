@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/auth_menu1">
+    <item
+        android:id="@+id/auth_student"
+        android:title="Student"
+        android:icon="@drawable/ic_student"
+        android:iconTint="#ff6584"
+        app:cnb_iconColor="#ff6584"
+        app:cnb_backgroundColor  = "@color/main_color"/>
+    <item
+        android:id="@+id/auth_branch"
+        android:title="Branch Manager"
+        android:iconTint="#ff6584"
+        app:cnb_iconColor="#ff6584"
+        app:cnb_backgroundColor  = "@color/main_color"
+        android:icon="@drawable/ic_institution"/>
+    <item
+        android:id="@+id/auth_all_branches"
+        android:title="All Branches"
+        android:icon="@drawable/ic_study"
+        android:iconTint="#ff6584"
+        app:cnb_iconColor="#ff6584"
+        app:cnb_backgroundColor  = "@color/main_color"/>
+</menu>

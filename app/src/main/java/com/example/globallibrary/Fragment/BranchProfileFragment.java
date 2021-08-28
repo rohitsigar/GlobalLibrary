@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,12 +22,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.globallibrary.Activity.GeneralActivity;
 import com.example.globallibrary.Adpaters.PagerAdaptorBranchProfile;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -39,20 +42,24 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class BranchProfileFragment extends Fragment {
     private static String BranchId= "";
     TabLayout tabLayout;
     ViewPager viewPager;
     PagerAdaptorBranchProfile viewPagerAdapter;
-    ImageView BranchImage;
+    CircleImageView BranchImage;
     ImageView ChangeImage;
     ImageView UploadImage;
     TextView BranchName;
-    TextView Discreption;
     String URL  = "";
     private ProgressBar mProgressBar;
     private Uri filePath;
+
+    EditText LibraryAddress , Disreption , OwnerName , EmailAddress;
+    MaterialButton TickButton;
 
     // request code
     private final int PICK_IMAGE_REQUEST = 22;
@@ -72,17 +79,14 @@ public class BranchProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewPager = view.findViewById(R.id.viewPagerBranchProfile);
-        viewPagerAdapter = new PagerAdaptorBranchProfile(getChildFragmentManager());
-  UploadImage = view.findViewById(R.id.change_upload);
-        viewPager.setAdapter(viewPagerAdapter);
-        tabLayout = (TabLayout) view.findViewById(R.id.sliding_tabs_branch_profile);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabRippleColor(null);
+
+  UploadImage = view.findViewById(R.id.change_image_button);
+
+
         BranchImage = view.findViewById(R.id.id_Profile_Image);
-        ChangeImage = view.findViewById(R.id.change_image_button);
+        ChangeImage = view.findViewById(R.id.change_upload);
         BranchName  = view.findViewById(R.id.id_fullName_TextView);
-        Discreption  = view.findViewById(R.id.branch_discreption);
+//        Discreption  = view.findViewById(R.id.branch_discreption);
         BranchId = getArguments().getString("branchId");
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -95,8 +99,6 @@ public class BranchProfileFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 
-
-                      Discreption.setText(document.getString("Discreption"));
                       URL = "Branches/"  + document.getString("BranchName");
                       BranchName.setText(document.getString("BranchName"));
                         storageReference.child(URL).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -117,7 +119,7 @@ public class BranchProfileFragment extends Fragment {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
                                 // Handle any errors
-                                BranchImage.setImageResource(R.drawable.branch_owner);
+
 
                             }
                         });
@@ -129,6 +131,91 @@ public class BranchProfileFragment extends Fragment {
                 } else {
 
                 }
+            }
+        });
+
+        TickButton = view.findViewById(R.id.tick_button_branch);
+        LibraryAddress = view.findViewById(R.id.change_owner_library_address);
+        OwnerName = view.findViewById(R.id.change_owner_name);
+        Disreption = view.findViewById(R.id.change_discreption);
+        EmailAddress = view.findViewById(R.id.change_email_id);
+        BranchId = getArguments().getString("branchId");
+        Log.d("TAG", "onViewCreated: checking" + BranchId);
+
+
+        firebaseFirestore.collection("Branches/" ).document(BranchId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+
+                        OwnerName.setText(document.getString("OwnerName"));
+                        Disreption.setText(document.getString("Discreption"));
+                        EmailAddress.setText(document.getString("EmailAddress"));
+                        LibraryAddress.setText(document.getString("LibraryAddress"));
+
+                    } else {
+
+                    }
+                } else {
+
+                }
+            }
+        });
+
+        TickButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DocumentReference docIdRef = firebaseFirestore.collection("Branches/" ).document(BranchId);
+                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+
+                                if(!LibraryAddress.getText().toString().isEmpty())
+                                {
+                                    firebaseFirestore.collection("/Branches").document(document.getId()).update("LibraryAddress" , LibraryAddress.getText().toString());
+                                }
+                                if(!OwnerName.getText().toString().isEmpty())
+                                {
+                                    firebaseFirestore.collection("/Branches").document(document.getId()).update("OwnerName" , OwnerName.getText().toString());
+                                }
+                                if(!Disreption.getText().toString().isEmpty())
+                                {
+                                    firebaseFirestore.collection("/Branches").document(document.getId()).update("Discreption" , Disreption.getText().toString());
+                                }
+
+                                if(!EmailAddress.getText().toString().isEmpty())
+                                {
+                                    firebaseFirestore.collection("/Branches").document(document.getId()).update("EmailAddress" , EmailAddress.getText().toString());
+                                }
+
+
+
+                                Toast.makeText(getActivity() , "Profile Updated" , Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getActivity() , GeneralActivity.class);
+                                startActivity(intent);
+
+
+
+
+
+                            } else {
+
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+
+
+
+
             }
         });
 
@@ -148,6 +235,7 @@ public class BranchProfileFragment extends Fragment {
                 UploadImage.setVisibility(View.GONE);
                 ChangeImage.setVisibility(View.VISIBLE);
                 uploadImage();
+
             }
         });
 

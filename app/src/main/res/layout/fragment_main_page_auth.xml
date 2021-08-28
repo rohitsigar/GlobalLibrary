@@ -3,14 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E1E8EB"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.MainPageAuthFragment">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="100"
-        android:background="@color/white">
+        android:background="#E1E8EB"
+        android:weightSum="100">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -26,13 +27,15 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:src="@drawable/logoapp"
+            android:src="@mipmap/ic_launcher"
+            android:background="#E1E8EB"
             android:layout_weight="10"
             android:scaleType="fitCenter"/>
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/sliding_tabs_auth"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="#E1E8EB"
             android:layout_weight="10"
             app:tabBackground="@android:color/transparent"
             app:tabIndicatorColor="@color/black"

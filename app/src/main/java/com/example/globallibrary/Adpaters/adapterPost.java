@@ -49,6 +49,7 @@ public class adapterPost  extends RecyclerView.Adapter<adapterPost.ViewHolder> {
         viewHolder.Address.setText(String.valueOf(itam.Address));
         viewHolder.ContactNumber.setText(itam.ContactNumber);
         viewHolder.EmailAddress.setText(itam.EmailAddress);
+        viewHolder.Fees.setText(itam.Fees);
 
         Picasso.get().load(itam.PhotoURL).into(viewHolder.BranchPhoto);
 
@@ -61,7 +62,7 @@ public class adapterPost  extends RecyclerView.Adapter<adapterPost.ViewHolder> {
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-       public TextView BranchName , Discreption , Address , ContactNumber, EmailAddress ;
+       public TextView BranchName , Discreption , Address , ContactNumber, EmailAddress , Fees ;
        public ImageView BranchPhoto;
 
 
@@ -73,6 +74,7 @@ public class adapterPost  extends RecyclerView.Adapter<adapterPost.ViewHolder> {
             ContactNumber = (TextView) v.findViewById(R.id.contact_number_all_branches);
             EmailAddress = (TextView) v.findViewById(R.id.email_address_all_branches);
             BranchPhoto = (ImageView) v.findViewById(R.id.branch_image_all_branches);
+            Fees = (TextView) v.findViewById(R.id.fees);
         }
     }
 }

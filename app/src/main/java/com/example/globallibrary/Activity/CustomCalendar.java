@@ -1,5 +1,6 @@
-package org.naishadhparmar.zcustomcalendar;
+package com.example.globallibrary.Activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -11,6 +12,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.globallibrary.R;
+
+import org.naishadhparmar.zcustomcalendar.OnDateSelectedListener;
+import org.naishadhparmar.zcustomcalendar.OnNavigationButtonClickedListener;
+import org.naishadhparmar.zcustomcalendar.Property;
 
 import java.util.Calendar;
 import java.util.Map;
@@ -38,6 +45,8 @@ public class CustomCalendar extends LinearLayout {
     public static final int FRIDAY = 5;
     public static final int SATURDAY = 6;
 
+
+
     private final String[] MONTHS = new String[] {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
     private Context context = null;
@@ -46,7 +55,7 @@ public class CustomCalendar extends LinearLayout {
     private ImageButton butLeft = null;
     private ImageButton butRight = null;
     private TextView tvMonthYear = null;
-    private TextView[] tvDaysOfWeek = null;
+    public TextView[] tvDaysOfWeek = null;
     private LinearLayout llWeeks = null;
     private View[] btnAll = null;
 
@@ -64,6 +73,8 @@ public class CustomCalendar extends LinearLayout {
     private Map<Integer, Object> mapDateToTag = null;
     private Map<Integer, Object> mapDateToDesc = null;
     private Map<Object, Property> mapDescToProp = null;
+
+    LinearLayout Back;
 
     /**
      * Constructor that is called when inflating from XML.
@@ -83,8 +94,9 @@ public class CustomCalendar extends LinearLayout {
         initialize();
     }
 
+    @SuppressLint("ResourceAsColor")
     private void initialize() {
-        view = inflate(context, R.layout.customcalendar, this);
+        view = inflate(context, R.layout.custom_calender, this);
         butLeft = (ImageButton) findViewById(R.id.but_left);
         butRight = (ImageButton) findViewById(R.id.but_right);
         if(draLeftButton != null) butLeft.setImageDrawable(draLeftButton);
@@ -173,6 +185,7 @@ public class CustomCalendar extends LinearLayout {
             btn.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 1));
             llWeek.addView(btn);
             btn.setEnabled(false);
+            btn.setVisibility(INVISIBLE);
         }
         int index = 0;
         for(int i = 0 ; i < (7-j) ; i++) {
@@ -204,6 +217,7 @@ public class CustomCalendar extends LinearLayout {
             btnAll[index].setEnabled(true);
         }
         for(int k=1; k<=(7-i) ; k++) {
+            
             View btn = null;
             if(mapDescToProp != null && mapDescToProp.get("disabled") != null) {
                 Property prop = mapDescToProp.get("disabled");
@@ -217,6 +231,7 @@ public class CustomCalendar extends LinearLayout {
             btn.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, 1));
             llWeek.addView(btn);
             btn.setEnabled(false);
+            btn.setVisibility(INVISIBLE);
         }
         llWeeks.addView(llWeek);
     }
@@ -446,4 +461,6 @@ public class CustomCalendar extends LinearLayout {
     public Calendar getSelectedDate() {
         return selectedDate;
     }
+
+
 }

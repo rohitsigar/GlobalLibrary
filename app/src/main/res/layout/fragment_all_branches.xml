@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Post List -->
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/my_recycler_view"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_margin="10dp"
+    android:layout_weight="100"
+    android:background="@drawable/all_branches_background"
     android:layout_height="match_parent"
-    android:layout_margin="5dp"
-    tools:context=".Fragment.FragmentAllBranches" />
+    tools:context=".Fragment.FragmentAllBranches"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="All Our Branches"
+        android:layout_weight="5"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="@color/dark_main_color"/>
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="wrap_content"
+        android:id="@+id/progress_bar_8"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_height="0dp"
+        android:layout_weight="95"
+        android:src="@drawable/animation_500_ksobuumw"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_weight="95"
+        android:visibility="gone"
+        android:layout_height="0dp" />
+
+</LinearLayout>
+
 

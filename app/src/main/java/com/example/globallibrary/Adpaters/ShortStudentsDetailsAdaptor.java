@@ -11,11 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.globallibrary.Models.ShortStudentDetails;
 import com.example.globallibrary.R;
+import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -29,6 +29,8 @@ public class ShortStudentsDetailsAdaptor extends RecyclerView.Adapter<ShortStude
 
     FirebaseStorage storage;
     StorageReference storageReference;
+
+
 
 
     public ShortStudentsDetailsAdaptor(List<ShortStudentDetails> Data , RecyclerViewClickListner listner) {
@@ -59,19 +61,20 @@ public class ShortStudentsDetailsAdaptor extends RecyclerView.Adapter<ShortStude
         // set values for each item
         ShortStudentDetails itam = mData.get(position);
         viewHolder.StudentName.setText(itam.StudentName);
-        viewHolder.Discreption.setText(itam.Discreption);
         if(itam.Color.equals("Red"))
         {
-           viewHolder.ChangeColor.setBackgroundColor(Color.parseColor(	"#ffcccb"));
+           viewHolder.ChangeColor.setStrokeColor(Color.parseColor(	"#FF9B9B"));
+            viewHolder.StudentPhoto.setBackgroundColor(Color.parseColor("#FF9B9B"));
         }
         else if(itam.Color.equals("Green"))
         {
-            viewHolder.ChangeColor.setBackgroundColor(Color.parseColor(	"#90EE90"));
+            viewHolder.ChangeColor.setStrokeColor(Color.parseColor(	"#46E6BA"));
+            viewHolder.StudentPhoto.setBackgroundColor(Color.parseColor("#46E6BA"));
         }
         Log.d("TAG", "onBindViewHolder: " + itam.PhootoURL);
 
         if (itam.PhootoURL.equals("NoImage")) {
-            viewHolder.StudentPhoto.setImageResource(R.drawable.student_logo);
+//            viewHolder.StudentPhoto.setImageResource(R.drawable.student_logo);
 
         } else {
             Picasso.get().load(itam.PhootoURL).into(viewHolder.StudentPhoto);
@@ -94,17 +97,16 @@ public class ShortStudentsDetailsAdaptor extends RecyclerView.Adapter<ShortStude
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView StudentName, Discreption ;
+        public TextView StudentName ;
         public ImageView StudentPhoto;
-        public CardView ChangeColor;
+        public MaterialCardView ChangeColor;
 
 
         public ViewHolder(final View v) {
             super(v);
             StudentName = (TextView) v.findViewById(R.id.StudentName_short_details);
-            Discreption = (TextView) v.findViewById(R.id.branch_discreption_short_details);
             StudentPhoto = (ImageView) v.findViewById(R.id.student_image_short_details);
-            ChangeColor = (CardView) v.findViewById(R.id.ChangeColor);
+            ChangeColor =  v.findViewById(R.id.ChangeColor);
             v.setOnClickListener(this);
 
         }

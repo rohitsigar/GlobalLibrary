@@ -5,96 +5,175 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_weight="100"
+    android:background="@color/main_color"
     android:orientation="vertical"
     tools:context=".Fragment.QuizStudentFragment">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:background="@drawable/btn_background"
-        android:weightSum="9"
+        android:layout_height="0dp"
+        android:layout_weight="60"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:weightSum="4"
+        android:background="@drawable/quiz_main_background"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:textStyle="bold"
-            android:layout_margin="20dp"
-            android:textColor="@color/black"
-            android:text="New Quiz"
-            android:textSize="30sp"
-            android:textAlignment="center"/>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_height="0dp"
-            android:layout_weight="2"
-            android:layout_margin="10dp"
-            app:hintTextColor="@color/black"
-            app:boxStrokeColor="@color/black"
+            android:layout_marginTop="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textColorHint="@color/dark_main_color"
+            app:hintTextColor="@color/dark_main_color"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="Enter Number of Question">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
+                android:background="@drawable/newbar_background"
+                android:textColorHint="@color/dark_main_color"
+                android:padding="15dp"
+                android:nextFocusDown="@id/catigory"
+                android:cursorVisible="false"
+                android:fontFamily="@font/quicksand_regular"
+                android:textStyle="bold"
+                android:textAllCaps="false"
                 android:layout_height="wrap_content"
-                android:textCursorDrawable="@color/black"
-
+                android:textAlignment="textStart"
+                android:textColor="@color/more_dark_main_color"
+                android:textSize="15dp"
+                android:textCursorDrawable="@color/more_dark_main_color"
                 android:id="@+id/Questions"
                 android:inputType="number"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginStart="20dp"
+                app:boxBackgroundColor="@color/main_color"
+                android:keyboardNavigationCluster="false"
+                android:outlineSpotShadowColor="@color/main_color"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
+                app:hintEnabled="false"
+                android:gravity="center"
+                android:textColorHint="@color/dark_main_color"
+                app:hintTextColor="@color/dark_main_color"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:endIconMode="dropdown_menu"
+                app:boxStrokeWidth="0dp"
+                app:endIconTint="@color/dark_main_color">
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:focusableInTouchMode="false"
+                    android:hint="Select Catigory"
+                    android:nextFocusDown="@id/difficuly"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:selectAllOnFocus="false"
+                    android:keyboardNavigationCluster="false"
+                    android:textAlignment="textStart"
+                    android:padding="15dp"
+                    android:textColor="@color/more_dark_main_color"
+                    android:background="@color/main_color"
+                    android:textColorHint="@color/dark_main_color"
+                    android:editable="false"
+                    android:id="@+id/catigory"
+                    android:inputType="none"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:hintTextColor="@color/dark_main_color"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:boxStrokeWidth="0dp"
+                android:textColorHint="@color/dark_main_color"
+                android:keyboardNavigationCluster="false"
+                app:boxBackgroundColor="@color/main_color"
+                android:outlineSpotShadowColor="@color/main_color"
+                app:endIconMode="dropdown_menu"
+                app:endIconTint="@color/dark_main_color"
+                app:hintEnabled="false"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:textSize="15dp"
+                    android:background="@color/main_color"
+                    android:textAlignment="textStart"
+                    android:hint="Select Difficulty"
+                    android:textColorHint="@color/dark_main_color"
+                    android:padding="15dp"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:selectAllOnFocus="false"
+                    android:focusableInTouchMode="false"
+                    android:textColor="@color/more_dark_main_color"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/difficuly"
+                    android:inputType="none"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
-            android:layout_margin="10dp"
-            app:hintTextColor="@color/black"
-            app:boxStrokeColor="@color/black"
-            android:keyboardNavigationCluster="false"
-            app:endIconMode="dropdown_menu"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="    Select Catigory">
-            <AutoCompleteTextView
+            android:layout_weight="1">
+            <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:editable="false"
-                android:id="@+id/catigory"
-                android:inputType="none"/>
+                android:text="Start Quiz"
+                android:id="@+id/shart_quiz"
+                android:layout_marginStart="35dp"
+                android:layout_marginEnd="35dp"
+                app:cornerRadius="8dp"
+                android:fontFamily="@font/quicksand_regular"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:padding="12dp"
+                app:rippleColor="@color/dark_main_color"
+                app:strokeWidth="3dp"
+                android:textColor="@color/dark_main_color"
+                android:backgroundTint="@color/white"
+                app:strokeColor="@color/main_color"
+                style="?attr/materialButtonOutlinedStyle"
+                android:visibility="visible"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/back_quiz"
+        android:layout_weight="40">
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:hintTextColor="@color/black"
+            android:layout_height="match_parent"
             android:layout_margin="10dp"
-            app:boxStrokeColor="@color/black"
-            android:keyboardNavigationCluster="false"
-            android:layout_weight="2"
-            app:endIconMode="dropdown_menu"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="    Select Difficulty">
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/difficuly"
-                android:inputType="none"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content"
-            android:text="Start Quiz"
-            android:id="@+id/shart_quiz"
-            android:layout_margin="20dp"
-            android:elevation="12dp"
-            app:rippleColor="@color/black"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/white"
-            app:strokeColor="@color/black"
-            style="?attr/materialButtonOutlinedStyle"
-            android:visibility="visible"/>
-
-
+            android:src="@drawable/ic_undraw_questions_re_1fy7"/>
     </LinearLayout>
 
 

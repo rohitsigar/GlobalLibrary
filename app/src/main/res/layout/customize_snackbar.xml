@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:elevation="40dp"
+    android:background="@drawable/snackbar_background"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_gravity="center"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_undraw_bookshelves_re_lxoy"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:id="@+id/show_quiz_report"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/newbar_background"
+        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_baseline_article_24"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:textColor="@color/color_secondary_text"
+            android:textSize="12sp"
+            app:tint="@color/dark_main_color" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="@font/quicksand_regular"
+            android:textStyle="bold"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:text="Quiz Report"
+            android:id="@+id/dob_student_overview"
+            android:textColor="@color/dark_main_color"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:id="@+id/change_student_fee"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:background="@drawable/newbar_background"
+        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_rupee"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:textColor="@color/color_secondary_text"
+            android:textSize="12sp"
+            app:tint="@color/dark_main_color" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="@font/quicksand_regular"
+            android:textStyle="bold"
+            android:contentDescription="For more ui/ux visit www.materialuiux.com"
+            android:text="Change Fee"
+            android:textColor="@color/dark_main_color"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

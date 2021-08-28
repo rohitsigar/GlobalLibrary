@@ -267,6 +267,10 @@ public class StudentAttandance extends AppCompatActivity implements OnNavigation
                                     arr[0].put(i ,"Absent");
                                 }
                             }
+                            for(int i = date + 1;i < daysInMonth+1;i++)
+                            {
+                                arr[0].put(i , "default");
+                            }
 
                         }
                         else
@@ -300,13 +304,36 @@ public class StudentAttandance extends AppCompatActivity implements OnNavigation
                     } else {
                         YearMonth yearMonthObject = YearMonth.of(year, month);
                         int daysInMonth = yearMonthObject.lengthOfMonth();
-                        Log.d("TAG", "onComplete: check high level " + daysInMonth);
-                        for(int i=1;i<daysInMonth + 1;i++)
+                        Log.d("TAG", "onComplete: check high level " + year);
+                        Calendar calendar1 = Calendar.getInstance();
+
+                        Log.d("TAG", "onComplete: check high level "  + year + " " + calendar1.get(Calendar.YEAR));
+
+
+
+                        if(month==calendar1.get(Calendar.MONTH) + 1)
                         {
-                            Log.d("TAG", "onComplete: counting " + i);
+                            int date = calendar1.get(Calendar.DATE);
+                            for(int i=1;i<date + 1;i++)
+                            {
+                                    arr[0].put(i ,"Absent");
+
+                            }
+                            for(int i = date + 1;i < daysInMonth+1;i++)
+                            {
+                                arr[0].put(i , "default");
+                            }
+                        }
+                        else
+                        {
+                            for(int i=1;i<daysInMonth + 1;i++)
+                            {
+                                Log.d("TAG", "onComplete: counting " + i);
 
                                 arr[0].put(i ,"Absent");
+                            }
                         }
+
                         arr[1] = null;
                         customCalendar.setDate(newMonth, arr[0]);
 //                        customCalendar.setDate(calendar,arr[0]);

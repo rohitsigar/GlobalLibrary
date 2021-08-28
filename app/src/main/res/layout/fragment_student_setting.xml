@@ -4,32 +4,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_weight="100"
+    android:background="@color/white"
     tools:context=".Fragment.StudentSettingFragment">
 
-    <Button
-        android:padding="20dp"
-        android:layout_margin="20dp"
-        android:layout_width="300dp"
-        android:layout_height="70dp"
-        android:text="Change Passward"
-        android:textStyle="bold"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/setting_background"
+        android:layout_weight="40">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="50dp"
+            android:src="@drawable/ic_undraw_mobile_re_q4nk"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
         android:layout_gravity="center"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:textColor="@color/black"
-        android:id="@+id/change_passward"
-        android:background="@drawable/btn_background"/>
-    <Button
-        android:padding="20dp"
-        android:layout_width="300dp"
-        android:layout_height="70dp"
-        android:layout_margin="20dp"
-        android:textStyle="bold"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:text="Change Contact Number"
-        android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:id="@+id/change_phone_no"
-        android:background="@drawable/btn_background"/>
+        android:gravity="start"
+        android:layout_weight="60">
+        <TextView
+            android:padding="15dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/quicksand_regular"
+            android:textSize="16dp"
+            android:textAllCaps="false"
+            android:layout_height="wrap_content"
+            android:text="Change Passward"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/newbar_background"
+            android:layout_gravity="center"
+            android:textColor="@color/dark_main_color"
+            android:id="@+id/change_passward" />
+        <TextView
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+           android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/quicksand_regular"
+            android:textSize="16dp"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:text="Change Contact Number"
+            android:layout_gravity="center"
+            android:textColor="@color/dark_main_color"
+            android:id="@+id/change_phone_no"
+            android:background="@drawable/newbar_background"/>
+    </LinearLayout>
+
+
+
 
 
 

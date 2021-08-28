@@ -5,14 +5,22 @@
     <item
         android:id="@+id/slider_setting"
         android:title="Settings"
+        android:iconTint="@color/white"
         android:icon="@drawable/logo_setting"/>
      <item
          android:id="@+id/slider_fees"
          android:title="Fees"
+         android:iconTint="@color/white"
          android:icon="@drawable/logo_fees"/>
+     <item
+         android:id="@+id/quiz_report"
+         android:iconTint="@color/white"
+         android:title="Quiz Report"
+         android:icon="@drawable/ic_baseline_article_24"/>
      <item
          android:id="@+id/slider_logout"
          android:title="Logout"
+         android:iconTint="@color/white"
          android:icon="@drawable/logo_logout"/>
  </group>
     <item  android:title="Communicate">>
@@ -21,10 +29,12 @@
                     <item
                         android:id="@+id/slider_share"
                         android:title="Share"
+                        android:iconTint="@color/white"
                         android:icon="@drawable/logo_share"/>
                     <item
                         android:id="@+id/slider_rate_us"
                         android:title="Rate Us"
+                        android:iconTint="@color/white"
                         android:icon="@drawable/logo_rateus"/>
                 </group>
 

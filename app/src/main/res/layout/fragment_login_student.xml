@@ -6,104 +6,193 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.LoginStudentFragment"
     android:background="@color/white"
-    android:weightSum="100"
-    android:orientation="vertical"
-    android:paddingRight="20dp"
-    android:paddingLeft="20dp">
-
-
-    <TextView
-        android:layout_marginTop="5dp"
+    android:orientation="vertical">
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-
-        android:layout_weight="15"
-        android:text="Sign In to continue"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:fontFamily="@font/fjalla_one"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_weight="85"
-        android:layout_marginBottom="20dp"
-        android:orientation="vertical">
-        <com.google.android.material.textfield.TextInputLayout
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            app:boxStrokeColor="@color/black"
-            app:hintTextColor="@color/black"
-            android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Phone Number">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:id="@+id/student_phoneNo"
-                android:textColor="@color/black"
-                android:inputType="number"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:boxStrokeColor="@color/black"
-            app:hintTextColor="@color/black"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Password"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
+            android:layout_height="match_parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="vertical">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:id="@+id/student_password"
-                android:inputType="textPassword"/>
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="start"
+                    android:text="Welcome Back!"
+                    android:textColor="@color/dark_main_color"
+                    android:textSize="25sp"
+                    android:fontFamily="@font/roboto_regular"/>
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="start"
+                    android:text="Log in to continue"
+                    android:textColor="@color/dark_main_color"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/roboto_regular"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
-        <Button
-            android:id="@+id/forget_password_student"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:text="Forget Password?"
-            android:textColor="@color/black"
-            android:layout_gravity="right"
-            android:fontFamily="@font/fjalla_one"
-            android:elevation="0dp"
-            android:layout_marginTop="5dp"/>
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/go_button_student"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="12dp"
-            app:rippleColor="@color/black"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/white"
-            app:strokeColor="@color/black"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/fjalla_one"
-            android:text="Go"
-            android:layout_marginBottom="5dp"/>
-        <Button
-            android:id="@+id/sign_up_student"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:textColor="@color/black"
-            android:text="New User? SIGN UP"
-            android:fontFamily="@font/fjalla_one"
-            android:layout_gravity="center_horizontal"
-            android:elevation="0dp"
-            android:layout_marginTop="5dp"/>
+            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_undraw_education_f8ru"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    app:boxStrokeColor="@color/scrl"
+                    app:boxStrokeWidth="3dp"
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false"
+                    app:hintTextColor="@color/dark_main_color"
+                    android:textColorHint="@color/dark_main_color"
+                    android:layout_marginBottom="10dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/student_phoneNo"
+                        android:padding="10dp"
+                        android:hint="Phone Number"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:textStyle="bold"
+                        android:textSize="16dp"
+                        android:textColor="@color/more_dark_main_color"
+                        android:textColorHint="@color/dark_main_color"
+                        android:background="@drawable/edit_text_layout"
+                        android:inputType="number"
+                        android:layout_height="wrap_content"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:endIconTint="@color/dark_main_color"
+                    app:hintEnabled="false"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    app:hintTextColor="@color/dark_main_color"
+                    android:textColorHint="@color/dark_main_color"
+                    android:layout_marginTop="10dp"
+                    app:passwordToggleTint="@color/dark_main_color"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/more_dark_main_color"
+                        android:hint="Password"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:padding="10dp"
+                        android:textColorHint="@color/dark_main_color"
+                        android:background="@drawable/edit_text_layout"
+                        android:id="@+id/student_password"
+                        android:inputType="textPassword"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:id="@+id/forget_password_student"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:text="Forget Password?"
+                    android:textColor="@color/dark_main_color"
+                    android:layout_gravity="right"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="12dp"
+                    android:textStyle="bold"
+                    android:elevation="0dp"
+                    android:layout_marginTop="5dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/go_button_student"
+                        android:layout_width="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_height="wrap_content"
+                        android:padding="0dp"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        app:cornerRadius="5dp"
+                        android:backgroundTint="@color/dark_main_color"
+                        app:rippleColor="@color/main_color"
+                        android:textSize="17dp"
+                        android:textColor="@color/white"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:text="Sign in" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00000000"
+                        android:gravity="center"
+                        android:textColor="@color/dark_main_color"
+                        android:text="Create new account ?"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:layout_margin="10dp"
+                        android:textStyle="normal"
+                        android:textSize="13dp"
+                        android:layout_gravity="center_horizontal"
+                        android:elevation="0dp"
+                        android:layout_marginTop="5dp"/>
+                    <TextView
+                        android:id="@+id/sign_up_student"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00000000"
+                        android:textSize="13dp"
+                        android:gravity="center"
+                        android:textColor="@color/dark_main_color"
+                        android:textStyle="bold"
+                        android:text="SIGN UP"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:layout_gravity="center_horizontal"
+                        android:elevation="0dp"
+                        android:layout_marginTop="5dp"/>
 
 
-    </LinearLayout>
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
 
 
 

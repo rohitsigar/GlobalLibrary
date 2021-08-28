@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#90EE90"
-
+    android:layout_margin="10dp"
+    android:background="@drawable/dialog_background"
     android:orientation="vertical">
 
     <TextView
@@ -13,8 +13,9 @@
         android:textSize="20dp"
         android:text="Are You Sure ? "
         android:layout_margin="10dp"
+        android:fontFamily="@font/quicksand_regular"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="@color/dark_main_color"
         android:layout_gravity="center"
         android:gravity="center"/>
     <com.google.android.material.button.MaterialButton
@@ -25,10 +26,15 @@
         android:text="Mark as paid"
         android:id="@+id/mark_paid"
         android:elevation="12dp"
-        app:rippleColor="@color/black"
-        android:textColor="@color/black"
+        android:fontFamily="@font/quicksand_regular"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:textAllCaps="false"
+        app:rippleColor="@color/main_color"
+        android:textColor="@color/dark_main_color"
         android:backgroundTint="@color/white"
-        app:strokeColor="@color/black"
+        app:strokeColor="@color/scrl"
+        app:strokeWidth="3dp"
         style="?attr/materialButtonOutlinedStyle"
         android:visibility="visible"/>
 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_color"
+    android:orientation="vertical"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.AllStudentsAttandanceFragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_gravity="center"
+    android:layout_margin="10dp"
+    android:gravity="center"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:padding="10dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textStyle="bold"
+        android:textColor="@color/dark_main_color"
+        android:id="@+id/showDateHere"
+        android:text="Pick A Date"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_baseline_date_range_24"
+        android:id="@+id/changeDateUsingCalender"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:backgroundTint="@color/main_color"
+        android:tint="@color/dark_main_color"
+        android:layout_height="match_parent"/>
+</LinearLayout>
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="wrap_content"
+        android:id="@+id/progress_bar_3"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:src="@drawable/animation_500_ksoc1ua4"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
+        tools:listitem="@layout/student_short_details"
+        android:orientation="vertical"
+        tools:itemCount="10"
+        android:id="@+id/all_student_grid_attandance"
+        android:layout_height="match_parent"/>
+
+
+
+</LinearLayout>

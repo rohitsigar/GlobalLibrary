@@ -1,5 +1,6 @@
 package com.example.globallibrary.Fragment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,23 +9,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageButton;
+import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.globallibrary.Activity.OtpVerify;
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class StudentRegistrationFragment extends Fragment {
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -36,8 +44,8 @@ public class StudentRegistrationFragment extends Fragment {
     AutoCompleteTextView branchName;
     TextInputEditText passward;
     TextInputEditText reWritePassward;
-    ImageButton nextButton;
-    ImageButton BackPress;
+    MaterialButton nextButton;
+    final Calendar myCalendar = Calendar.getInstance();
     boolean test = true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,11 +63,36 @@ public class StudentRegistrationFragment extends Fragment {
         emailAddress = view.findViewById(R.id.student_email);
         residentialAddress = view.findViewById(R.id.student_address);
         Dob = view.findViewById(R.id.student_dob);
-        BackPress = view.findViewById(R.id.id_back_ImageButton);
         List<String> list = new ArrayList<>();
         reWritePassward = view.findViewById(R.id.student_re_enter_passward);
         passward = view.findViewById(R.id.student_passward1);
         nextButton = view.findViewById(R.id.next);
+
+
+
+
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+
+        };
+
+        Dob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(getActivity(), date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
         firestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             private static final String TAG = "Rohit";
 
@@ -77,15 +110,8 @@ public class StudentRegistrationFragment extends Fragment {
         });
         ArrayAdapter<String> adaptor = new ArrayAdapter<String>(getContext(), R.layout.drop_down_item_branch_name_with_address,list);
         branchName.setAdapter(adaptor);
-        BackPress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                FragmentManager fm = getActivity().getSupportFragmentManager();
-//                fm.popBackStack();
-                Fragment fragment = new MainPageAuthFragment();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_auth , fragment).commit();
-            }
-        });
+        branchName.setDropDownBackgroundDrawable(ContextCompat.getDrawable(getContext() , R.drawable.newbar_background));
+        branchName.setDropDownHeight(500);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
 
@@ -130,39 +156,54 @@ public class StudentRegistrationFragment extends Fragment {
                     Dob.setError("Please Enter Your Date of Birth in yyyy/mm/dd format");
                 }
                 else if(passward.getText().toString().equals(reWritePassward.getText().toString())) {
-                    firestore.collection("Students").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        private static final String TAG = "Rohit";
-
+                    firestore.collection("Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if (contactNumber.getText().toString().equals(document.getString("ContactNumber").toString())) {
-                                        contactNumber.setError("This Contact Number is already Registered");
-                                        test = false;
+                        public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful())
+                            {
+                                for(QueryDocumentSnapshot document1 : task.getResult())
+                                {
+                                    if(document1.getString("BranchName").equals(branchName.getText().toString()))
+                                    {
+                                        firestore.collection("Branches").document(document1.getId()).collection("StudentDetails").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            private static final String TAG = "Rohit";
+
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        if (contactNumber.getText().toString().equals(document.getString("ContactNumber").toString())) {
+                                                            contactNumber.setError("This Contact Number is already Registered in this Library");
+                                                            test = false;
+                                                        }
+                                                    }
+                                                    if(test)
+                                                    {
+                                                        Log.d("hello", "onComplete: ");
+                                                        Intent intent = new Intent(getActivity(), OtpVerify.class);
+                                                        intent.putExtra("phoneNo", contactNumber.getText().toString().trim());
+                                                        intent.putExtra("fullName", fullName.getText().toString().trim());
+                                                        intent.putExtra("email", emailAddress.getText().toString().trim());
+                                                        intent.putExtra("address", residentialAddress.getText().toString().trim());
+                                                        intent.putExtra("dob", Dob.getText().toString().trim());
+                                                        intent.putExtra("branch", branchName.getText().toString().trim());
+                                                        intent.putExtra("passward", passward.getText().toString().trim());
+                                                        intent.putExtra("userName", passward.getText().toString().trim());
+                                                        startActivity(intent);
+
+                                                    }
+
+                                                } else {
+                                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                                }
+                                            }
+                                        });
                                     }
                                 }
-                                if(test)
-                                {
-                                    Log.d("hello", "onComplete: ");
-                                    Intent intent = new Intent(getActivity(), OtpVerify.class);
-                                    intent.putExtra("phoneNo", contactNumber.getText().toString().trim());
-                                    intent.putExtra("fullName", fullName.getText().toString().trim());
-                                    intent.putExtra("email", emailAddress.getText().toString().trim());
-                                    intent.putExtra("address", residentialAddress.getText().toString().trim());
-                                    intent.putExtra("dob", Dob.getText().toString().trim());
-                                    intent.putExtra("branch", branchName.getText().toString().trim());
-                                    intent.putExtra("passward", passward.getText().toString().trim());
-                                    intent.putExtra("userName", passward.getText().toString().trim());
-                                    startActivity(intent);
-
-                                }
-
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
                         }
                     });
+
                 }
                 else
                 {
@@ -171,6 +212,12 @@ public class StudentRegistrationFragment extends Fragment {
             }
         });
 
+    }
+    private void updateLabel() {
+        String myFormat = "yyyy/mm/dd"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        Dob.setText(sdf.format(myCalendar.getTime()));
     }
 
 }

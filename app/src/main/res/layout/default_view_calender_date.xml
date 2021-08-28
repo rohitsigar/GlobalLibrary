@@ -13,8 +13,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:id="@+id/text_view"
             android:textColor="@color/black"
+            android:fontFamily="@font/quicksand_regular"
+            android:textSize="15sp"
             android:gravity="center"/>
     </androidx.cardview.widget.CardView>
 

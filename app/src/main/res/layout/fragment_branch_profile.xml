@@ -1,156 +1,299 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cl_parent"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:contentDescription="For more ui/ux visit www.materialuiux.com"
-    android:orientation="vertical"
-    tools:context=".Fragment.BranchProfileFragment"
-    tools:ignore="HardcodedText">
-
-
-
+    <LinearLayout
+        android:id="@+id/cl_parent"
+        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".Fragment.BranchProfileFragment"
+        android:layout_height="match_parent"
+    android:background="@color/main_color"
+    android:weightSum="100"
+        android:orientation="vertical">
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="vertical">-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:weightSum="100"
-                android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginStart="19dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="vertical"
+                android:layout_weight="25"
+                android:background="@drawable/notice_background1"
+                android:layout_height="0dp">
+                <RelativeLayout
+                    android:layout_width="130dp"
+                    android:layout_height="100dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/id_Profile_Image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:src="@drawable/ic_educational" />
+
+                    <ImageView
+                        android:id="@+id/change_upload"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/ic_add"
+                        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                        android:visibility="visible"
+                        app:tint="@color/dark_main_color" />
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/change_image_button"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                        android:visibility="gone"
+                        android:background="@drawable/ic_check_done" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark_main_color"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textStyle="bold"
+                    android:id="@+id/id_fullName_TextView"
+                    android:text="Branch Name"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="20dp"
+                android:weightSum="5"
+                android:layout_weight="75"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/play_quiz_background"
                 android:orientation="vertical">
-
-
-
                 <LinearLayout
-                    android:id="@+id/id_Profile_RelativeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="25"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                        android:text="Owner Name"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:layout_margin="5dp"
+                        android:textColor="@color/dark_main_color"
+                        android:textSize="12sp" />
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/profile_background"
+                        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                        android:padding="3dp"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:textStyle="bold"
+                        android:id="@+id/change_owner_name"
+                        android:textColor="@color/color_primary_text"
+                        android:textSize="14sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                        android:text="Discription"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+                        android:textColor="@color/dark_main_color"
+                        android:textSize="12sp" />
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/profile_background"
+                        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                        android:padding="3dp"
+                        android:id="@+id/change_discreption"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+                        android:textColor="@color/color_primary_text"
+                        android:textSize="14sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                        android:text="Library Address"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:layout_margin="5dp"
+                        android:textColor="@color/dark_main_color"
+                        android:textSize="12sp" />
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/profile_background"
+                        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                        android:padding="3dp"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+                        android:id="@+id/change_owner_library_address"
+                        android:textColor="@color/color_primary_text"
+                        android:textSize="14sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                        android:text="Email Address"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:layout_margin="5dp"
+                        android:textColor="@color/dark_main_color"
+                        android:textSize="12sp" />
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/profile_background"
+                        android:contentDescription="For more ui/ux visit www.materialuiux.com"
+                        android:layout_margin="5dp"
+                        android:id="@+id/change_email_id"
+                        android:padding="3dp"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:textStyle="bold"
+                        android:textColor="@color/color_primary_text"
+                        android:textSize="14sp" />
+                </LinearLayout>
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="20dp"-->
+<!--                    android:layout_marginEnd="20dp"-->
+<!--                    android:contentDescription="For more ui/ux visit www.materialuiux.com"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:contentDescription="For more ui/ux visit www.materialuiux.com"-->
+<!--                        android:text="Contact Number"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:layout_margin="5dp"-->
+<!--                        android:textColor="@color/dark_main_color"-->
+<!--                        android:textSize="16sp" />-->
+
+
+<!--                    <EditText-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:background="@drawable/profile_background"-->
+<!--                        android:contentDescription="For more ui/ux visit www.materialuiux.com"-->
+<!--                        android:layout_margin="5dp"-->
+<!--                        android:padding="10dp"-->
+<!--                        android:textColor="@color/color_primary_text"-->
+<!--                        android:textSize="16sp" />-->
+<!--                </LinearLayout>-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_gravity="center"
-                    android:weightSum="2"
-                    android:layout_marginTop="20dp">
-
-
-                    <RelativeLayout
-                        android:id="@+id/id_ProfileImage_RelativeLayout"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true">
-
-                        <!--  Profile Image -->
-
-                        <ImageView
-                            android:id="@+id/id_Profile_Image"
-                            android:layout_width="170dp"
-                            android:scaleType="fitCenter"
-                            android:layout_height="170dp"
-                            android:layout_centerHorizontal="true"
-                            android:src="@drawable/branch_owner" />
-
-
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:id="@+id/change_image_button"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="10dp"
-                            android:contentDescription="For more ui/ux visit www.materialuiux.com"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/ic_add" />
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:id="@+id/change_upload"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="10dp"
-                            android:contentDescription="For more ui/ux visit www.materialuiux.com"
-                            android:layout_marginRight="10dp"
-                            android:visibility="gone"
-                            android:background="@drawable/ic_check_done" />
-
-                    </RelativeLayout>
-
-                    <!-- User Name  -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:weightSum="100"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/id_fullName_TextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="30"
-                            android:textStyle="bold"
-                            android:textAlignment="center"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_below="@+id/id_ProfileImage_RelativeLayout"
-                            android:layout_centerInParent="true"
-                            android:text="Branch Name"
-                            android:textColor="@color/color_primary_text"
-                            android:textSize="20sp" />
-
-                        <!--   tittle   -->
-                        <TextView
-                            android:id="@+id/branch_discreption"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:textAlignment="center"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:layout_weight="70"
-                            android:layout_below="@+id/id_fullName_TextView"
-
-                            android:layout_centerInParent="true"
-                            android:layout_marginTop="16dp"
-                            android:text="Discreption"
-                            android:textColor="@color/color_third_text"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
+                    android:gravity="center"
+                    android:layout_weight="1">
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Save Details"
+                        android:layout_marginTop="10dp"
+                        app:cornerRadius="10dp"
+                        android:paddingLeft="30dp"
+                        app:rippleColor="@color/main_color"
+                        android:paddingRight="30dp"
+                        android:textAllCaps="false"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        app:strokeWidth="3dp"
+                        android:id="@+id/tick_button_branch"
+                        android:textSize="12dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        app:strokeColor="@color/dark_main_color"
+                        android:textColor="@color/dark_main_color"
+                        android:backgroundTint="@color/white"/>
 
                 </LinearLayout>
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/sliding_tabs_branch_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="5"
-                    android:layout_marginTop="0dp"
-                    app:tabBackground="@android:color/transparent"
-                    app:tabIndicatorColor="@color/black"
-                    app:tabMode="fixed"
-                    app:tabSelectedTextColor="@color/color_primary_text"
-                    app:tabTextAppearance="@style/MyCustomTextAppearance"
-                    app:tabTextColor="@color/color_secondary_text" />
 
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/viewPagerBranchProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="70"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:scrollbarAlwaysDrawVerticalTrack="true"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-
-                </androidx.viewpager.widget.ViewPager>
 
             </LinearLayout>
-        </FrameLayout>
+
+<!--        </LinearLayout>-->
+
+
+<!--    </ScrollView>-->
+
+
+
+    </LinearLayout>
+
+
+
 
 

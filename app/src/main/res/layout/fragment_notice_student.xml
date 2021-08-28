@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- Post List -->
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/recycler_view_notification2"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_margin="10dp"
-    android:layout_height="match_parent"
-    tools:context=".Fragment.NoticeStudentFragment" />
+    tools:context=".Fragment.NoticeStudentFragment"
+     android:layout_height="match_parent" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/main_color">
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="match_parent"
+        android:id="@+id/progress_bar_4"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_height="match_parent"
+        android:src="@drawable/animation_500_ksoc1ua4"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_notification2"
+        android:background="@color/main_color"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="match_parent"
+       />
+
+</LinearLayout>

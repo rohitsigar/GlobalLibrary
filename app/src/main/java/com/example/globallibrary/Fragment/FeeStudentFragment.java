@@ -23,10 +23,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+
+import pl.droidsonroids.gif.GifImageView;
 
 public class FeeStudentFragment extends Fragment{
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -40,6 +43,7 @@ public class FeeStudentFragment extends Fragment{
 
     ArrayList<FeeDetailsStudentSide> list;
     FeeDetailStudentSideAdaptor.RecyclerViewClickListner listner;
+    GifImageView progressBar;
 
 
 
@@ -56,9 +60,15 @@ public class FeeStudentFragment extends Fragment{
         RecyclerView.LayoutManager _layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setFocusable(false);
 
+        progressBar = v.findViewById(R.id.progress_bar_7);
+
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+
+
         list = new ArrayList();
 
-        firestore.collection("/Branches/" + BranchId + "/StudentDetails/" + StudentId + "/Fee").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firestore.collection("/Branches/" + BranchId + "/StudentDetails/" + StudentId + "/Fee").orderBy("Sortthis" , Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             private static final String TAG = "Rohit";
 
             @Override
@@ -74,15 +84,19 @@ public class FeeStudentFragment extends Fragment{
 
 
                     }
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
         });
-
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(_layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+
+
         setOnClickListner();
 
         adapter = new FeeDetailStudentSideAdaptor(list , listner);

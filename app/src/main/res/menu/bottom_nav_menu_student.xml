@@ -5,25 +5,31 @@
     <item
         android:id="@+id/bottom_nav_home"
         android:title="Home"
-        android:icon="@drawable/home"
-        app:cnb_iconColor="@color/black"
-        app:cnb_backgroundColor  = "#FFFFFF"/>
+        android:icon="@drawable/ic_home_icon"
+        app:cnb_iconColor="@color/white"
+        app:cnb_backgroundColor  = "#50599b"/>
     <item
         android:id="@+id/bottom_nav_home_notice"
         android:title="Notice"
-        app:cnb_iconColor="@color/black"
-        android:icon="@drawable/notice"
-        app:cnb_backgroundColor  = "#FFFFFF"/>
+        app:cnb_iconColor="@color/white"
+        android:icon="@drawable/ic_notice_icon"
+        app:cnb_backgroundColor  = "#50599b"/>
     <item
         android:id="@+id/bottom_nav_quiz"
         android:title="Quiz"
-        android:icon="@drawable/quiz"
-        app:cnb_iconColor="@color/black"
-        app:cnb_backgroundColor  = "#FFFFFF"/>
+        android:icon="@drawable/ic_checklist"
+        app:cnb_iconColor="@color/white"
+        app:cnb_backgroundColor  = "#50599b"/>
+    <item
+        android:id="@+id/bottom_nav_attandance"
+        android:title="Attandance"
+        android:icon="@drawable/ic_check"
+        app:cnb_iconColor="@color/white"
+        app:cnb_backgroundColor  = "#50599b"/>
     <item
         android:id="@+id/bottom_nav_Profile"
         android:title="Profile"
-        android:icon="@drawable/profile_a"
-        app:cnb_iconColor="@color/black"
-        app:cnb_backgroundColor  = "#FFFFFF"/>
+        android:icon="@drawable/ic_profile_icon"
+        app:cnb_iconColor="@color/white"
+        app:cnb_backgroundColor  = "#50599b"/>
 </menu>

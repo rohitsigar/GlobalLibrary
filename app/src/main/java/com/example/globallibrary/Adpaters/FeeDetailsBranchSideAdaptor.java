@@ -1,8 +1,8 @@
 
 package com.example.globallibrary.Adpaters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.globallibrary.Models.FeeDetailsBranchSide;
 import com.example.globallibrary.R;
-import com.google.android.material.button.MaterialButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -50,6 +48,7 @@ public class FeeDetailsBranchSideAdaptor extends RecyclerView.Adapter<FeeDetails
 
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
 
@@ -64,12 +63,14 @@ public class FeeDetailsBranchSideAdaptor extends RecyclerView.Adapter<FeeDetails
         if(itam.Status)
         {
             viewHolder.Mark.setVisibility(View.GONE);
-            viewHolder.Status.setCardBackgroundColor(Color.parseColor(	"#90EE90"));
+            viewHolder.Paid.setVisibility(View.VISIBLE);
+
         }
         else
         {
             viewHolder.Mark.setVisibility(View.VISIBLE);
-            viewHolder.Status.setCardBackgroundColor(Color.parseColor(	"#ffcccb"));
+            viewHolder.Paid.setVisibility(View.GONE);
+
         }
         if(itam.URL.equals("NOImage"))
         {
@@ -99,9 +100,10 @@ public class FeeDetailsBranchSideAdaptor extends RecyclerView.Adapter<FeeDetails
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView Amount, DueDate , StudentName ;
-        public MaterialButton Mark;
-        public CardView Status;
+        public TextView Mark;
+
         public ImageView StudentImage;
+        public  TextView Paid;
 
 
 
@@ -110,9 +112,11 @@ public class FeeDetailsBranchSideAdaptor extends RecyclerView.Adapter<FeeDetails
             Amount = (TextView) v.findViewById(R.id.amount_branch_side);
             StudentName = v.findViewById(R.id.student_name_branch_side);
             DueDate = (TextView) v.findViewById(R.id.due_date_branch_side);
-            Status = v.findViewById(R.id.status_branch_side);
-            Mark = (MaterialButton) v.findViewById(R.id.pay_fees_branch_side);
+            Mark = (TextView) v.findViewById(R.id.pay_fees_branch_side);
             StudentImage = v.findViewById(R.id.student_image_branch_side);
+
+            Paid =(TextView) v.findViewById(R.id.paid_branch_side);
+
 
             Mark.setOnClickListener(this);
 

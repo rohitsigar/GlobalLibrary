@@ -1,6 +1,7 @@
 package com.example.globallibrary.Activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,8 +9,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.globallibrary.R;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -19,7 +22,7 @@ import java.util.Map;
 public class NewNotification extends AppCompatActivity {
     EditText Title;
     EditText Discreption;
-    ImageButton send;
+    MaterialButton send;
     String BranchId;
     ImageButton BackPress;
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -29,6 +32,14 @@ public class NewNotification extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.main_color, this.getTheme()));
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.main_color));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.main_color));
+        }
         setContentView(R.layout.activity_new_notification);
         send = findViewById(R.id.send_new_notification);
         Title = findViewById(R.id.title_new_notification);

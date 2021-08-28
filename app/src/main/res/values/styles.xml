@@ -38,4 +38,9 @@
     <style name="cutomTextstyle">
         <item name="colorControlActivated">#ff9e7f</item>
     </style>
+
+    <style name="MyThemeOverlay">
+        <item name="android:colorAccent">@color/white</item>
+    </style>
+
 </resources>

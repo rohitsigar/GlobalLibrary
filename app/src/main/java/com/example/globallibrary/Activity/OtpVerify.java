@@ -2,6 +2,7 @@ package com.example.globallibrary.Activity;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.globallibrary.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -58,6 +60,17 @@ public class OtpVerify extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("hello", "onCreate: ");
         super.onCreate(savedInstanceState);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.main_color, this.getTheme()));
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.main_color));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
+        }
+
         setContentView(R.layout.activity_otp_verify);
         phoneNo = getIntent().getStringExtra("phoneNo");
         Log.d("rohit", "onCreate: " + phoneNo);
@@ -121,8 +134,11 @@ public class OtpVerify extends AppCompatActivity {
                             allDetails.put("DateOFBirth", Dob);
                             allDetails.put("BranchName", branchName);
                             allDetails.put("JoinDate" , date);
-                            allDetails.put("JoinMonth" , month);
+                            allDetails.put("JoinMonth" , month+1);
                             allDetails.put("JoinYear" , year);
+                            allDetails.put("TotalQuiz",  0);
+                            allDetails.put("TotalQuestion" , 0);
+                            allDetails.put("TotalRight" , 0);
                             Map<String,Object> studentSecurityDetails = new HashMap<>();
                             studentSecurityDetails.put("ContactNumber", phoneNo);
 
@@ -142,7 +158,7 @@ public class OtpVerify extends AppCompatActivity {
                                                 firebaseFirestore.collection("Branches").document(document.getId()).collection("StudentDetails").document(id1).set(allDetails);
                                                 firebaseFirestore.collection("Students").document(id1).set(studentSecurityDetails);
 
-
+                                                java.util.Date currentTime = Calendar.getInstance().getTime();
                                                 Map<String ,Object> Fee  = new HashMap<>();
                                                 Fee.put("StudentId" , id1);
                                                 Fee.put("Date" , date);
@@ -150,12 +166,16 @@ public class OtpVerify extends AppCompatActivity {
                                                 Fee.put("Year" , year);
                                                 Fee.put("Status" , false);
                                                 Fee.put("Amount" , document.getDouble("DefaultAmount"));
+                                                Fee.put("Sortthis" , currentTime);
+
                                                 Map<String ,Object> Fee1  = new HashMap<>();
                                                 Fee1.put("Date" , date);
                                                 Fee1.put("Month" , month+1);
                                                 Fee1.put("Year" , year);
                                                 Fee1.put("Status" , false);
                                                 Fee1.put("Amount" , document.getDouble("DefaultAmount"));
+                                                Fee1.put("Sortthis" , currentTime);
+
                                                 String id2 = id1 + "-" + String.valueOf(month+1) + "-"  + String.valueOf(year);
                                                 firebaseFirestore.collection("Branches").document(document.getId()).collection("Fee").document(id2).set(Fee);
                                                 firebaseFirestore.collection("Branches").document(document.getId()).collection("StudentDetails").document(id1).collection("Fee").document(id2).set(Fee1);

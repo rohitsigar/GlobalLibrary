@@ -25,6 +25,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+import pl.droidsonroids.gif.GifImageView;
+
 
 public class NoticeStudentFragment extends Fragment {
 
@@ -35,6 +37,7 @@ public class NoticeStudentFragment extends Fragment {
     public RecyclerView.Adapter _mAdapter;
     public RecyclerView.LayoutManager _layoutManager;
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    GifImageView progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +51,11 @@ public class NoticeStudentFragment extends Fragment {
      _layoutManager = new LinearLayoutManager(getContext());
         branchName = getArguments().getString("branchName");
         recyclerView.setFocusable(false);
+
+        progressBar = v.findViewById(R.id.progress_bar_4);
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+
         ArrayList<NotificationDetails> list = new ArrayList();
         CollectionReference docIdRef = firestore.collection("/Branches/" + BranchId.trim()+ "/Notifications/");
         docIdRef.orderBy("Sortthis" , Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -63,6 +71,8 @@ public class NoticeStudentFragment extends Fragment {
                         Log.d(TAG, "onSuccess: checking" + list.size());
                         _mAdapter.notifyDataSetChanged();
                     }
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
 
 
                 } else {

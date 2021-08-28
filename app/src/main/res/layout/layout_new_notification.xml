@@ -3,20 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:id="@+id/id_toolbar_new_notification"
-    android:layout_height="56dp">
+    android:layout_height="80dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:background="@color/main_color"
         android:layout_height="match_parent">
 
         <!--  back  -->
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentLeft="true"
+            android:scaleType="centerCrop"
             android:layout_centerVertical="true"
             android:layout_marginLeft="34dp"
+            android:tint="@color/dark_main_color"
             android:id="@+id/return_to_notification"
+            android:backgroundTint="@color/dark_main_color"
             android:background="@android:color/transparent"
             app:srcCompat="@drawable/ic_left_arrow" />
 
@@ -24,21 +28,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="DESCRIPTION"
-            android:textColor="@color/color_third_text"
-            android:textSize="18dp" />
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/roboto_regular"
+            android:textStyle="bold"
+            android:text="Add Notice"
+            android:textColor="@color/dark_main_color"
+            android:textSize="25dp" />
 
         <!-- Check Done   -->
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="34dp"
-            android:id="@+id/send_new_notification"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_check_done" />
     </RelativeLayout>
 </androidx.appcompat.widget.Toolbar>

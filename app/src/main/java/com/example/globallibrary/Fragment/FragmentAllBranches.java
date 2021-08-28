@@ -29,6 +29,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class FragmentAllBranches extends Fragment {
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     FirebaseStorage storage;
@@ -39,6 +41,8 @@ public class FragmentAllBranches extends Fragment {
     public RecyclerView recyclerView;
     public RecyclerView.Adapter _mAdapter;
     public RecyclerView.LayoutManager _layoutManager;
+
+    GifImageView progressBar;
 
     public FragmentAllBranches() {
         // Required empty public constructor
@@ -62,6 +66,12 @@ public class FragmentAllBranches extends Fragment {
         URL = "Branches/Branch1";
         ArrayList<BranchOverview> list = new ArrayList();
 
+        progressBar = v.findViewById(R.id.progress_bar_8);
+
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+
+
 //        list.add(new BranchOverview("temp1" , "temp2" , "temp3", "temp4" ,URL ,"temp4"));
         firestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             private static final String TAG = "Rohit";
@@ -83,7 +93,7 @@ public class FragmentAllBranches extends Fragment {
                                 Uri downloadUrl = uri;
                                 String s = downloadUrl.toString();
                                 list.add(new BranchOverview(document.getString("BranchName") , document.getString("Discreption")
-                                        , document.getString("LibraryAddress") ,document.getString("ContactNumber"),s ,document.getString("EmailAddress")));
+                                        , document.getString("LibraryAddress") ,document.getString("ContactNumber"),s ,document.getString("EmailAddress"), "" + String.valueOf(document.getLong("DefaultAmount"))));
                                 Log.d(TAG, "onSuccess: checking" + list.size());
 
                                 _mAdapter.notifyDataSetChanged();
@@ -103,6 +113,8 @@ public class FragmentAllBranches extends Fragment {
 
                         ///  add items to the adapter
                     }
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
 
 
                 } else {
@@ -141,7 +153,6 @@ public class FragmentAllBranches extends Fragment {
 
         URL = "Branches/Branch1";
         ArrayList<BranchOverview> list = new ArrayList();
-        list.add(new BranchOverview("temp1" , "temp2" , "temp3", "temp4" ,URL ,"temp4"));
         firestore.collection("/Branches").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             private static final String TAG = "Rohit";
 
@@ -162,7 +173,7 @@ public class FragmentAllBranches extends Fragment {
                                 Uri downloadUrl = uri;
                                 String s = downloadUrl.toString();
                                 list.add(new BranchOverview(document.getString("BranchName") , document.getString("Discreption")
-                                        , document.getString("LibraryAddress") ,document.getString("ContactNumber"),s ,document.getString("EmailAddress")));
+                                        , document.getString("LibraryAddress") ,document.getString("ContactNumber"),s ,document.getString("EmailAddress") , String.valueOf(document.getLong("DefaultAmount"))));
                                 Log.d(TAG, "onSuccess: checking" + list.size());
 
 

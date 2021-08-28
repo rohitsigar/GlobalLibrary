@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/dialog_background"
+    android:layout_height="match_parent"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".Fragment.StudentAttandanceFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/main_layout"
+        android:visibility="visible"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_margin="20dp"
+             app:cardCornerRadius="10dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/dark_main_color"
+                android:background="@color/dark_main_color">
+                <com.example.globallibrary.Activity.CustomCalendar
+                    android:id="@+id/custom_calendar"
+                    app:day_of_week_length="1"
+                    android:background="@color/white"
+                    app:month_year_format="full_month__with_year"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Mark your attandance"
+            android:backgroundTint="@color/dark_main_color"
+            app:cornerRadius="10dp"
+            android:layout_marginStart="20dp"
+            android:id="@+id/mark_attandance1"
+            android:layout_marginEnd="20dp"
+            android:layout_gravity="center"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:fontFamily="@font/quicksand_regular"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textAlignment="textStart"
+            app:icon="@drawable/quiz"
+            app:iconTint="@color/white"
+            tools:ignore="RtlCompat" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/scaner_layout"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Scan Qr Code"
+            android:textColor="@color/dark_main_color"
+            android:layout_margin="10dp"
+            android:textAlignment="center"
+            android:textSize="18dp"
+            android:textStyle="bold"/>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            app:strokeWidth="6dp"
+            app:strokeColor="@color/scrl"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="10dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+            <eu.livotov.labs.android.camview.ScannerLiveView
+                android:id="@+id/camview"
+                android:layout_gravity="center"
+                android:layout_width="300dp"
+                android:layout_height="300dp"/>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
