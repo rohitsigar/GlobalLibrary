@@ -4,7 +4,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/rohitsigar/GlobalLibrary">
-    <img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/mipmap-hdpi/app_logo.png" alt="Logo" width="80" height="80">
+    <img src="https://drive.google.com/uc?export=view&id=1j-AlYuiruONa2mmF8O8etI5BBTv_YgqA" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Global Library</h3>
@@ -50,7 +50,7 @@
 
 # About The Project
  <a href="https://github.com/rohitsigar/GlobalLibrary">
-    <img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/flash_screen.png" alt="Logo" width="40" height="70">
+    <img src="https://drive.google.com/uc?export=view&id=1j-AlYuiruONa2mmF8O8etI5BBTv_YgqA" alt="Logo" width="80" height="80">
   </a>
   
   
@@ -92,17 +92,10 @@
   
   ### Attendance using location Tracking
     
-* The Institute will mark the location of the institute using mark location in settings and give the radius of the institute.
-* Using the above two values and the location of the student we can check whether a student is present in the Institute or not.
-* Using Google play service location API we get the location.
-* Calculate the distance between both the locations and if the distance is less the radius of the Institute and Student is
-  present in the Institute
-  
-  
-  There is a little inaccuracy in getting location 
-    :no_mouth:
-    
-<img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/attandance_branch.gif" width="200" height="320" /> <img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/mark_attandance.gif" width="200" height="320" /> <img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/show_attandance.gif" width="200" height="320"  />
+* The Institute will mark attandence using QR code scan.
+
+ 
+<img src="https://drive.google.com/uc?export=view&id=1rACHNxcg4t4Y18U8avetIfKWellshmJW" width="200" height="320" /> <img src="https://drive.google.com/uc?export=view&id=1AncnCSwx1F_9K_eUE3i40TkUQTQr-Uos" width="200" height="320" /> <img src="https://drive.google.com/uc?export=view&id=1h4yPRzzSOVAOuPt9vOVDZ_h2oTP-qnVH" width="200" height="320"  />
 
   ### Authentication using OTP 
 * Using firebase Authentication method generating OTP
@@ -111,7 +104,7 @@
 * Using Razorpay platform accepting payments online 
 * All payment method is available (Phone Pay, G Pay, All Types Of Cards, Net banking, Paytm)
 
-<img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/payment_a.jpeg" width="200" height="320" /> <img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/payment_b.jpeg" width="200" height="320" /> 
+<img src="https://drive.google.com/uc?export=view&id=1jSi7WDU1QdcFaVua1oaDSf_vimHt8rUJ" width="200" height="320" /> <img src="https://drive.google.com/uc?export=view&id=1VciWiA5YbQNg4f197KB7FYkaO6z4OdYO" width="200" height="320" /> 
 
 
   ### Quiz Platform 
@@ -119,12 +112,12 @@
 * 24 types of categories are available for a quiz.
 * Manually chooses the difficulty level.
 
-<img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/quiz_given.gif" width="200" height="320" /> <img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/quiz_report.gif" width="200" height="320" /> <img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/catigory_quiz.gif" width="200" height="320" />
-
+ 
+<img src="https://drive.google.com/uc?export=view&id=1_NygdmiCGRKXBBfineOTFgZJH6mAVtlC" width="200" height="320" /> <img src="https://drive.google.com/uc?export=view&id=1d_0AfB93GLBLE8p4_qC0gJggP4_BQ_Gp" width="200" height="320" /> <img src="https://drive.google.com/uc?export=view&id=1Fsc9RWRnAmQrnf_DGEHMiuJlH3O5leWB" width="200" height="320"  /> <img src="https://drive.google.com/uc?export=view&id=1Lxsc3-SpSDGd9OStMgjrWVq_aRfXhFNE" width="200" height="320"  />
   ### Projection of Interesting Facts
 * Using Volley Library and NumbersApi Implemented Interesting Facts Features
 
-<img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/facts.gif" width="200" height="320" />
+<img src="https://drive.google.com/uc?export=view&id=1r1gjtskRHKP4H91z8px_2K5VPnWgj65N" width="200" height="320" />
 
   ### Other Features
 * Performance Report of students
@@ -136,10 +129,9 @@
 
 # Glimpses of the project
 
-<img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/auth_page.gif" width="200" height="320" />                          <img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/delete_account.gif" width="200" height="320" /> <img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/fee.gif" width="200" height="320" />
+<img src="https://drive.google.com/uc?export=view&id=10tRtSu-6biC1bMmRLRT2J3ajv1J4DuE_" width="200" height="320" /> <img src="https://drive.google.com/uc?export=view&id=1v8w5Fh-Xmet-HqKsOXY0umsRfBVshyE1" width="200" height="320" /> <img src="https://drive.google.com/uc?export=view&id=1zXvIqdZmsR_mf8bCZvzvgizshDxxJLcI" width="200" height="320"  /> <img src="https://drive.google.com/uc?export=view&id=1iU2HGodwFZA0e_OPb9FxIdlapynRbFi7" width="200" height="320"  />
 
-
-<img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/profile.gif" width="200" height="320" />                            <img src="https://github.com/rohitsigar/GlobalLibrary/blob/main/app/src/main/res/drawable/notigication.gif" width="200" height="320" /> 
+<img src="https://drive.google.com/uc?export=view&id=1uMIDSWwGwPbwnBAAXFT9DzRKdHmXiG_f" width="200" height="320" /> <img src="https://drive.google.com/uc?export=view&id=1h5f88lp4XfJcVayok5IJHMsqCGZr3Kyo" width="200" height="320" /> <img src="https://drive.google.com/uc?export=view&id=1Hzj_KAqrZMjMdXsi9XctlSevIDv5z509" width="200" height="320"  /> <img src="https://drive.google.com/uc?export=view&id=1lZNX5ZVjsLbwcRw98vOb60E9e0pp2JoN" width="200" height="320"  />
 
 
 
